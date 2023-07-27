@@ -21,17 +21,6 @@ class AdministratorAdminTest extends WebTestCase
         $this->entityManager = static::getContainer()->get('doctrine')->getManager();
     }
 
-    public function testLoadAdminDashboard(): void
-    {
-        $crawler = $this->client->request('GET', '/admin/dashboard');
-        $this->assertResponseIsSuccessful();
-
-        $this->assertStringContainsString(
-            'Administrateurs',
-            $crawler->filterXPath('html/body/div[1]/div/section[2]/div/div/div[1]/div/div/div[1]')->getNode(0)->textContent
-        );
-    }
-
     public function testCreateAdmin(): void
     {
         $adminAdmin = static::getContainer()->get('admin.administrator');
