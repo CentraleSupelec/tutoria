@@ -1,0 +1,26 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block side_bar_after_nav_content %}
+    <a href="{{ path('admin_logout') }}">
+        <i class="fas fa-fw fa-sign-out-alt"></i>
+        Se déconnecter
+    </a>
+{% endblock %}
+
+{% block sonata_top_nav_menu_add_block %}
+{% endblock %}
+{% block sonata_nav %}
+    {{ parent() }}
+    {% if app_mode not in constant('App\\Constants::APP_MODES') %}
+        <div class="alert-danger h1">
+            ATTENTION, APP_MODE MAL CONFIGURÉ. Valeur attendue : {{ constant('App\\Constants::APP_MODES') | join(' ou ') }}. Valeur réelle : {{ app_mode }}
+        </div>
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.CKEDITOR_BASEPATH = '/build/ckeditor4/';
+    </script>
+    {{ encore_entry_script_tags('admin') }}
+{% endblock %}

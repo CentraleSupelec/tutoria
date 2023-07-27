@@ -1,0 +1,60 @@
+security:
+  # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+  password_hashers:
+    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'bcrypt'
+  # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+  providers:
+    users_in_memory: { memory: null }
+    admin:
+      entity:
+        class: App\Entity\Administrator
+        property: email
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+
+    admin:
+      pattern: /admin(.*)
+      context: main
+      provider: admin
+      user_checker: App\Security\UserChecker
+      form-login:
+        provider: admin
+        login_path: /admin/login
+        check_path: /admin/login_check
+        default_target_path: /admin/
+      logout:
+        path: /admin/logout
+        target: /admin/login
+        invalidate_session: true
+      switch_user: { role: ROLE_SUPER_ADMIN, parameter: _switch_user }
+      access_denied_url: admin_access_denied
+
+    main:
+      lazy: true
+      provider: users_in_memory
+
+      # activate different ways to authenticate
+      # https://symfony.com/doc/current/security.html#the-firewall
+
+      # https://symfony.com/doc/current/security/impersonating_user.html
+      # switch_user: true
+
+  # Easy way to control access for large sections of your site
+  # Note: Only the *first* access control that matches will be used
+  access_control:
+    # Admin
+    - { path: ^/admin/login$, role: PUBLIC_ACCESS }
+    - { path: ^/admin/logout$, role: PUBLIC_ACCESS }
+    - { path: ^/admin, role: ROLE_SUPER_ADMIN }
+
+when@test:
+  security:
+    password_hashers:
+      # By default, password hashers are resource intensive and take time. This is
+      # important to generate secure password hashes. In tests however, secure hashes
+      # are not important, waste resources and increase test times. The following
+      # reduces the work factor to the lowest possible values.
+      Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+        algorithm: plaintext

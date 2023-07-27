@@ -1,0 +1,12 @@
+services:
+  admin.administrator:
+    class: App\Admin\AdministratorAdmin
+    tags:
+      - name: sonata.admin
+        model_class: App\Entity\Administrator
+        manager_type: orm
+        group: Administrateurs
+        label: Administrateurs
+    calls:
+      - [setUserManager, ['@App\Service\UserManager']]
+    public: true

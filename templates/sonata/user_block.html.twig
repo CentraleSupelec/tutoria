@@ -1,0 +1,13 @@
+{% block user_block %}
+    {% if app.user %}
+        <li class="user-body">
+            Connecté en tant que <strong>{{ app.user.email }}</strong>
+        </li>
+
+        <li class="user-footer">
+            <div class="pull-right">
+                <a href="{{ url('admin_logout') }}" class="btn btn-default btn-flat"><i class="fas fa-sign-out-alt fa-fw"></i> Se déconnecter</a>
+            </div>
+        </li>
+    {% endif %}
+{% endblock %}

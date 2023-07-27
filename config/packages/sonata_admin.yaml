@@ -1,0 +1,18 @@
+sonata_admin:
+  title: 'UPS Tutorat - Admin'
+  dashboard:
+    blocks:
+      - type: sonata.admin.block.admin_list
+        position: left
+
+  security:
+    handler: sonata.admin.security.handler.role
+
+    role_admin: ROLE_ADMIN
+    role_super_admin: ROLE_SUPER_ADMIN
+
+sonata_block:
+  blocks:
+    sonata.admin.block.admin_list:
+      contexts:
+        - admin
