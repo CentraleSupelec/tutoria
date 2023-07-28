@@ -32,7 +32,7 @@ cp -f .php-cs-fixer.dist.php .php-cs-fixer.php
 ### Map localhost to a hostname accepted by CS
 
 ```
-echo "127.0.0.1 tutorat-local.centralesupelec.fr" | sudo tee -a /etc/hosts
+echo "127.0.0.1 tutorat-local.paris-saclay.fr" | sudo tee -a /etc/hosts
 ```
 
 ### Add a pre-commit logic (optional)
@@ -65,9 +65,9 @@ docker-compose exec -it php sh tests/init-test-database.sh
 
 ### Local
 
-* Web server : https://tutorat-local.centralesupelec.fr/
-* Admin dashboard : https://tutorat-local.centralesupelec.fr/admin/dashboard
-* Profiler : https://tutorat-local.centralesupelec.fr/_profiler/
+* Web server : https://tutorat-local.paris-saclay.fr/
+* Admin dashboard : https://tutorat-local.paris-saclay.fr/admin/dashboard
+* Profiler : https://tutorat-local.paris-saclay.fr/_profiler/
 
 ## Testing
 

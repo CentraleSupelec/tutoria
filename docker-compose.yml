@@ -24,7 +24,7 @@ services:
     networks:
       default:
         aliases:
-          - tutorat-local.centralesupelec.fr
+          - tutorat-local.paris-saclay.fr
     extra_hosts:
       - "host.docker.internal:host-gateway"
     build:
