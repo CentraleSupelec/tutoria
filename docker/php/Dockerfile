@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-alpine3.17 as php_base
+FROM php:8.2-fpm-alpine3.18 as php_base
 
 RUN apk update \
  && apk add bash icu-dev icu-data-full postgresql-dev libzip-dev openldap-dev libpng-dev oniguruma-dev autoconf gcc g++ make fcgi optipng jpegoptim libjpeg libpng imagemagick ghostscript git libxml2-dev gnu-libiconv screen \

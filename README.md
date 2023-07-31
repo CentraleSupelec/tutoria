@@ -95,10 +95,10 @@ docker-compose exec -it php vendor/bin/rector process --dry-run
 
 * Execute migrations:
 ```
-docker-compose exec -it php bin/console tutorat:sync-migrate
+docker-compose exec -it php bin/console app:sync-migrate
 ```
 
 * Create an administrator:
 ```
-docker-compose exec php symfony console tutorat:create-admin
+docker-compose exec php symfony console app:create-admin
 ```

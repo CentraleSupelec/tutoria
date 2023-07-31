@@ -9,7 +9,7 @@ if [ ! -f /app/vendor/autoload.php ]; then
 fi
 
 # Run migrations
-php bin/console tutorat:sync-migrate
+php bin/console app:sync-migrate
 
 echo "$@"
 exec "$@"

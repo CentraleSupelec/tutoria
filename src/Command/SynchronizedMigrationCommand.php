@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Lock\LockFactory;
 use Symfony\Component\Lock\LockInterface;
 
-#[AsCommand(name: 'tutorat:sync-migrate')]
+#[AsCommand(name: 'app:sync-migrate')]
 class SynchronizedMigrationCommand extends Command
 {
     private readonly LockInterface $lock;

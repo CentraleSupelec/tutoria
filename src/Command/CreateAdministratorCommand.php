@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-#[AsCommand(name: 'tutorat:create-admin', description: 'Create a new admin.')]
+#[AsCommand(name: 'app:create-admin', description: 'Create a new admin.')]
 class CreateAdministratorCommand extends Command
 {
     private readonly ValidatorInterface $validator;

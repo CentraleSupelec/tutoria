@@ -17,7 +17,7 @@ class CreateAdministratorCommandTest extends KernelTestCase
         $emailAdmin = 'john.doe@gmail.com';
         $passwordAdmin = 'azerty';
 
-        $command = $application->find('tutorat:create-admin');
+        $command = $application->find('app:create-admin');
         $commandTester = new CommandTester($command);
 
         $commandTester->setInputs([$emailAdmin, $passwordAdmin]);
@@ -39,7 +39,7 @@ class CreateAdministratorCommandTest extends KernelTestCase
         $emailAdmin = 'john.doe@gmail.com';
         $passwordAdmin = 'f';
 
-        $command = $application->find('tutorat:create-admin');
+        $command = $application->find('app:create-admin');
 
         $commandTester = new CommandTester($command);
         $commandTester->setInputs([$emailAdmin, $passwordAdmin]);
