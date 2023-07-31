@@ -1,0 +1,10 @@
+snc_redis:
+    clients:
+        default:
+            type: phpredis
+            alias: default
+            dsn: "%env(REDIS_URL)%/1"
+            logging: '%kernel.debug%'
+    session:
+      client: default
+      prefix: session_tutorat

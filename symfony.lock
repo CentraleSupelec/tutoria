@@ -62,6 +62,15 @@
     "knplabs/knp-menu-bundle": {
         "version": "v3.2.0"
     },
+    "phpstan/phpstan": {
+        "version": "1.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "d74d4d719d5f53856c9c13544aa22d44144b1819"
+        }
+    },
     "phpunit/phpunit": {
         "version": "10.0",
         "recipe": {
@@ -74,6 +83,18 @@
             ".env.test",
             "phpunit.xml.dist",
             "tests/bootstrap.php"
+        ]
+    },
+    "snc/redis-bundle": {
+        "version": "3.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.0",
+            "ref": "36b3d9ab65be62de4e085a25e6ca899efa96b1f3"
+        },
+        "files": [
+            "config/packages/snc_redis.yaml"
         ]
     },
     "sonata-project/admin-bundle": {

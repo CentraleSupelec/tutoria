@@ -12,6 +12,7 @@ services:
       - -d xdebug.client_host=host.docker.internal
     environment:
       PHP_CS_FIXER_IGNORE_ENV: 1
+      REDIS_URL: 'redis://:redis_password@redis:6379'
     depends_on:
       - postgres
     volumes:
@@ -66,5 +67,15 @@ services:
     ports:
       - 5433:5432
 
+  redis:
+    image: redis:7.0.12
+    restart: on-failure
+    command: redis-server --requirepass redis_password
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+
 volumes:
   db-data:
+  redis-data:
