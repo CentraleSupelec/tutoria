@@ -12,7 +12,6 @@ services:
       - -d xdebug.client_host=host.docker.internal
     environment:
       PHP_CS_FIXER_IGNORE_ENV: 1
-      REDIS_URL: 'redis://:redis_password@redis:6379'
     depends_on:
       - postgres
     volumes:
