@@ -67,7 +67,7 @@ class Administrator implements Stringable, UserInterface, PasswordAuthenticatedU
         return $this->email;
     }
 
-    public function setEmail(?string $email): self
+    public function setEmail(?string $email): static
     {
         $this->email = $email;
 
@@ -79,7 +79,7 @@ class Administrator implements Stringable, UserInterface, PasswordAuthenticatedU
         return $this->lastLoginAt;
     }
 
-    public function setLastLoginAt(?DateTime $lastLoginAt): self
+    public function setLastLoginAt(?DateTime $lastLoginAt): static
     {
         $this->lastLoginAt = $lastLoginAt;
 
@@ -91,7 +91,7 @@ class Administrator implements Stringable, UserInterface, PasswordAuthenticatedU
         return $this->password;
     }
 
-    public function setPassword(?string $password): self
+    public function setPassword(?string $password): static
     {
         $this->password = $password;
 
@@ -103,7 +103,7 @@ class Administrator implements Stringable, UserInterface, PasswordAuthenticatedU
         return $this->plainPassword;
     }
 
-    public function setPlainPassword(?string $plainPassword): self
+    public function setPlainPassword(?string $plainPassword): static
     {
         $this->plainPassword = $plainPassword;
 
@@ -124,7 +124,7 @@ class Administrator implements Stringable, UserInterface, PasswordAuthenticatedU
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public function setRoles(array $roles): static
     {
         $this->roles = $roles;
 
@@ -141,7 +141,7 @@ class Administrator implements Stringable, UserInterface, PasswordAuthenticatedU
         return $this->enabled;
     }
 
-    public function setEnabled(bool $enabled): self
+    public function setEnabled(bool $enabled): static
     {
         $this->enabled = $enabled;
 

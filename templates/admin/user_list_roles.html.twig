@@ -1,0 +1,11 @@
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+
+{% block field %}
+  <div>
+    {% for role in object.roles %}
+      {% if role != 'ROLE_USER' %}
+        <strong>{{ role }}</strong> <br />
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endblock %}

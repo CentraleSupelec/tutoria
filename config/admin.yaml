@@ -5,8 +5,53 @@ services:
       - name: sonata.admin
         model_class: App\Entity\Administrator
         manager_type: orm
-        group: Administrateurs
+        group: Utilisateurs
         label: Administrateurs
     calls:
       - [setUserManager, ['@App\Service\UserManager']]
     public: true
+  
+  admin.student:
+      class: App\Admin\StudentAdmin
+      tags:
+          - name: sonata.admin
+            model_class: App\Entity\Student
+            manager_type: orm
+            group: Utilisateurs
+            label: Etudiants
+
+  admin.campus:
+      class: App\Admin\CampusAdmin
+      tags:
+          - name: sonata.admin
+            model_class: App\Entity\Campus
+            manager_type: orm
+            group: Lieux
+            label: Campus
+
+  admin.building:
+      class: App\Admin\BuildingAdmin
+      tags:
+          - name: sonata.admin
+            model_class: App\Entity\Building
+            manager_type: orm
+            group: Lieux
+            label: Bâtiments
+
+  admin.academic_level:
+      class: App\Admin\AcademicLevelAdmin
+      tags:
+          - name: sonata.admin
+            model_class: App\Entity\AcademicLevel
+            manager_type: orm
+            group: Gestion des tutorats
+            label: Niveaux scolaires
+
+  admin.tutoring:
+      class: App\Admin\TutoringAdmin
+      tags:
+          - name: sonata.admin
+            model_class: App\Entity\Tutoring
+            manager_type: orm
+            group: Gestion des tutorats
+            label: Tutorats
