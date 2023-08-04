@@ -32,6 +32,17 @@ ADD docker/symfony-entrypoint.sh /
 
 ENTRYPOINT ["/bin/bash", "/symfony-entrypoint.sh"]
 
+FROM node:20 as js_builder
+
+WORKDIR /app
+
+COPY --from=php_base /app /app/
+
+ARG SERVER_BASE_URL=''
+
+RUN npm install
+RUN npm run build
+
 FROM php_base as php_installer
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

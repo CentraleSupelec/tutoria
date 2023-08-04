@@ -1,6 +1,18 @@
 version: '3.8'
 
 services:
+  node:
+    image: node:20
+    user: node
+    working_dir: /app
+    entrypoint: /bin/sh
+    command: -c 'npm install && npm run watch'
+    depends_on:
+      - php
+    volumes:
+      - "./:/app"
+      - "$HOME/.npmrc:/home/node/.npmrc"
+
   php:
     build:
       dockerfile: docker/php/Dockerfile
