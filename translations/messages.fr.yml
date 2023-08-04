@@ -1,0 +1,9 @@
+admin:
+    connected_as: "Connecté en tant que: "
+    exit_impersonate: Reprendre mon rôle
+
+home_page:
+    tutor: Tuteur
+    tutored: Tutoré
+    hello: Hello
+

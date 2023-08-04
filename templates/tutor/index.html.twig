@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {{ 'home_page.tutor'|trans }}
+{% endblock %}
+
+{% block body %}
+
+<style>
+    .title { text-align: center; }
+</style>
+
+<h1 class="title">{{ 'home_page.hello'|trans }} {{ app.user.completeName }} !</h1> 
+{% endblock %}

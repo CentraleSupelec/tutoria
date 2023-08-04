@@ -16,6 +16,7 @@ services:
       tags:
           - name: sonata.admin
             model_class: App\Entity\Student
+            controller: App\Controller\Admin\StudentAdminController
             manager_type: orm
             group: Utilisateurs
             label: Etudiants

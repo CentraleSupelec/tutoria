@@ -20,11 +20,11 @@ class Student implements Stringable, UserInterface
 {
     use TimestampableEntity;
     final public const ROLE_TUTOR = 'ROLE_TUTOR';
-    final public const ROLE_STUDENT = 'ROLE_STUDENT';
+    final public const ROLE_TUTORED = 'ROLE_TUTORED';
 
     final public const ROLES = [
         self::ROLE_TUTOR => self::ROLE_TUTOR,
-        self::ROLE_STUDENT => self::ROLE_STUDENT,
+        self::ROLE_TUTORED => self::ROLE_TUTORED,
     ];
 
     public static function getPossibleRoles(): array

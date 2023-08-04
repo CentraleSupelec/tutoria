@@ -1,0 +1,22 @@
+{% if is_granted('IS_IMPERSONATOR') %}
+    {% set admin_user = app.token.originalToken.user %}
+    <div class="bg-danger d-flex flex-row justify-content-between align-items-center text-light">
+            <span>
+                <i class="fas fa-fw fa-exclamation-triangle"></i> Vous manipulez le compte de <strong>{{ app.user.email }}</strong>
+            </span>
+
+        <a
+                class="btn btn-link p-2 pull-right text-light"
+                href="{{
+                      path(
+                        'sonata_admin_dashboard',
+                        {
+                          _switch_user: '_exit'
+                        }
+                      )
+                      }}">
+        >
+            <i class="fas fa-fw fa-undo"></i> Reprendre mon compte {{ admin_user.email }}
+        </a>
+    </div>
+{% endif %}
