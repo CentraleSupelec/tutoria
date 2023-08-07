@@ -294,8 +294,7 @@
         },
         "files": [
             "assets/bootstrap.js",
-            "assets/controllers.json",
-            "assets/controllers/hello_controller.js"
+            "assets/controllers.json"
         ]
     },
     "symfony/translation": {

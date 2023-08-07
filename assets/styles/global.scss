@@ -1,5 +1,4 @@
-@import "~bootstrap/scss/bootstrap";
+$primary: #961a3d !default;
+$body-bg: #f9fbfd !default;
 
-body {
-  background-color: lightgray;
-}
+@import "~bootstrap/scss/bootstrap";

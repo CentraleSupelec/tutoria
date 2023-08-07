@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div>horizontal cards</div>
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">Mes tutorats</div>
+            <div class="card-body">
+                <div {{ react_component('TutoringSession') }}>
+                    Loading... <i class="fas fa-cog fa-spin fa-3x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
