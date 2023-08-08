@@ -17,10 +17,10 @@ Encore
     /*
      * ENTRY CONFIG
      *
-     * Each entry will result in one JavaScript file (e.g. app.js)
+     * Each entry will result in one JavaScript file (e.g. app.ts)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', './assets/app.js')
+    .addEntry('app', './assets/app.ts')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

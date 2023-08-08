@@ -382,7 +382,7 @@
             "ref": "13ebe04e25085e2ff0bcb0f9218b561d8b5089f3"
         },
         "files": [
-            "assets/app.js",
+            "assets/app.ts",
             "assets/styles/app.css",
             "config/packages/webpack_encore.yaml",
             "package.json",
