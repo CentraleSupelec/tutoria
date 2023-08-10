@@ -5,6 +5,10 @@ use Symfony\Component\ErrorHandler\Debug;
 
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
+umask(0000);
+
+Debug::enable();
+
 return function (array $context) {
     if ($_SERVER['APP_DEBUG']) {
         umask(0000);

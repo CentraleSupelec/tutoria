@@ -21,6 +21,9 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    
+    app.batch_session_creation_service:
+        class: App\Service\BatchSessionCreationService
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
