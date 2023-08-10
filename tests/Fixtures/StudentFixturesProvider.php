@@ -30,9 +30,9 @@ class StudentFixturesProvider
         return $tutor;
     }
 
-    public static function getStudent(?EntityManagerInterface $entityManager): Student
+    public static function getTutored(?EntityManagerInterface $entityManager): Student
     {
-        $tutor = (new Student())
+        $tutored = (new Student())
             ->setFirstName('Steve')
             ->setLastName('Jobs')
             ->setEmail('steve.jobs@upsaclay.fr')
@@ -41,10 +41,10 @@ class StudentFixturesProvider
             ->setUpdatedAt(new DateTime('2022-01-15 10:22:35'));
 
         if (null !== $entityManager) {
-            $entityManager->persist($tutor);
+            $entityManager->persist($tutored);
             $entityManager->flush();
         }
 
-        return $tutor;
+        return $tutored;
     }
 }

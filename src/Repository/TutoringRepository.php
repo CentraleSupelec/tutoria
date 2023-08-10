@@ -24,8 +24,8 @@ class TutoringRepository extends ServiceEntityRepository
 
     public function findByTutor(Student $student): array
     {
-        $queryBuilder = $this->createQueryBuilder('tt')
-            ->andWhere(':tutor MEMBER OF tt.tutors')
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->andWhere(':tutor MEMBER OF t.tutors')
             ->setParameter('tutor', $student)
         ;
 

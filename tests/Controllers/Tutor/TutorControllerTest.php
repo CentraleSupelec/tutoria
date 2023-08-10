@@ -17,7 +17,7 @@ class TutorControllerTest extends BaseWebTestCase
         $crawler = $this->client->request('GET', '/tutor/');
         $this->assertResponseIsSuccessful();
 
-        $myTutoringCrawler = $crawler->filterXPath('//*[@id="main"]/div/div[2]/div[1]/h4');
+        $myTutoringCrawler = $crawler->filterXPath('//*[@id="main"]/div/div/div[1]/h4');
         $this->assertStringContainsString('Mes tutorats', $myTutoringCrawler->getNode(0)->textContent);
     }
 }

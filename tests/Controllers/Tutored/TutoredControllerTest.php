@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Tests\Controllers\Student;
+namespace App\Tests\Controllers\Tutored;
 
 use App\Tests\Controllers\Utils\BaseWebTestCase;
 use App\Tests\Fixtures\StudentFixturesProvider;
 
-class StudentControllerTest extends BaseWebTestCase
+class TutoredControllerTest extends BaseWebTestCase
 {
     public function testStudentIndex(): void
     {
-        $student = StudentFixturesProvider::getStudent($this->entityManager);
+        $tutored = StudentFixturesProvider::getTutored($this->entityManager);
 
-        $this->client->loginUser($student);
+        $this->client->loginUser($tutored);
 
         // Go to student home page
-        $crawler = $this->client->request('GET', '/student/');
+        $crawler = $this->client->request('GET', '/tutored/');
         $this->assertResponseIsSuccessful();
 
         $myTutoringCrawler = $crawler->filterXPath('//*[@id="main"]/div/div[2]/div[1]/h4');

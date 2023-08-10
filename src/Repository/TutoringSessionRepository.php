@@ -22,11 +22,11 @@ class TutoringSessionRepository extends ServiceEntityRepository
         parent::__construct($managerRegistry, TutoringSession::class);
     }
 
-    public function findByStudent(Student $student): array
+    public function findByTutored(Student $student): array
     {
         $queryBuilder = $this->createQueryBuilder('ts')
-            ->andWhere(':student MEMBER OF ts.students')
-            ->setParameter('student', $student)
+            ->andWhere(':tutored MEMBER OF ts.students')
+            ->setParameter('tutored', $student)
         ;
 
         return $queryBuilder->getQuery()->getResult();
