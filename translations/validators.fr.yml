@@ -1,0 +1,8 @@
+validation:
+    start_date_end_date_constraint:
+        start_date_after_end_date: La date de début est après la date de fin
+    start_time_end_time_constraint:
+        start_time_after_end_time: L'horaire de début est après l'horaire de fin
+    academic_year_constraint:
+        format: Année scolaire invalide (format 20XX-20XY attendu)
+        consecutive_years: "Une année scolaire doit être formée de deux années consécutives (ex: 2022-2023)"

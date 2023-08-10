@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controllers\Utils;
+namespace App\Tests\Application\Utils;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraint;
 #[Attribute]
 class AcademicYearConstraint extends Constraint
 {
-    public string $invalidFormat = 'validation.activity.academic_year_format';
+    public string $invalidFormat = 'validation.academic_year_constraint.format';
 
-    public string $nonConsecutiveYears = 'validation.activity.academic_year_consecutive_years';
+    public string $nonConsecutiveYears = 'validation.academic_year_constraint.consecutive_years';
 }

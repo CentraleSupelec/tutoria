@@ -5,5 +5,25 @@ admin:
 home_page:
     tutor: Tuteur
     tutored: Tutoré
-    hello: Hello
+    hello: Bonjour
 
+form:
+    days:
+        monday: Lundi
+        tuesday: Mardi
+        wednesday: Mercredi
+        thursday: Jeudi
+        friday: Vendredi
+    from: 'De :'
+    to: 'A :'
+    start_date: 'Première date :'
+    end_date: 'Dernière date :'
+    campus: 'Campus :'
+    building: 'Bâtiment :'
+    room: 'Salle :'
+    tutoring: 'Tutorat :'
+    tutors: 'Tuteurs :'
+    default_hours: 'Horaires par défaut :'
+    default_days: 'Jours par défaut :'
+    batch_create_button: Enregistrer et créer les séances
+    batch_create_title: Compléter le tutorat

@@ -2,5 +2,9 @@
     "compilerOptions": {
         "jsx": "react",
         "esModuleInterop": true,
-    }
+    },
+    "include": [
+        "global.d.ts",
+        "js-yaml-loader.d.ts"
+    ]
 }

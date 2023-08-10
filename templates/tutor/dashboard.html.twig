@@ -7,7 +7,7 @@
                 <h4 class="mb-0">Mes tutorats</h4>
             </div>
             <div class="card-body">
-                <div>
+                <div {{ react_component('TutoringsList', {tutorings : tutoringSessions|serialize('json', { groups: 'tutorings'})}) }}>
                     Loading... <i class="fas fa-cog fa-spin"></i>
                 </div>
             </div>

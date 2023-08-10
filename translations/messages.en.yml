@@ -5,4 +5,25 @@ admin:
 home_page:
     tutor: Tutor
     tutored: Tutored
-    hello: Bonjour
+    hello: Hello
+
+form:
+    days:
+        monday: Monday
+        tuesday: Tuesday
+        wednesday: Wednesday
+        thursday: Thursday
+        friday: Friday
+    from: 'From :'
+    to: 'To :'
+    start_date: 'First date :'
+    end_date: 'Last date :'
+    campus: 'Campus :'
+    building: 'Building :'
+    room: 'Room :'
+    tutoring: 'Tutoring :'
+    tutors: 'Tutors :'
+    default_hours: 'Default hours :'
+    default_days: 'Default days :'
+    batch_create_button: Save and create sessions
+    batch_create_title: Set up the tutoring

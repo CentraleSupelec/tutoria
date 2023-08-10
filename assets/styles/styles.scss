@@ -11,6 +11,105 @@
   url('../fonts/open-sans-v16-latin-regular.svg#OpenSans') format('svg'); /* Legacy iOS */
 }
 
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/Roboto-Regular.eot"); /* IE9 Compat Modes */
+  src: local("Roboto-Regular"), local("Roboto-Regular"), url("../fonts/Roboto-Regular.eot?#iefix") format("embedded-opentype"), url("../fonts/Roboto-Regular.woff2") format("woff2"), url("../fonts/Roboto-Regular.woff") format("woff"), url("../fonts/Roboto-Regular.ttf") format("truetype"),
+      url("../fonts/Roboto-Regular.svg#Roboto") format("svg"); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: italic;
+  font-weight: 400;
+  src: url("../fonts/Roboto-Italic.eot"); /* IE9 Compat Modes */
+  src: local("Roboto-Italic"), local("Roboto-Italic"), url("../fonts/Roboto-Italic.eot?#iefix") format("embedded-opentype"), url("../fonts/Roboto-Italic.woff2") format("woff2"), url("../fonts/Roboto-Italic.woff") format("woff"), url("../fonts/Roboto-Italic.ttf") format("truetype"),
+      url("../fonts/Roboto-Italic.svg#Roboto") format("svg"); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/Roboto-Bold.eot"); /* IE9 Compat Modes */
+  src: local("Roboto-Bold"), local("Roboto-Bold"), url("../fonts/Roboto-Bold.eot?#iefix") format("embedded-opentype"), url("../fonts/Roboto-Bold.woff2") format("woff2"), url("../fonts/Roboto-Bold.woff") format("woff"), url("../fonts/Roboto-Bold.ttf") format("truetype"),
+      url("../fonts/Roboto-Bold.svg#Roboto") format("svg"); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 500;
+  src: url("../fonts/Roboto-Medium.eot"); /* IE9 Compat Modes */
+  src: local("Roboto-Medium"), local("Roboto-Medium"), url("../fonts/Roboto-Medium.eot?#iefix") format("embedded-opentype"), url("../fonts/Roboto-Medium.woff2") format("woff2"), url("../fonts/Roboto-Medium.woff") format("woff"), url("../fonts/Roboto-Medium.ttf") format("truetype"),
+      url("../fonts/Roboto-Medium.svg#Roboto") format("svg"); /* Legacy iOS */
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
+}
+
+.session-creation-modal {
+  font-family: Roboto;
+}
+
+.session-creation-modal .modal-title {
+  color: var(--heading-title-color, #152536);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19px;
+}
+
+.session-creation-modal .label {
+  color: var(--heading-title-color, #152536);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19px;
+  padding-bottom: 0.5rem;
+}
+
+.session-creation-modal .line {
+  padding-bottom: 16px;
+}
+
+.session-creation-modal .text {
+  color: var(--heading-title-color, #152536);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+.session-creation-modal .multiple-session-creation-info {
+  padding: 1rem;
+  border-radius: 5px;
+  background: var(--gray-light-saclay, rgba(214, 219, 223, 0.25));
+}
+
+.session-creation-modal .multiple-session-static-info {
+  padding: 1rem;
+}
+
+.session-creation-modal .react-time-picker {
+  background-color: white;
+}
+
+.session-creation-modal .react-date-picker {
+  background-color: white;
+}
+
+.session-creation-modal .hr {
+  margin: 2rem 0;
+}
+
+.react-time-picker__wrapper {
+  border-radius: 4px;
+}
+
+.react-date-picker__wrapper {
+  border-radius: 4px;
 }

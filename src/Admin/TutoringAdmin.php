@@ -22,7 +22,6 @@ final class TutoringAdmin extends AbstractAdmin
         $filter
             ->add('id')
             ->add('name')
-            ->add('room')
         ;
     }
 
@@ -31,7 +30,6 @@ final class TutoringAdmin extends AbstractAdmin
         $list
             ->add('id')
             ->add('name')
-            ->add('room')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -55,7 +53,6 @@ final class TutoringAdmin extends AbstractAdmin
                 'required' => true,
                 'multiple' => false,
             ])
-            ->add('room')
             ->add('tutors', EntityType::class, [
                 'class' => Student::class,
                 'query_builder' => fn (StudentRepository $er) => $er->findStudentByRoleQueryBuilder(Student::ROLE_TUTOR),
@@ -70,7 +67,6 @@ final class TutoringAdmin extends AbstractAdmin
         $show
             ->add('id')
             ->add('name')
-            ->add('room')
         ;
     }
 }

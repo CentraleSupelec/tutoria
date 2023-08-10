@@ -8,25 +8,32 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TutoringRepository::class)]
 class Tutoring
 {
     use TimestampableEntity;
 
+    #[Groups(['tutorings'])]
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
+    #[Groups(['tutorings'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[Groups(['tutorings'])]
+    #[Assert\NotBlank(allowNull: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $room = null;
 
+    #[Groups(['tutorings'])]
     #[ORM\ManyToOne(targetEntity: Building::class, inversedBy: 'tutorings')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Building $building = null;
@@ -34,7 +41,8 @@ class Tutoring
     #[ORM\OneToMany(mappedBy: 'tutoring', targetEntity: TutoringSession::class, orphanRemoval: true)]
     private Collection $tutoringSessions;
 
-    #[ORM\OneToMany(mappedBy: 'tutoring', targetEntity: Student::class)]
+    #[Groups(['tutorings'])]
+    #[ORM\ManyToMany(targetEntity: Student::class, inversedBy: 'tutorings')]
     private Collection $tutors;
 
     #[ORM\ManyToOne]
@@ -128,7 +136,7 @@ class Tutoring
     {
         if (!$this->tutors->contains($student)) {
             $this->tutors->add($student);
-            $student->setTutoring($this);
+            $student->addTutoring($this);
         }
 
         return $this;
@@ -136,9 +144,9 @@ class Tutoring
 
     public function removeTutor(Student $student): static
     {
-        // set the owning side to null (unless already changed)
-        if ($this->tutors->removeElement($student) && $student->getTutoring() === $this) {
-            $student->setTutoring(null);
+        // remove from the owning side (unless already removed)
+        if ($this->tutors->removeElement($student) && $student->getTutorings()->contains($this)) {
+            $student->removeTutoring($this);
         }
 
         return $this;

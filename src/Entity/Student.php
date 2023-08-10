@@ -12,6 +12,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Stringable;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -32,18 +33,22 @@ class Student implements Stringable, UserInterface
         return self::ROLES;
     }
 
+    #[Groups(['tutorings'])]
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
+    #[Groups(['tutorings'])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
+    #[Groups(['tutorings'])]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
+    #[Groups(['tutorings'])]
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Assert\Email(message: 'Veuillez saisir un email valide.')]
     #[Assert\NotBlank(message: 'Veuillez saisir un email.', allowNull: false)]
@@ -61,15 +66,16 @@ class Student implements Stringable, UserInterface
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTimeInterface $lastLoginAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tutors', targetEntity: Tutoring::class)]
-    private ?Tutoring $tutoring = null;
+    #[ORM\ManyToMany(mappedBy: 'tutors', targetEntity: Tutoring::class)]
+    private Collection $tutorings;
 
-    #[ORM\OneToMany(mappedBy: 'student', targetEntity: TutoringSession::class)]
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: TutoringSession::class)]
     private Collection $ownedTutoringSessions;
 
     public function __construct()
     {
         $this->ownedTutoringSessions = new ArrayCollection();
+        $this->tutorings = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -180,14 +186,30 @@ class Student implements Stringable, UserInterface
         return $this;
     }
 
-    public function getTutoring(): ?Tutoring
+    /**
+     * @return Collection<int, Tutoring>
+     */
+    public function getTutorings(): Collection
     {
-        return $this->tutoring;
+        return $this->tutorings;
     }
 
-    public function setTutoring(?Tutoring $tutoring): static
+    public function addTutoring(Tutoring $tutoring): static
     {
-        $this->tutoring = $tutoring;
+        if (!$this->tutorings->contains($tutoring)) {
+            $this->tutorings->add($tutoring);
+            $tutoring->addTutor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTutoring(Tutoring $tutoring): static
+    {
+        // remove from the owning side (unless already removed)
+        if ($this->tutorings->removeElement($tutoring) && $tutoring->getTutors()->contains($this)) {
+            $tutoring->removeTutor($this);
+        }
 
         return $this;
     }

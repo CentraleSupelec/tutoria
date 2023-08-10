@@ -1,7 +1,18 @@
 $primary: #8B1B59 !default;
 $secondary: #D6DBDF !default;
 $body-bg: #f9fbfd !default;
+$badge-color: black !default;
 
 @import "~bootstrap/scss/bootstrap";
+
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
+
+@import 'react-date-picker/dist/DatePicker.css';
+@import 'react-calendar/dist/Calendar.css';
+@import 'react-time-picker/dist/TimePicker.css';
+@import 'react-clock/dist/Clock.css';
+
+body {
+  background-color: lightgray;
+}

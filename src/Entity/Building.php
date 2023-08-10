@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Stringable;
 use Symfony\Bridge\Doctrine\Types\UuidType;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,16 +18,19 @@ class Building implements Stringable
 {
     use TimestampableEntity;
 
+    #[Groups(['api', 'tutorings'])]
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
+    #[Groups(['api'])]
     #[Assert\NotBlank(message: 'Veuillez saisir le nom du batiment.', allowNull: false)]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['tutorings'])]
     #[ORM\ManyToOne(inversedBy: 'buildings')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;

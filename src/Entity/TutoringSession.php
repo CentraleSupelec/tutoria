@@ -23,7 +23,7 @@ class TutoringSession
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ownedTutoringSessions')]
+    #[ORM\ManyToOne(inversedBy: 'ownedTutoringSessions', targetEntity: Student::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Student $createdBy = null;
 
@@ -34,7 +34,7 @@ class TutoringSession
     private ?DateTimeInterface $endDateTime = null;
 
     #[ORM\Column]
-    private ?bool $isRemote = null;
+    private ?bool $isRemote = false;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $room = null;

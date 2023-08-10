@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Controllers\Tutored;
+namespace App\Tests\Application\Controllers\Tutored;
 
-use App\Tests\Controllers\Utils\BaseWebTestCase;
+use App\Tests\Application\Utils\BaseWebTestCase;
 use App\Tests\Fixtures\StudentFixturesProvider;
 
 class TutoredControllerTest extends BaseWebTestCase

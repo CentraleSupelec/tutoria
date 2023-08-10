@@ -1,23 +1,20 @@
 <?php
 
-namespace App\Tests\Admin;
+namespace App\Tests\Intergration\Admin;
 
 use App\Constants;
 use App\Entity\Administrator;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use LogicException;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-class AdministratorAdminTest extends WebTestCase
+class AdministratorAdminTest extends KernelTestCase
 {
-    protected KernelBrowser $client;
     protected EntityManagerInterface $entityManager;
 
     protected function setUp(): void
     {
-        $this->client = static::createClient(['debug' => false, 'environment' => 'test']);
         $this->entityManager = static::getContainer()->get('doctrine')->getManager();
     }
 
