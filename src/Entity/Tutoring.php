@@ -9,13 +9,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Stringable;
 use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TutoringRepository::class)]
-class Tutoring
+class Tutoring implements Stringable
 {
     use TimestampableEntity;
 
@@ -26,7 +27,7 @@ class Tutoring
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['tutorings'])]
+    #[Groups(['tutorings', 'tutoringSessions'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
@@ -69,6 +70,11 @@ class Tutoring
     {
         $this->tutors = new ArrayCollection();
         $this->tutoringSessions = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return (string) $this->name;
     }
 
     public function getId(): ?Uuid
