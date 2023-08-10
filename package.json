@@ -30,6 +30,7 @@
         "@fortawesome/fontawesome-free": "^6.4.2",
         "i18next": "^23.4.4",
         "js-yaml-loader": "^1.2.2",
+        "fos-router": "file:vendor/friendsofsymfony/jsrouting-bundle/Resources",
         "prop-types": "^15.8.1",
         "react": "^18.2.0",
         "react-bootstrap": "^2.8.0",

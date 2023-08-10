@@ -1,29 +1,41 @@
 admin:
-    connected_as: "Connecté en tant que: "
-    exit_impersonate: Reprendre mon rôle
+  connected_as: "Connecté en tant que: "
+  exit_impersonate: Reprendre mon rôle
 
 home_page:
-    tutor: Tuteur
-    tutored: Tutoré
-    hello: Bonjour
+  tutor: Tuteur
+  tutored: Tutoré
+  hello: Bonjour
+
+tutor:
+  my_tutorings: Mes tutorats
+  default_daily_slot: Créneau par défaut
+  default_room: Salle par défaut
+
+tutee:
+  info_tutoring: "Qu’est-ce que le tutorat, comment ça marche ?"
+  upcoming_tutorings: Prochaines séances de tutorat
+
+utils:
+  to_complete: à compléter
+  days:
+    monday: Lundi
+    tuesday: Mardi
+    wednesday: Mercredi
+    thursday: Jeudi
+    friday: Vendredi
 
 form:
-    days:
-        monday: Lundi
-        tuesday: Mardi
-        wednesday: Mercredi
-        thursday: Jeudi
-        friday: Vendredi
-    from: 'De :'
-    to: 'A :'
-    start_date: 'Première date :'
-    end_date: 'Dernière date :'
-    campus: 'Campus :'
-    building: 'Bâtiment :'
-    room: 'Salle :'
-    tutoring: 'Tutorat :'
-    tutors: 'Tuteurs :'
-    default_hours: 'Horaires par défaut :'
-    default_days: 'Jours par défaut :'
-    batch_create_button: Enregistrer et créer les séances
-    batch_create_title: Compléter le tutorat
+  from: 'De :'
+  to: 'A :'
+  start_date: 'Première date :'
+  end_date: 'Dernière date :'
+  campus: 'Campus :'
+  building: 'Bâtiment :'
+  room: 'Salle :'
+  tutoring: 'Tutorat :'
+  tutors: 'Tuteurs :'
+  default_hours: 'Horaires par défaut :'
+  default_days: 'Jours par défaut :'
+  batch_create_button: Enregistrer et créer les séances
+  batch_create_title: Compléter le tutorat

@@ -120,35 +120,35 @@ const BatchTutoringSessionCreationModalContent = ({ tutoring, campuses, toggleMo
                             </div>
                             <div className='d-flex flex-column flex-lg-row'>
                                 <Form.Check
-                                    label={t('form.days.monday')}
+                                    label={t('utils.days.monday')}
                                     type='checkbox'
                                     checked={isMondaySelected}
                                     onChange={(event) => setIsMondaySelected(event.target.checked)}
                                 />
                                 <Form.Check
                                     className='ms-lg-2'
-                                    label={t('form.days.tuesday')}
+                                    label={t('utils.days.tuesday')}
                                     type='checkbox'
                                     checked={isTuesdaySelected}
                                     onChange={(event) => setIsTuesdaySelected(event.target.checked)}
                                 />
                                 <Form.Check
                                     className='ms-lg-2'
-                                    label={t('form.days.wednesday')}
+                                    label={t('utils.days.wednesday')}
                                     type='checkbox'
                                     checked={isWednesdaySelected}
                                     onChange={(event) => setIsWednesdaySelected(event.target.checked)}
                                 />
                                 <Form.Check
                                     className='ms-lg-2'
-                                    label={t('form.days.thursday')}
+                                    label={t('utils.days.thursday')}
                                     type='checkbox'
                                     checked={isThursdaySelected}
                                     onChange={(event) => setIsThursdaySelected(event.target.checked)}
                                 />
                                 <Form.Check
                                     className='ms-lg-2'
-                                    label={t('form.days.friday')}
+                                    label={t('utils.days.friday')}
                                     type='checkbox'
                                     checked={isFridaySelected}
                                     onChange={(event) => setIsFridaySelected(event.target.checked)}

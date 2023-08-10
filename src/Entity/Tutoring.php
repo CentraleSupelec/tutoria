@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\TutoringRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Types\UuidType;
@@ -34,10 +36,24 @@ class Tutoring
     private ?string $room = null;
 
     #[Groups(['tutorings'])]
+    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
+    #[Assert\NotNull]
+    private ?array $defaultWeekDays = [];
+
+    #[Groups(['tutorings'])]
+    #[ORM\Column(type: 'time', nullable: true)]
+    private ?DateTimeInterface $startTime = null;
+
+    #[Groups(['tutorings'])]
+    #[ORM\Column(type: 'time', nullable: true)]
+    private ?DateTimeInterface $endTime = null;
+
+    #[Groups(['tutorings'])]
     #[ORM\ManyToOne(targetEntity: Building::class, inversedBy: 'tutorings')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Building $building = null;
 
+    #[Groups(['tutorings'])]
     #[ORM\OneToMany(mappedBy: 'tutoring', targetEntity: TutoringSession::class, orphanRemoval: true)]
     private Collection $tutoringSessions;
 
@@ -80,6 +96,42 @@ class Tutoring
     public function setRoom(string $room): static
     {
         $this->room = $room;
+
+        return $this;
+    }
+
+    public function getStartTime(): ?DateTimeInterface
+    {
+        return $this->startTime;
+    }
+
+    public function setStartTime(DateTimeInterface $startTime): static
+    {
+        $this->startTime = $startTime;
+
+        return $this;
+    }
+
+    public function getEndTime(): ?DateTimeInterface
+    {
+        return $this->endTime;
+    }
+
+    public function setEndTime(DateTimeInterface $endTime): static
+    {
+        $this->endTime = $endTime;
+
+        return $this;
+    }
+
+    public function getDefaultWeekDays(): ?array
+    {
+        return $this->defaultWeekDays;
+    }
+
+    public function setDefaultWeekDays(?array $defaultWeekDays): self
+    {
+        $this->defaultWeekDays = $defaultWeekDays;
 
         return $this;
     }

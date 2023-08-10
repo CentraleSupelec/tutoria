@@ -66,7 +66,7 @@ class Student implements Stringable, UserInterface
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTimeInterface $lastLoginAt = null;
 
-    #[ORM\ManyToMany(mappedBy: 'tutors', targetEntity: Tutoring::class)]
+    #[ORM\ManyToMany(targetEntity: Tutoring::class, mappedBy: 'tutors')]
     private Collection $tutorings;
 
     #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: TutoringSession::class)]

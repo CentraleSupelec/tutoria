@@ -1,8 +1,8 @@
 validation:
-    start_date_end_date_constraint:
-        start_date_after_end_date: Start date is after end date
-    start_time_end_time_constraint:
-        start_time_after_end_time: Start time is after end time
-    academic_year_constraint:
-        format: Invalid academic year format (20XX-20XY expected)
-        consecutive_years: "An academic year must be composed of two consecutive years (e.g.: 2022-2023)"
+  start_date_end_date_constraint:
+    start_date_after_end_date: Start date is after end date
+  start_time_end_time_constraint:
+    start_time_after_end_time: Start time is after end time
+  academic_year_constraint:
+    format: Invalid academic year format (20XX-20XY expected)
+    consecutive_years: "An academic year must be composed of two consecutive years (e.g.: 2022-2023)"

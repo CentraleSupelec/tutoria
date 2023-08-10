@@ -25,7 +25,7 @@ class Campus implements Stringable
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['api'])]
+    #[Groups(['api', 'tutorings'])]
     #[Assert\NotBlank(message: 'Veuillez saisir le nom du campus.', allowNull: false)]
     #[ORM\Column(length: 255)]
     private ?string $name = null;

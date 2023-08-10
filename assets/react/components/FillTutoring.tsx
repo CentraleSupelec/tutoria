@@ -15,16 +15,16 @@ export default function ({tutoring, campuses} : FillTutoringProps) {
     const { t } = useTranslation();
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-    
+
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
     };
 
     return <>
-        <Button variant="success" onClick={toggleModal}>
+        <Button variant="secondary" onClick={toggleModal}>
             {t('form.batch_create_title')}
         </Button>
-        
+
         <Modal className='session-creation-modal' show={isModalOpen} onHide={toggleModal} size='lg'>
             <Modal.Header closeButton closeLabel='Enregistrer'>
                 <Modal.Title className='modal-title'>

@@ -1,3 +1,5 @@
+@import "global";
+
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -51,8 +53,22 @@ body {
   font-family: 'Open Sans', sans-serif;
 }
 
+.bg-tertiary {
+  background-color: rgba($tertiary, 0.25);
+}
+
+.tutoring-title {
+  font-family: Inter, sans-serif ;
+  font-weight: 600;
+}
+
+.tutoring-description {
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+}
+
 .session-creation-modal {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
 }
 
 .session-creation-modal .modal-title {

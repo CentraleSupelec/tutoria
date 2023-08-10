@@ -24,7 +24,7 @@ class TutorController extends AbstractController
         $tutorings = $tutoringRepository->findByTutor($user);
 
         return $this->render('tutor/dashboard.html.twig', [
-            'tutoringSessions' => $tutorings,
+            'tutorings' => $tutorings,
         ]);
     }
 

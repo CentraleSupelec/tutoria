@@ -4,12 +4,13 @@
     <div class="container">
         <div class="card mb-3">
             <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Mes tutorats</h4>
+                <h4 class="mb-0">{{ 'tutor.my_tutorings' | trans }}</h4>
             </div>
             <div class="card-body">
-                <div {{ react_component('TutoringsList', {tutorings : tutoringSessions|serialize('json', { groups: 'tutorings'})}) }}>
-                    Loading... <i class="fas fa-cog fa-spin"></i>
-                </div>
+                {% for tutoring in tutorings  %}
+                    <div {{ react_component('tutor/TutoringCard', {tutoring : tutoring|serialize('json', { groups: 'tutorings'})}) }}>
+                    </div>
+                {% endfor %}
             </div>
         </div>
     </div>
