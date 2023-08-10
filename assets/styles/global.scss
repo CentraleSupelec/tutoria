@@ -1,4 +1,7 @@
-$primary: #961a3d !default;
+$primary: #8B1B59 !default;
+$info: #D6DBDF !default;
 $body-bg: #f9fbfd !default;
 
 @import "~bootstrap/scss/bootstrap";
+@import "~@fortawesome/fontawesome-free/scss/regular";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";

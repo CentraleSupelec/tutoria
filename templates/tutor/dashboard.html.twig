@@ -2,12 +2,36 @@
 
 {% block body %}
     <div class="container">
-        <div>horizontal cards</div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="card mb-3 border-0">
+                    <div class="row g-0">
+                        <div class="col-md-2 bg-primary rounded-start d-flex align-items-center justify-content-center">
+                            <i class="far fa-clock fa-2x text-white"></i>
+                        </div>
+                        <div class="col-md-10 bg-info bg-opacity-25 p-2 rounded-end">
+                            {# TODO #}
+                            <span>Mes heures réalisées : 0h</span>
+                            <br>
+                            <span>Total avec préparation : 0h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="card mb-3 border-0 bg-info bg-opacity-25 p-2">
+                    <span>Une question, une difficulté ?</span>
+                    <span>Retrouvez ici nos guidelines</span>
+                </div>
+            </div>
+        </div>
         <div class="card mb-3">
-            <div class="card-header bg-primary text-white">Mes tutorats</div>
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Mes tutorats</h4>
+            </div>
             <div class="card-body">
                 <div {{ react_component('TutoringSession') }}>
-                    Loading... <i class="fas fa-cog fa-spin fa-3x"></i>
+                    Loading... <i class="fas fa-cog fa-spin"></i>
                 </div>
             </div>
         </div>

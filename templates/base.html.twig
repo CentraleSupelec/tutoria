@@ -16,7 +16,17 @@
         {# {% endblock %}#}
     </head>
     <body>
-        {% include '_impersonation_warning.html.twig' %}
-        {% block body %}{% endblock %}
+        <div id="body-wrapper">
+            {% if hideMenu is not defined %}
+                {# TODO v2: menu #}
+            {% endif %}
+            {% include '_impersonation_warning.html.twig' %}
+            <div id="main" class="{% if hideFooter is defined %}no-footer{% endif %}">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+        {% if hideFooter is not defined %}
+            {# TODO: maybe #}
+        {% endif %}
     </body>
 </html>

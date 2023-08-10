@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Student;
 use App\Entity\Tutoring;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,5 +20,15 @@ class TutoringRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, Tutoring::class);
+    }
+
+    public function findByTutor(Student $student): array
+    {
+        $queryBuilder = $this->createQueryBuilder('tt')
+            ->andWhere(':tutor MEMBER OF tt.tutors')
+            ->setParameter('tutor', $student)
+        ;
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }
