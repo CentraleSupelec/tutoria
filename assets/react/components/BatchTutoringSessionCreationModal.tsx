@@ -1,12 +1,14 @@
 import React, { ChangeEvent, forwardRef, MutableRefObject, useEffect, useImperativeHandle, useState } from 'react';
 import { Badge, Form} from 'react-bootstrap';
 import DatePicker from 'react-date-picker';
+import { useTranslation } from "react-i18next";
 import TimePicker from 'react-time-picker';
 import Routing from "../../Routing";
 import Building from '../interfaces/Building';
 import Campus from '../interfaces/Campus';
 import Tutoring from '../interfaces/Tutoring';
 import Ref from '../interfaces/Ref';
+
 interface BatchTutoringSessionCreationModalProps {
     tutoring: Tutoring,
     campuses: Campus[],
@@ -14,6 +16,7 @@ interface BatchTutoringSessionCreationModalProps {
 }
 
 const BatchTutoringSessionCreationModal = forwardRef(({tutoring, campuses, toggleModal}: BatchTutoringSessionCreationModalProps, ref: MutableRefObject<Ref>) => {
+    const { t } = useTranslation();
     const [selectedCampus, setSelectedCampus] = useState<Campus>();
     const [selectedBuilding, setSelectedBuilding] = useState<Building>();
 
@@ -93,39 +96,39 @@ const BatchTutoringSessionCreationModal = forwardRef(({tutoring, campuses, toggl
                     <div className='multiple-session-creation-info flex-1'>
                         <div className='days line'>
                             <div className='label'>
-                                Jours par défaut :
+                                {t('form.default_days')}
                             </div>
                             <div className='d-flex flex-column flex-lg-row'>
                                 <Form.Check 
-                                        label='monday'
+                                        label={t('form.days.monday')}
                                         type='checkbox'
                                         checked={isMondaySelected}
                                         onChange={(event) => setIsMondaySelected(event.target.checked)}
                                 />
                                 <Form.Check 
                                         className='ms-lg-2'
-                                        label='tuesday'
+                                        label={t('form.days.tuesday')}
                                         type='checkbox'
                                         checked={isTuesdaySelected}
                                         onChange={(event) => setIsTuesdaySelected(event.target.checked)}
                                 />
                                 <Form.Check 
                                         className='ms-lg-2'
-                                        label='wednesday'
+                                        label={t('form.days.wednesday')}
                                         type='checkbox'
                                         checked={isWednesdaySelected}
                                         onChange={(event) => setIsWednesdaySelected(event.target.checked)}
                                 />
                                 <Form.Check 
                                         className='ms-lg-2'
-                                        label='thursday'
+                                        label={t('form.days.thursday')}
                                         type='checkbox'
                                         checked={isThursdaySelected}
                                         onChange={(event) => setIsThursdaySelected(event.target.checked)}
                                 />
                                 <Form.Check 
                                         className='ms-lg-2'
-                                        label='friday'
+                                        label={t('form.days.friday')}
                                         type='checkbox'
                                         checked={isFridaySelected}
                                         onChange={(event) => setIsFridaySelected(event.target.checked)}
@@ -134,23 +137,28 @@ const BatchTutoringSessionCreationModal = forwardRef(({tutoring, campuses, toggl
                         </div>
                         <div className='hours line'>
                             <div className='label'>
-                                Horaires par défaut :
+                                {t('form.default_hours')}
                             </div>
-                            <div className='d-flex align-items-center'>
-                                <span className='pe-2'>De : </span>
-                                <div className='start-time-value pe-2'>
-                                    <TimePicker 
-                                        value={startTime}
-                                        onChange={(time: string) => setStartTime(time)}
-                                        
-                                    />
+                            <div className='d-flex justify-content-between'>
+                                <div className='d-flex align-items-center flex-grow-1'>
+                                    <span className='pe-2'>{t('form.from')} </span>
+                                    <div className='start-time-value pe-2'>
+                                        <TimePicker 
+                                            value={startTime}
+                                            onChange={(time: string) => setStartTime(time)}
+                                            clockIcon={null}
+                                        />
+                                    </div>
                                 </div>
-                                <span className='pe-2'>A : </span>
-                                <div className='end-time-value'>
-                                    <TimePicker 
-                                        value={endTime} 
-                                        onChange={(time: string) => setEndTime(time)}
-                                    />
+                                <div className='d-flex align-items-center flex-grow-1'>
+                                    <span className='pe-2'>{t('form.to')}</span>
+                                    <div className='end-time-value'>
+                                        <TimePicker 
+                                            value={endTime} 
+                                            onChange={(time: string) => setEndTime(time)}
+                                            clockIcon={null}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -158,7 +166,7 @@ const BatchTutoringSessionCreationModal = forwardRef(({tutoring, campuses, toggl
                         <div className='date-range d-flex line'>
                             <div className='start-date flex-grow-1'>
                                 <div className='start-date-label label'>
-                                    Première date :
+                                    {t('form.start_date')}
                                 </div>
                                 <div className='start-date-value'>
                                     <DatePicker
@@ -169,7 +177,7 @@ const BatchTutoringSessionCreationModal = forwardRef(({tutoring, campuses, toggl
                             </div>
                             <div className='end-date flex-grow-1'>
                                 <div className='end-date-label label'>
-                                    Dernière date :
+                                    {t('form.end_date')}
                                 </div>
                                 <div className='end-date-value'>
                                     <DatePicker 
@@ -181,7 +189,7 @@ const BatchTutoringSessionCreationModal = forwardRef(({tutoring, campuses, toggl
                         </div>
                         <div className='place line'>
                             <div className='place-label label'>
-                                Campus, bâtiment, salle :
+                                {t('form.place')}
                             </div>
                             <div className='place-value d-flex'>
                                 <Form.Select className='campus flex-grow-1 me-2' onChange={onCampusChange}>
@@ -206,7 +214,7 @@ const BatchTutoringSessionCreationModal = forwardRef(({tutoring, campuses, toggl
                     <div className='multiple-session-static-info flex-grow-1'>
                         <div className='tutoring line'>
                             <div className='tutoring-label label'>
-                                Tutorat
+                                {t('form.tutoring')}
                             </div>
                             <div>
                                 <Form.Control disabled value={tutoring.name}></Form.Control>
@@ -214,7 +222,7 @@ const BatchTutoringSessionCreationModal = forwardRef(({tutoring, campuses, toggl
                         </div>
                         <div className='tutors line'>
                             <div className='tutors-label label'>
-                                Tuteurs
+                                {t('form.tutors')}
                             </div>
                             <div className='tutors-list d-flex'>
                                 {tutoring.tutors.map((tutor, index) => 
