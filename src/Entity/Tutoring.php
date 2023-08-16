@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use App\Constants;
 use App\Repository\TutoringRepository;
+use App\Validator\Constraints as AppAssert;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,6 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[AppAssert\StartTimeEndTimeConstraint]
 #[ORM\Entity(repositoryClass: TutoringRepository::class)]
 class Tutoring implements Stringable
 {
@@ -34,11 +37,11 @@ class Tutoring implements Stringable
     #[Groups(['tutorings'])]
     #[Assert\NotBlank(allowNull: true)]
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $room = null;
+    private ?string $defaultRoom = null;
 
     #[Groups(['tutorings'])]
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    // TODO: Assert\Choice enum (monday/tuesday/...)
+    #[Assert\Choice(callback: [Constants::class, 'getAvailableWeekdays'], multiple: true)]
     private ?array $defaultWeekDays = [];
 
     #[Groups(['tutorings'])]
@@ -52,7 +55,7 @@ class Tutoring implements Stringable
     #[Groups(['tutorings'])]
     #[ORM\ManyToOne(targetEntity: Building::class, inversedBy: 'tutorings')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Building $building = null;
+    private ?Building $defaultBuilding = null;
 
     #[Groups(['tutorings'])]
     #[ORM\OneToMany(mappedBy: 'tutoring', targetEntity: TutoringSession::class, orphanRemoval: true)]
@@ -94,14 +97,14 @@ class Tutoring implements Stringable
         return $this;
     }
 
-    public function getRoom(): ?string
+    public function getDefaultRoom(): ?string
     {
-        return $this->room;
+        return $this->defaultRoom;
     }
 
-    public function setRoom(string $room): static
+    public function setDefaultRoom(string $defaultRoom): static
     {
-        $this->room = $room;
+        $this->defaultRoom = $defaultRoom;
 
         return $this;
     }
@@ -142,14 +145,14 @@ class Tutoring implements Stringable
         return $this;
     }
 
-    public function getBuilding(): ?Building
+    public function getDefaultBuilding(): ?Building
     {
-        return $this->building;
+        return $this->defaultBuilding;
     }
 
-    public function setBuilding(?Building $building): static
+    public function setDefaultBuilding(?Building $defaultBuilding): static
     {
-        $this->building = $building;
+        $this->defaultBuilding = $defaultBuilding;
 
         return $this;
     }

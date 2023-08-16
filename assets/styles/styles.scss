@@ -143,6 +143,18 @@ body {
   background-color: white;
 }
 
+.nav-tabs .nav-link {
+  color: var(--typo-titre, #1F1E21);
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  line-height: 22px;
+}
+
+.nav-tabs .nav-link.active {
+  font-weight: 700;
+}
+
 .session-creation-modal .hr {
   margin: 2rem 0;
 }
@@ -152,5 +164,19 @@ body {
 }
 
 .react-date-picker__wrapper {
+  border-radius: 4px;
+}
+
+.interactive-button-container {
+  border-radius: 5px;
+  border: 1px solid var(--interactifs, #00807A);
+  background: rgba(0, 0, 0, 0.00);
+}
+
+.react-datetime-picker {
+  background-color: white;
+}
+
+.react-datetime-picker__wrapper {
   border-radius: 4px;
 }

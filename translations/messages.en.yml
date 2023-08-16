@@ -45,5 +45,17 @@ form:
   tutors: 'Tutors :'
   default_hours: 'Default hours :'
   default_days: 'Default days :'
-  batch_create_button: Save and create sessions
-  batch_create_title: Set up the tutoring
+  create_single_or_batch_sessions: Create one a multiple sessions
+  edit: Edit
+  edit_tutoring_session: Edit session
+  create_single_session: Create a session
+  batch_create_sessions: Create sessions
+  create_button: Create
+  save_and_batch_create_button: Save and create sessions
+  save_button: Save
+  batch_create_title: Complete the tutroing
+  update_tutoring_title: Edit tutoring
+  session: 'Session :'
+  online_meeting_uri: 'Please enter the link to the virtual meeting'
+  remote: Remote
+  on_site: On site

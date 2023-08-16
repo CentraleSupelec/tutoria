@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Constants;
 use App\Entity\Building;
 use App\Entity\Tutoring;
 use App\Validator\Constraints as AppAssert;
@@ -17,19 +18,9 @@ class BatchTutoringSessionCreationModel
     private ?Tutoring $tutoring = null;
 
     #[Assert\NotNull]
-    private bool $mondaySelected = false;
-
-    #[Assert\NotNull]
-    private bool $tuesdaySelected = false;
-
-    #[Assert\NotNull]
-    private bool $wednesdaySelected = false;
-
-    #[Assert\NotNull]
-    private bool $thursdaySelected = false;
-
-    #[Assert\NotNull]
-    private bool $fridaySelected = false;
+    #[Assert\Count(['min' => 1, 'minMessage' => 'validation.batch_tutoring_session_creation_model.weekdays_min_message'])]
+    #[Assert\Choice(callback: [Constants::class, 'getAvailableWeekdays'], multiple: true)]
+    private array $weekDays = [];
 
     #[Assert\NotNull]
     private ?DateTimeInterface $startTime = null;
@@ -49,6 +40,9 @@ class BatchTutoringSessionCreationModel
     #[Assert\NotNull]
     private ?string $room = null;
 
+    #[Assert\NotNull]
+    private bool $saveDefaultValues = false;
+
     public function getTutoring(): ?Tutoring
     {
         return $this->tutoring;
@@ -61,92 +55,14 @@ class BatchTutoringSessionCreationModel
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getMondaySelected(): ?bool
+    public function getWeekDays(): array
     {
-        return $this->mondaySelected;
+        return $this->weekDays;
     }
 
-    /**
-     * @param bool $mondaySelected
-     */
-    public function setMondaySelected(?bool $mondaySelected): self
+    public function setWeekDays(array $weekDays): self
     {
-        $this->mondaySelected = $mondaySelected;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getTuesdaySelected(): ?bool
-    {
-        return $this->tuesdaySelected;
-    }
-
-    /**
-     * @param bool $tuesdaySelected
-     */
-    public function setTuesdaySelected(?bool $tuesdaySelected): self
-    {
-        $this->tuesdaySelected = $tuesdaySelected;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getWednesdaySelected(): ?bool
-    {
-        return $this->wednesdaySelected;
-    }
-
-    /**
-     * @param bool $wednesdaySelected
-     */
-    public function setWednesdaySelected(?bool $wednesdaySelected): self
-    {
-        $this->wednesdaySelected = $wednesdaySelected;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getThursdaySelected(): ?bool
-    {
-        return $this->thursdaySelected;
-    }
-
-    /**
-     * @param bool $thursdaySelected
-     */
-    public function setThursdaySelected(?bool $thursdaySelected): self
-    {
-        $this->thursdaySelected = $thursdaySelected;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getFridaySelected(): ?bool
-    {
-        return $this->fridaySelected;
-    }
-
-    /**
-     * @param bool $fridaySelected
-     */
-    public function setFridaySelected(?bool $fridaySelected): self
-    {
-        $this->fridaySelected = $fridaySelected;
+        $this->weekDays = $weekDays;
 
         return $this;
     }
@@ -255,6 +171,24 @@ class BatchTutoringSessionCreationModel
     public function setRoom(?string $room): self
     {
         $this->room = $room;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getSaveDefaultValues(): ?bool
+    {
+        return $this->saveDefaultValues;
+    }
+
+    /**
+     * @param bool $saveDefaultValues
+     */
+    public function setSaveDefaultValues(?bool $saveDefaultValues): self
+    {
+        $this->saveDefaultValues = $saveDefaultValues;
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Constants;
 use App\Entity\TutoringSession;
 use App\Exception\BatchTutoringSessionCreationException;
 use App\Model\BatchTutoringSessionCreationModel;
@@ -24,22 +25,7 @@ readonly class BatchTutoringSessionCreationService
     {
         $user = $this->security->getUser();
 
-        $selectedWeekdays = [];
-        if ($batchTutoringSessionCreationModel->getMondaySelected()) {
-            $selectedWeekdays[] = 1;
-        }
-        if ($batchTutoringSessionCreationModel->getTuesdaySelected()) {
-            $selectedWeekdays[] = 2;
-        }
-        if ($batchTutoringSessionCreationModel->getWednesdaySelected()) {
-            $selectedWeekdays[] = 3;
-        }
-        if ($batchTutoringSessionCreationModel->getThursdaySelected()) {
-            $selectedWeekdays[] = 4;
-        }
-        if ($batchTutoringSessionCreationModel->getFridaySelected()) {
-            $selectedWeekdays[] = 5;
-        }
+        $selectedWeekdays = $batchTutoringSessionCreationModel->getWeekDays();
         /** @var DateTimeInterface[] $dates */
         $dates = $this->getAllDatesBetweenDatesByWeekdays($batchTutoringSessionCreationModel->getStartDate(), $batchTutoringSessionCreationModel->getEndDate(), $selectedWeekdays);
         $this->entityManager->getConnection()->beginTransaction();
@@ -72,12 +58,20 @@ readonly class BatchTutoringSessionCreationService
     private function getAllDatesBetweenDatesByWeekdays(DateTimeInterface $startDate, DateTimeInterface $endDate, array $selectedWeekdays): array
     {
         $result = [];
+        $selectedWeekdaysIndexes = [];
+        $weekDays = Constants::getAvailableWeekdays();
+
+        foreach ($weekDays as $index => $dayName) {
+            if (in_array($dayName, $selectedWeekdays)) {
+                $selectedWeekdaysIndexes[] = $index + 1;
+            }
+        }
 
         $currentDate = clone $startDate;
         while ($currentDate <= $endDate) {
             $dayOfWeek = $currentDate->format('N');
 
-            if (in_array($dayOfWeek, $selectedWeekdays)) {
+            if (in_array($dayOfWeek, $selectedWeekdaysIndexes)) {
                 $result[] = clone $currentDate;
             }
             if ($dayOfWeek > 4) {

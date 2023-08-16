@@ -2,6 +2,8 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Tutoring;
+use App\Entity\TutoringSession;
 use App\Form\TutoringSessionSearchType;
 use App\Model\TutoringSessionSearch;
 use App\Repository\CampusRepository;
@@ -23,6 +25,22 @@ class ApiController extends AbstractController
         $campusesJSON = $serializer->serialize($campuses, 'json', ['groups' => 'api']);
 
         return new JsonResponse($campusesJSON, json: true);
+    }
+
+    #[Route('/tutoring/{id}', name: 'get_tutoring', options: ['expose' => true])]
+    public function getTutoring(Tutoring $tutoring, SerializerInterface $serializer): JsonResponse
+    {
+        $tutoringJSON = $serializer->serialize($tutoring, 'json', ['groups' => 'tutorings']);
+
+        return new JsonResponse($tutoringJSON, json: true);
+    }
+
+    #[Route('/tutoring-session/{id}', name: 'get_tutoring_session', options: ['expose' => true])]
+    public function getTutoringSession(TutoringSession $tutoringSession, SerializerInterface $serializer): JsonResponse
+    {
+        $tutoringSessionJSON = $serializer->serialize($tutoringSession, 'json', ['groups' => 'tutorings']);
+
+        return new JsonResponse($tutoringSessionJSON, json: true);
     }
 
     #[Route('/tutoring-sessions-by-tutorings', name: 'tutoring_sessions_by_tutorings', options: ['expose' => true], methods: ['POST'])]

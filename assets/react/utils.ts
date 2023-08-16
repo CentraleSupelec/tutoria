@@ -2,6 +2,7 @@ import Tutoring from "./interfaces/Tutoring";
 import TutoringSession from "./interfaces/TutoringSession";
 import { format } from "date-fns";
 import { enUS, fr } from "date-fns/esm/locale";
+import Building from "./interfaces/Building";
 
 export const formatDefaultDay = (tutoring: Tutoring, t): string[] => {
     return (tutoring.defaultWeekDays.map(function (day, index) {
@@ -10,7 +11,7 @@ export const formatDefaultDay = (tutoring: Tutoring, t): string[] => {
 }
 
 export const formatDefaultHour = (tutoring: Tutoring): string => {
-    const padTo2Digits = (num) => {
+    const padTo2Digits = (num: number) => {
         return String(num).padStart(2, '0');
     }
 
@@ -22,25 +23,39 @@ export const formatDefaultHour = (tutoring: Tutoring): string => {
     return startSlot + '-' + endSlot;
 }
 
-export const formatRoom = (tutoring: Tutoring): string => {
-    return (tutoring.room + ', ' + tutoring.building.name + ', ' + tutoring.building.campus.name);
+export const formatRoom = (room: string, building: Building): string => {
+    return (room + ', ' + building.name + ', ' + building.campus.name);
 }
 
-const capitalize = (str): string => {
+const capitalize = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// TODO: change locales according to langage
 export const formatTutoringSessionDate = (tutoringSession: TutoringSession): string => {
-    const dateLocales = { 'fr-FR': fr, 'en-Us': enUS };
-    const browserLocale = navigator.language;
+    const dateLocales = { 'fr': fr, 'en': enUS };
     const startDate = new Date(tutoringSession.startDateTime);
     const endDate = new Date(tutoringSession.endDateTime);
 
     return (
         capitalize(
             format(startDate, 'eeee dd/MM - HH:mm',
-                {locale: dateLocales[browserLocale]})
+                {locale: dateLocales[document.documentElement.lang]})
         ) + format(endDate, '-HH:mm')
     );
+}
+
+export const daysArrayToDaysSelection = (days: string[]): DaysSelection => {
+    const daysSelection: DaysSelection = {
+        monday: false,
+        tuesday: false,
+        wednesday: false,
+        thursday: false,
+        friday: false
+    }
+
+    days.forEach((dayName) => {
+        daysSelection[dayName] = true;
+    })
+
+    return daysSelection;
 }

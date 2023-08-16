@@ -46,7 +46,7 @@ export default function ({tutoringSessions, tutorings}) {
                     tutoringSession => {
                         return(
                             <li key={`tutoring-${tutoringSession.id}`}>
-                                <TutoringSessionCard tutoringSession={tutoringSession}></TutoringSessionCard>
+                                <TutoringSessionCard initialTutoringSession={tutoringSession} tutoring={tutoringSession.tutoring} campuses={null} isUserTutor={false}></TutoringSessionCard>
                             </li>
                         )
                     }

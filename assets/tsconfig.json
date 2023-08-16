@@ -4,6 +4,7 @@
         "esModuleInterop": true,
     },
     "typeRoots": [
-        "*.d.ts",
+        "global.d.ts",
+        "js-yaml-loader.d.ts",
     ]
 }

@@ -6,3 +6,5 @@ validation:
   academic_year_constraint:
     format: Invalid academic year format (20XX-20XY expected)
     consecutive_years: "An academic year must be composed of two consecutive years (e.g.: 2022-2023)"
+  batch_tutoring_session_creation_model:
+    weekdays_min_message: Please choose at least one day

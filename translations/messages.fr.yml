@@ -45,5 +45,17 @@ form:
   tutors: 'Tuteurs :'
   default_hours: 'Horaires par défaut :'
   default_days: 'Jours par défaut :'
-  batch_create_button: Enregistrer et créer les séances
+  create_single_or_batch_sessions: Créer une ou des séances
+  edit: Modifier
+  edit_tutoring_session: Editer une séance
+  create_single_session: Créer une séance
+  batch_create_sessions: Créer plusieurs séances
+  create_button: Créer
+  save_and_batch_create_button: Enregistrer et créer les séances
+  save_button: Enregistrer
   batch_create_title: Compléter le tutorat
+  update_tutoring_title: Modifier le tutorat
+  session: 'Créneau :'
+  online_meeting_uri: 'Entrer le lien de la visio :'
+  remote: Distanciel
+  on_site: Présentiel

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TutoringSessionRepository;
+use App\Validator\Constraints as AppAssert;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,12 +14,13 @@ use Symfony\Bridge\Doctrine\Types\UuidType;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 
+#[AppAssert\StartDateTimeEndDateTimeConstraint]
 #[ORM\Entity(repositoryClass: TutoringSessionRepository::class)]
 class TutoringSession
 {
     use TimestampableEntity;
 
-    #[Groups(['tutoringSessions'])]
+    #[Groups(['tutoringSessions', 'tutorings'])]
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
@@ -29,27 +31,31 @@ class TutoringSession
     #[ORM\JoinColumn(nullable: false)]
     private ?Student $createdBy = null;
 
-    #[Groups(['tutoringSessions'])]
+    #[Groups(['tutoringSessions', 'tutorings'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $startDateTime = null;
 
-    #[Groups(['tutoringSessions'])]
+    #[Groups(['tutoringSessions', 'tutorings'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $endDateTime = null;
 
-    #[Groups(['tutoringSessions'])]
+    #[Groups(['tutoringSessions', 'tutorings'])]
     #[ORM\Column]
-    private ?bool $isRemote = false;
+    private bool $isRemote = false;
 
-    #[Groups(['tutoringSessions'])]
+    #[Groups(['tutoringSessions', 'tutorings'])]
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $onlineMeetingUri = null;
+
+    #[Groups(['tutoringSessions', 'tutorings'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $room = null;
 
-    #[Groups(['tutoringSessions'])]
+    #[Groups(['tutoringSessions', 'tutorings'])]
     #[ORM\ManyToOne()]
     private ?Building $building = null;
 
-    #[Groups(['tutoringSessions'])]
+    #[Groups(['tutoringSessions', 'tutorings'])]
     #[ORM\ManyToMany(targetEntity: Student::class)]
     #[ORM\JoinTable(name: 'tutoring_session_tutor')]
     private Collection $tutors;
@@ -110,7 +116,7 @@ class TutoringSession
         return $this;
     }
 
-    public function isIsRemote(): ?bool
+    public function getIsRemote(): ?bool
     {
         return $this->isRemote;
     }
@@ -118,6 +124,18 @@ class TutoringSession
     public function setIsRemote(bool $isRemote): static
     {
         $this->isRemote = $isRemote;
+
+        return $this;
+    }
+
+    public function getOnlineMeetingUri(): ?string
+    {
+        return $this->onlineMeetingUri;
+    }
+
+    public function setOnlineMeetingUri(?string $onlineMeetingUri): static
+    {
+        $this->onlineMeetingUri = $onlineMeetingUri;
 
         return $this;
     }

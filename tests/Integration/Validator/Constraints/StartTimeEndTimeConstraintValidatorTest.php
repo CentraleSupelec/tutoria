@@ -36,8 +36,9 @@ class StartTimeEndTimeConstraintValidatorTest extends KernelTestCase
             ->setEndTime(new DateTime('2022-02-16 16:00'))
             ->setStartDate(new DateTime('2022-02-13'))
             ->setEndDate(new DateTime('2022-02-20'))
-            ->setBuilding($tutoring->getBuilding())
-            ->setRoom($tutoring->getRoom())
+            ->setBuilding($tutoring->getDefaultBuilding())
+            ->setRoom($tutoring->getDefaultRoom())
+            ->setWeekDays(['monday', 'tuesday'])
         ;
 
         $errors = $this->validator->validate($batchTutoringSessionCreation);
@@ -54,8 +55,9 @@ class StartTimeEndTimeConstraintValidatorTest extends KernelTestCase
             ->setEndTime(new DateTime('2022-02-16 16:00'))
             ->setStartDate(new DateTime('2022-02-15'))
             ->setEndDate(new DateTime('2022-02-13'))
-            ->setBuilding($tutoring->getBuilding())
-            ->setRoom($tutoring->getRoom())
+            ->setBuilding($tutoring->getDefaultBuilding())
+            ->setRoom($tutoring->getDefaultRoom())
+            ->setWeekDays(['monday', 'tuesday'])
         ;
 
         $errors = $this->validator->validate($batchTutoringSessionCreation);

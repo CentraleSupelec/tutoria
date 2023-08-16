@@ -5,10 +5,10 @@ import TutoringSession from "./TutoringSession";
 
 export default interface Tutoring extends BasicInformation {
     tutors: Tutor[],
-    building: Building,
-    room: string,
-    defaultStartTime: string,
-    defaultEndTime: string,
-    defaultWeekDays: [],
+    defaultBuilding: Building,
+    defaultRoom: string,
+    defaultStartTime: Date
+    defaultEndTime: Date,
     tutoringSessions: TutoringSession[],
+    defaultWeekDays: string[],
 }

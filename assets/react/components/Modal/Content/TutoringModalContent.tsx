@@ -3,37 +3,48 @@ import { Badge, Button, Form, Spinner } from 'react-bootstrap';
 import DatePicker from 'react-date-picker';
 import { useTranslation } from "react-i18next";
 import TimePicker from 'react-time-picker';
-import Routing from "../../Routing";
-import Building from '../interfaces/Building';
-import Campus from '../interfaces/Campus';
-import Tutoring from '../interfaces/Tutoring';
+import Routing from "../../../../Routing";
+import Building from '../../../interfaces/Building';
+import Campus from '../../../interfaces/Campus';
+import Tutoring from '../../../interfaces/Tutoring';
+import { daysArrayToDaysSelection } from '../../../utils';
 
-interface BatchTutoringSessionCreationModalContentProps {
+interface TutoringModalContentProps {
     tutoring: Tutoring,
     campuses: Campus[],
     toggleModal: Function,
+    onUpdate: Function 
 }
 
 type ValuePiece = Date | string | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
 
-const BatchTutoringSessionCreationModalContent = ({ tutoring, campuses, toggleModal }: BatchTutoringSessionCreationModalContentProps) => {
+const defaultStartTime = new Date();
+defaultStartTime.setHours(16);
+defaultStartTime.setMinutes(0);
+
+const defaultEndTime = new Date();
+defaultEndTime.setHours(18);
+defaultEndTime.setMinutes(0);
+
+const defaultDaySelection: DaysSelection = {
+    monday: false,
+    tuesday: false,
+    wednesday: false,
+    thursday: false,
+    friday: false
+}
+
+export default function ({ tutoring, campuses, toggleModal, onUpdate }: TutoringModalContentProps) {
     const { t } = useTranslation();
+
     const [ready, setReady] = useState(false);
     const [selectedCampus, setSelectedCampus] = useState<Campus>();
     const [selectedBuilding, setSelectedBuilding] = useState<Building>();
-
-    const [isMondaySelected, setIsMondaySelected] = useState<boolean>(false);
-    const [isTuesdaySelected, setIsTuesdaySelected] = useState<boolean>(false);
-    const [isWednesdaySelected, setIsWednesdaySelected] = useState<boolean>(false);
-    const [isThursdaySelected, setIsThursdaySelected] = useState<boolean>(false);
-    const [isFridaySelected, setIsFridaySelected] = useState<boolean>(false);
-
-    const [startDate, setStartDate] = useState<Value>(new Date());
-    const [endDate, setEndDate] = useState<Value>(new Date());
-    const [startTime, setStartTime] = useState<Value>('10:00');
-    const [endTime, setEndTime] = useState<Value>('11:00');
+    const [defaultWeekDays, setDefaultWeekDays] = useState<DaysSelection>(defaultDaySelection);
+    const [startTime, setStartTime] = useState<Value>(defaultStartTime);
+    const [endTime, setEndTime] = useState<Value>(defaultEndTime);
 
     const [room, setRoom] = useState<string>('');
 
@@ -48,66 +59,72 @@ const BatchTutoringSessionCreationModalContent = ({ tutoring, campuses, toggleMo
         setSelectedBuilding(building);
     }
 
+    const onTimeChange = (time: Value, start: boolean) => {
+        if (!(typeof time === 'string')) return;
+        let setter = setEndTime;
+
+        if (start) {
+            setter = setStartTime
+        }
+
+        const newTime = new Date();
+        newTime.setHours(parseInt(time.split(':')[0]))
+        newTime.setMinutes(parseInt(time.split(':')[1]))
+        setter(newTime);
+    }
+
     const handleSubmit = () => {
         const params = new FormData();
 
-        params.append('batch_tutoring_session_creation[tutoring]', tutoring.id);
+        Object.keys(defaultWeekDays).forEach(day => {
+            if (defaultWeekDays[day]) {
+                params.append(`tutoring[defaultWeekDays][]`, day);
+            }
+        });
 
-        params.append('batch_tutoring_session_creation[mondaySelected]', isMondaySelected.toString());
-        params.append('batch_tutoring_session_creation[tuesdaySelected]', isTuesdaySelected.toString());
-        params.append('batch_tutoring_session_creation[wednesdaySelected]', isWednesdaySelected.toString());
-        params.append('batch_tutoring_session_creation[thursdaySelected]', isThursdaySelected.toString());
-        params.append('batch_tutoring_session_creation[fridaySelected]', isFridaySelected.toString());
-
-        if (startDate && startDate instanceof Date) {
-            params.append('batch_tutoring_session_creation[startDate][year]', startDate.getFullYear().toString());
-            params.append('batch_tutoring_session_creation[startDate][month]', (startDate.getMonth() + 1).toString());
-            params.append('batch_tutoring_session_creation[startDate][day]', startDate.getDate().toString());
+        if (startTime && startTime instanceof Date) {
+            params.append('tutoring[defaultStartTime][hour]', startTime.getHours().toString());
+            params.append('tutoring[defaultStartTime][minute]', startTime.getMinutes().toString());
         }
 
-        if (endDate && endDate instanceof Date) {
-            params.append('batch_tutoring_session_creation[endDate][year]', endDate.getFullYear().toString());
-            params.append('batch_tutoring_session_creation[endDate][month]', (endDate.getMonth() + 1).toString());
-            params.append('batch_tutoring_session_creation[endDate][day]', endDate.getDate().toString());
+        if (endTime && endTime instanceof Date) {
+            params.append('tutoring[defaultEndTime][hour]', endTime.getHours().toString());
+            params.append('tutoring[defaultEndTime][minute]', endTime.getMinutes().toString());
         }
 
-        if (startTime && typeof startTime === 'string') {
-            params.append('batch_tutoring_session_creation[startTime][hour]', parseInt(startTime.split(':')[0]).toString());
-            params.append('batch_tutoring_session_creation[startTime][minute]', parseInt(startTime.split(':')[1]).toString());
-        }
+        params.append('tutoring[defaultBuilding]', selectedBuilding? selectedBuilding.id: '');
+        params.append('tutoring[defaultRoom]', room?? '');
 
-        if (endTime && typeof endTime === 'string') {
-            params.append('batch_tutoring_session_creation[endTime][hour]', parseInt(endTime.split(':')[0]).toString());
-            params.append('batch_tutoring_session_creation[endTime][minute]', parseInt(endTime.split(':')[1]).toString());
-        }
-
-        params.append('batch_tutoring_session_creation[building]', selectedBuilding ? selectedBuilding.id : '');
-        params.append('batch_tutoring_session_creation[room]', room ?? '');
-
-        fetch(Routing.generate("batch_create_sessions"), {
-            method: 'POST',
-            body: params
-        })
-            .then(() => toggleModal());
+        fetch(Routing.generate("update_tutoring", {id: tutoring.id}), {
+                method: 'POST',
+                body: params
+            })
+            .then(() => {
+                onUpdate();
+                toggleModal()
+            });
     }
 
     useEffect(() => {
         if (campuses) {
-            if (tutoring.building && tutoring.building.campus) {
-                const tutoringDefaultCampus = campuses.find(campus => campus.id === tutoring.building.campus.id);
+            if (tutoring.defaultBuilding && tutoring.defaultBuilding.campus) {
+                const tutoringDefaultCampus = campuses.find(campus => campus.id === tutoring.defaultBuilding.campus.id);
                 setSelectedCampus(tutoringDefaultCampus);
-                setSelectedBuilding(tutoring.building);
+                setSelectedBuilding(tutoring.defaultBuilding);
             } else {
                 setSelectedCampus(campuses[0]);
                 setSelectedBuilding(campuses[0].buildings[0])
             }
             setReady(true);
         }
-
-        if (tutoring.room) {
-            setRoom(tutoring.room);
-        }
     }, [tutoring, campuses]);
+
+    useEffect(() => {
+        setRoom(tutoring.defaultRoom);
+        setDefaultWeekDays(daysArrayToDaysSelection(tutoring.defaultWeekDays));
+        setStartTime(new Date(tutoring.defaultStartTime));
+        setEndTime(new Date(tutoring.defaultEndTime));
+    }, [tutoring])
 
     return <>
         {ready ?
@@ -119,40 +136,16 @@ const BatchTutoringSessionCreationModalContent = ({ tutoring, campuses, toggleMo
                                 {t('form.default_days')}
                             </div>
                             <div className='d-flex flex-column flex-lg-row'>
-                                <Form.Check
-                                    label={t('utils.days.monday')}
-                                    type='checkbox'
-                                    checked={isMondaySelected}
-                                    onChange={(event) => setIsMondaySelected(event.target.checked)}
-                                />
-                                <Form.Check
-                                    className='ms-lg-2'
-                                    label={t('utils.days.tuesday')}
-                                    type='checkbox'
-                                    checked={isTuesdaySelected}
-                                    onChange={(event) => setIsTuesdaySelected(event.target.checked)}
-                                />
-                                <Form.Check
-                                    className='ms-lg-2'
-                                    label={t('utils.days.wednesday')}
-                                    type='checkbox'
-                                    checked={isWednesdaySelected}
-                                    onChange={(event) => setIsWednesdaySelected(event.target.checked)}
-                                />
-                                <Form.Check
-                                    className='ms-lg-2'
-                                    label={t('utils.days.thursday')}
-                                    type='checkbox'
-                                    checked={isThursdaySelected}
-                                    onChange={(event) => setIsThursdaySelected(event.target.checked)}
-                                />
-                                <Form.Check
-                                    className='ms-lg-2'
-                                    label={t('utils.days.friday')}
-                                    type='checkbox'
-                                    checked={isFridaySelected}
-                                    onChange={(event) => setIsFridaySelected(event.target.checked)}
-                                />
+                                {Object.keys(defaultWeekDays).map(day =>
+                                    <Form.Check
+                                        key={`day-selection-${day}`}
+                                        className={day !== 'monday' ? 'ms-lg-2' : ''}
+                                        label={t(`utils.days.${day}`)}
+                                        type='checkbox'
+                                        checked={defaultWeekDays[day]}
+                                        onChange={(event) => setDefaultWeekDays({...defaultWeekDays, [day]: event.target.checked})}
+                                    />
+                                )}
                             </div>
                         </div>
                         <div className='hours line'>
@@ -165,7 +158,7 @@ const BatchTutoringSessionCreationModalContent = ({ tutoring, campuses, toggleMo
                                     <div className='start-time-value pe-2'>
                                         <TimePicker
                                             value={startTime}
-                                            onChange={(time: Value) => setStartTime(time)}
+                                            onChange={(time: Value) => onTimeChange(time, true)}
                                             clockIcon={null}
                                         />
                                     </div>
@@ -175,7 +168,7 @@ const BatchTutoringSessionCreationModalContent = ({ tutoring, campuses, toggleMo
                                     <div className='end-time-value'>
                                         <TimePicker
                                             value={endTime}
-                                            onChange={(time: Value) => setEndTime(time)}
+                                            onChange={(time: Value) => onTimeChange(time, false)}
                                             clockIcon={null}
                                         />
                                     </div>
@@ -183,30 +176,7 @@ const BatchTutoringSessionCreationModalContent = ({ tutoring, campuses, toggleMo
                             </div>
                         </div>
                         <hr className='hr'></hr>
-                        <div className='date-range d-flex line'>
-                            <div className='start-date flex-grow-1'>
-                                <div className='start-date-label label'>
-                                    {t('form.start_date')}
-                                </div>
-                                <div className='start-date-value'>
-                                    <DatePicker
-                                        value={startDate}
-                                        onChange={(date: Value) => setStartDate(date)}
-                                    />
-                                </div>
-                            </div>
-                            <div className='end-date flex-grow-1'>
-                                <div className='end-date-label label'>
-                                    {t('form.end_date')}
-                                </div>
-                                <div className='end-date-value'>
-                                    <DatePicker
-                                        value={endDate}
-                                        onChange={(date: Value) => setEndDate(date)}
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div className='place line d-flex flex-column flex-lg-row'>
                             <div className='campus d-flex flex-column flex-grow-1 me-2 pb-2'>
                                 <div className='campus-label label ps-2'>
@@ -270,7 +240,7 @@ const BatchTutoringSessionCreationModalContent = ({ tutoring, campuses, toggleMo
                 </div>
                 <div className='d-flex justify-content-end'>
                     <Button type='submit' variant="success" onClick={handleSubmit}>
-                        {t('form.batch_create_button')}
+                        {t('form.save_button')}
                     </Button>
                 </div>
             </>
@@ -281,5 +251,3 @@ const BatchTutoringSessionCreationModalContent = ({ tutoring, campuses, toggleMo
         }
     </>;
 };
-
-export default BatchTutoringSessionCreationModalContent;

@@ -48,7 +48,7 @@ final class TutoringAdmin extends AbstractAdmin
                 'required' => true,
                 'multiple' => false,
             ])
-            ->add('building', EntityType::class, [
+            ->add('defaultBuilding', EntityType::class, [
                 'class' => Building::class,
                 'required' => true,
                 'multiple' => false,

@@ -69,10 +69,11 @@ class TutoringFixturesProvider
 
         $tutoring = (new Tutoring())
             ->setAcademicLevel($academicLevel)
-            ->setBuilding($building)
-            ->setRoom('E110')
+            ->setDefaultBuilding($building)
+            ->setDefaultRoom('E110')
             ->addTutor($tutor)
-            ->setName(sprintf('%s@%s', $academicLevel->getNameFr(), $building->getCampus()->getName()));
+            ->setName(sprintf('%s@%s', $academicLevel->getNameFr(), $building->getCampus()->getName()))
+        ;
 
         if (null !== $entityManager) {
             $entityManager->persist($tutoring);
@@ -88,7 +89,7 @@ class TutoringFixturesProvider
             ->setCreatedBy($tutoring->getTutors()[0])
             ->setStartDateTime(new DateTime())
             ->setEndDateTime((new DateTime())->add(new DateInterval('PT1H')))
-            ->setBuilding($tutoring->getBuilding())
+            ->setBuilding($tutoring->getDefaultBuilding())
             ->setRoom('E110')
             ->addTutor($tutoring->getTutors()[0])
             ->setTutoring($tutoring);
@@ -114,8 +115,8 @@ class TutoringFixturesProvider
 
         $secondTutoring = (new Tutoring())
             ->setAcademicLevel($firstTutoring->getAcademicLevel())
-            ->setBuilding($secondBuilding)
-            ->setRoom('D210')
+            ->setDefaultBuilding($secondBuilding)
+            ->setDefaultRoom('D210')
             ->addTutor($firstTutoring->getTutors()[0])
             ->setName(sprintf('%s@%s', $firstTutoring->getAcademicLevel()->getNameFr(), $secondCampus->getName()));
 

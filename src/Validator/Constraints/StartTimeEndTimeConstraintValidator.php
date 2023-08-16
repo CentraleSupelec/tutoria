@@ -2,6 +2,7 @@
 
 namespace App\Validator\Constraints;
 
+use App\Entity\Tutoring;
 use App\Model\BatchTutoringSessionCreationModel;
 use DateTimeInterface;
 use Symfony\Component\Validator\Constraint;
@@ -17,15 +18,21 @@ class StartTimeEndTimeConstraintValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, StartTimeEndTimeConstraint::class);
         }
 
-        if (!$value instanceof BatchTutoringSessionCreationModel) {
-            throw new UnexpectedValueException($value, BatchTutoringSessionCreationModel::class);
+        if ($value instanceof BatchTutoringSessionCreationModel) {
+            $startTime = $value->getStartTime();
+            $endTime = $value->getEndTime();
+        } elseif ($value instanceof Tutoring) {
+            $startTime = $value->getDefaultStartTime();
+            $endTime = $value->getDefaultEndTime();
+        } else {
+            throw new UnexpectedValueException($value, sprintf('%s or %s', BatchTutoringSessionCreationModel::class, Tutoring::class));
         }
 
-        if (!$value->getStartTime() instanceof DateTimeInterface || !$value->getEndTime() instanceof DateTimeInterface) {
+        if (!$startTime instanceof DateTimeInterface || !$endTime instanceof DateTimeInterface) {
             return;
         }
 
-        if ($value->getStartTime() > $value->getEndTime()) {
+        if ($startTime > $endTime) {
             $this->context->buildViolation($constraint->startTimeAfterEndTime)->addViolation();
         }
     }

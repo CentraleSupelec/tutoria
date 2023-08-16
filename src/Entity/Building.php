@@ -35,7 +35,7 @@ class Building implements Stringable
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;
 
-    #[ORM\OneToMany(mappedBy: 'building', targetEntity: Tutoring::class)]
+    #[ORM\OneToMany(mappedBy: 'defaultBuilding', targetEntity: Tutoring::class)]
     private Collection $tutorings;
 
     public function __construct()
@@ -89,7 +89,7 @@ class Building implements Stringable
     {
         if (!$this->tutorings->contains($tutoring)) {
             $this->tutorings->add($tutoring);
-            $tutoring->setBuilding($this);
+            $tutoring->setDefaultBuilding($this);
         }
 
         return $this;
@@ -98,8 +98,8 @@ class Building implements Stringable
     public function removeTutoring(Tutoring $tutoring): static
     {
         // set the owning side to null (unless already changed)
-        if ($this->tutorings->removeElement($tutoring) && $tutoring->getBuilding() === $this) {
-            $tutoring->setBuilding(null);
+        if ($this->tutorings->removeElement($tutoring) && $tutoring->getDefaultBuilding() === $this) {
+            $tutoring->setDefaultBuilding(null);
         }
 
         return $this;
