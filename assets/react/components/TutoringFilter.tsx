@@ -9,10 +9,18 @@ export default function ({tutorings, updateTutorings}) {
     const animatedComponents = makeAnimated();
 
     const onChange = (tutorings) => {
+        localStorage.setItem('tutoringFilter', JSON.stringify(tutorings));
         const tutoringIds = tutorings.map((tutoring) => {
             return tutoring.id;
         })
         updateTutorings(tutoringIds);
+    }
+
+    const defaultValues = () => {
+        const defaultTutorings = JSON.parse(localStorage.getItem('tutoringFilter'));
+        onChange(defaultTutorings);
+
+        return defaultTutorings;
     }
 
     return <>
@@ -21,6 +29,7 @@ export default function ({tutorings, updateTutorings}) {
             components={animatedComponents}
             isMulti
             options={tutorings}
+            defaultValue={defaultValues}
             getOptionLabel={(tutoring: Tutoring) => {
                 return tutoring.name;
             }}
