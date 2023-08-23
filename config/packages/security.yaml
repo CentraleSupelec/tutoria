@@ -47,11 +47,11 @@ security:
     - { path: ^/admin/logout$, role: PUBLIC_ACCESS }
     - { path: ^/admin, role: ROLE_SUPER_ADMIN }
     # Student
-    - { path: ^/tutored, roles: ROLE_TUTORED }
+    - { path: ^/tutee, roles: ROLE_TUTEE }
     - { path: ^/tutor, roles: ROLE_TUTOR }
 
   role_hierarchy:
-    ROLE_ADMIN: [ROLE_TUTORED, ROLE_TUTOR]
+    ROLE_ADMIN: [ROLE_TUTEE, ROLE_TUTOR]
     ROLE_SUPER_ADMIN: [ROLE_ADMIN]
 
 when@test:

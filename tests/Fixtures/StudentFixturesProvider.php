@@ -30,21 +30,21 @@ class StudentFixturesProvider
         return $tutor;
     }
 
-    public static function getTutored(?EntityManagerInterface $entityManager): Student
+    public static function getTutee(?EntityManagerInterface $entityManager): Student
     {
-        $tutored = (new Student())
+        $tutee = (new Student())
             ->setFirstName('Steve')
             ->setLastName('Jobs')
             ->setEmail('steve.jobs@upsaclay.fr')
-            ->setRoles([Student::ROLE_TUTORED])
+            ->setRoles([Student::ROLE_TUTEE])
             ->setCreatedAt(new DateTime('2022-01-15 10:22:35'))
             ->setUpdatedAt(new DateTime('2022-01-15 10:22:35'));
 
         if (null !== $entityManager) {
-            $entityManager->persist($tutored);
+            $entityManager->persist($tutee);
             $entityManager->flush();
         }
 
-        return $tutored;
+        return $tutee;
     }
 }

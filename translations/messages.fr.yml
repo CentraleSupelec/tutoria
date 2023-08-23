@@ -23,7 +23,7 @@ tutee:
 utils:
   tutor: Tuteur
   tutors: Tuteurs
-  tutored: Tutoré
+  tutee: Tutoré
   subjects: Sujets
   to_complete: à compléter
   days:

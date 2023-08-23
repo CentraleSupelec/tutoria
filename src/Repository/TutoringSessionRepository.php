@@ -33,11 +33,11 @@ class TutoringSessionRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-    public function findByTutored(Student $student): array
+    public function findByTutee(Student $student): array
     {
         $queryBuilder = $this->createQueryBuilder('ts')
-            ->andWhere(':tutored MEMBER OF ts.students')
-            ->setParameter('tutored', $student)
+            ->andWhere(':tutee MEMBER OF ts.students')
+            ->setParameter('tutee', $student)
         ;
 
         return $queryBuilder->getQuery()->getResult();

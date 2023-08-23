@@ -12,7 +12,7 @@ class StudentAdminController extends Controller
     {
         /** @var Student $subject */
         $subject = $this->admin->getSubject();
-        $redirectionRouteName = 'tutored_home';
+        $redirectionRouteName = 'tutee_home';
 
         if (in_array(Student::ROLE_TUTOR, $subject->getRoles())) {
             $redirectionRouteName = 'tutor_home';

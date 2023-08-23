@@ -55,7 +55,7 @@ class TutoringSession
     private Collection $tutors;
 
     #[ORM\ManyToMany(targetEntity: Student::class)]
-    #[ORM\JoinTable(name: 'tutoring_session_tutored')]
+    #[ORM\JoinTable(name: 'tutoring_session_tutee')]
     private Collection $students;
 
     #[Groups(['tutoringSessions'])]

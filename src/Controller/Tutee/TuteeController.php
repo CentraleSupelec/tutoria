@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Tutored;
+namespace App\Controller\Tutee;
 
 use App\Entity\Student;
 use App\Repository\TutoringRepository;
@@ -9,21 +9,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/tutored')]
-class TutoredController extends AbstractController
+#[Route('/tutee')]
+class TuteeController extends AbstractController
 {
-    #[Route('/', name: 'tutored_home')]
+    #[Route('/', name: 'tutee_home')]
     public function index(
         TutoringRepository $tutoringRepository,
         TutoringSessionRepository $tutoringSessionRepository,
     ): Response {
         /** @var Student $user */
         $user = $this->getUser();
-        $tutoringSessions = $tutoringSessionRepository->findByTutored($user);
+        $tutoringSessions = $tutoringSessionRepository->findByTutee($user);
         $allTutorings = $tutoringRepository->findAll();
 
-        return $this->render('tutored/dashboard.html.twig', [
-            'controller_name' => 'TutoredController',
+        return $this->render('tutee/dashboard.html.twig', [
+            'controller_name' => 'TuteeController',
             'tutoringSessions' => $tutoringSessions,
             'tutorings' => $allTutorings,
         ]);
