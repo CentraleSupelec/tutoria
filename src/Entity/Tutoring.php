@@ -42,11 +42,11 @@ class Tutoring
 
     #[Groups(['tutorings'])]
     #[ORM\Column(type: 'time', nullable: true)]
-    private ?DateTimeInterface $startTime = null;
+    private ?DateTimeInterface $defaultStartTime = null;
 
     #[Groups(['tutorings'])]
     #[ORM\Column(type: 'time', nullable: true)]
-    private ?DateTimeInterface $endTime = null;
+    private ?DateTimeInterface $defaultEndTime = null;
 
     #[Groups(['tutorings'])]
     #[ORM\ManyToOne(targetEntity: Building::class, inversedBy: 'tutorings')]
@@ -100,26 +100,26 @@ class Tutoring
         return $this;
     }
 
-    public function getStartTime(): ?DateTimeInterface
+    public function getDefaultStartTime(): ?DateTimeInterface
     {
-        return $this->startTime;
+        return $this->defaultStartTime;
     }
 
-    public function setStartTime(DateTimeInterface $startTime): static
+    public function setDefaultStartTime(DateTimeInterface $defaultStartTime): static
     {
-        $this->startTime = $startTime;
+        $this->defaultStartTime = $defaultStartTime;
 
         return $this;
     }
 
-    public function getEndTime(): ?DateTimeInterface
+    public function getDefaultEndTime(): ?DateTimeInterface
     {
-        return $this->endTime;
+        return $this->defaultEndTime;
     }
 
-    public function setEndTime(DateTimeInterface $endTime): static
+    public function setDefaultEndTime(DateTimeInterface $defaultEndTime): static
     {
-        $this->endTime = $endTime;
+        $this->defaultEndTime = $defaultEndTime;
 
         return $this;
     }

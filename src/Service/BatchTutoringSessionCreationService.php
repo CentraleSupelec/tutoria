@@ -11,12 +11,12 @@ use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
-class BatchTutoringSessionCreationService
+readonly class BatchTutoringSessionCreationService
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly Security $security,
-        private readonly LoggerInterface $logger,
+        private EntityManagerInterface $entityManager,
+        private Security $security,
+        private LoggerInterface $logger,
     ) {
     }
 

@@ -9,7 +9,8 @@ home_page:
 
 tutor:
   my_tutorings: Mes tutorats
-  default_daily_slot: Créneau par défaut
+  default_day: Jour(s) par défaut
+  default_hour: Horaire par défaut
   default_room: Salle par défaut
 
 tutee:

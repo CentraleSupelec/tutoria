@@ -7,8 +7,8 @@ export default interface Tutoring extends BasicInformation {
     tutors: Tutor[],
     building: Building,
     room: string,
-    startTime: string,
-    endTime: string,
+    defaultStartTime: string,
+    defaultEndTime: string,
     defaultWeekDays: [],
     tutoringSessions: TutoringSession[],
 }

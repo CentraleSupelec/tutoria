@@ -9,7 +9,8 @@ home_page:
 
 tutor:
   my_tutorings: My tutorings
-  default_daily_slot: Default time slot
+  default_day: Default day(s)
+  default_hour: Default hour
   default_room: Default room
 
 tutee:

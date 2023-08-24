@@ -28,7 +28,7 @@ class TutorController extends AbstractController
         ]);
     }
 
-    #[Route('/batch-create-sessions', methods: ['POST'], name: 'batch_create_sessions', options: ['expose' => true])]
+    #[Route('/batch-create-sessions', name: 'batch_create_sessions', options: ['expose' => true], methods: ['POST'])]
     public function batchCreateSessions(Request $request, BatchTutoringSessionCreationService $batchTutoringSessionCreationService): Response
     {
         $batchTutoringSessionCreationModel = new BatchTutoringSessionCreationModel();

@@ -4,11 +4,10 @@ import Routing from "../../../Routing";
 import Tutoring from '../../interfaces/Tutoring';
 import Campus from '../../interfaces/Campus';
 import { useTranslation } from "react-i18next";
-import Utils from "../../utils";
+import { formatDefaultDay, formatDefaultHour, formatRoom } from "../../utils";
 
 export default function ({tutoring}) {
     const { t } = useTranslation();
-    const { displayRoom, displayDefaultDailySlot } = Utils();
     const [parsedTutoring, setParsedTutoring] = useState<Tutoring>();
     const [campuses, setCampuses] = useState<Campus[]>();
 
@@ -41,13 +40,19 @@ export default function ({tutoring}) {
                             <div>
                                 <i className="fas fa-calendar-days text-primary px-2"></i>
                                 <span className="tutoring-description">
-                                    {t('tutor.default_daily_slot')} : { parsedTutoring.defaultWeekDays ? displayDefaultDailySlot(parsedTutoring) : t('utils.to_complete')}
+                                    {t('tutor.default_day')} : {parsedTutoring.defaultWeekDays ? formatDefaultDay(parsedTutoring, t) : t('utils.to_complete')}
+                                </span>
+                            </div>
+                            <div>
+                                <i className="fas fa-clock text-primary px-2"></i>
+                                <span className="tutoring-description">
+                                    {t('tutor.default_hour')} : { parsedTutoring.defaultStartTime ? formatDefaultHour(parsedTutoring) : t('utils.to_complete')}
                                 </span>
                             </div>
                             <div>
                                 <i className="fas fa-location-dot text-primary px-2"></i>
                                 <span className="tutoring-description">
-                                    {t('tutor.default_room')} : { parsedTutoring.room && parsedTutoring.building ? displayRoom(parsedTutoring) : t('utils.to_complete')}
+                                    {t('tutor.default_room')} : { parsedTutoring.room && parsedTutoring.building ? formatRoom(parsedTutoring) : t('utils.to_complete')}
                                 </span>
                             </div>
                         </div>
