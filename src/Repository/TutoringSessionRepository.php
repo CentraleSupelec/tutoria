@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Student;
 use App\Entity\TutoringSession;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -20,6 +21,16 @@ class TutoringSessionRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $managerRegistry)
     {
         parent::__construct($managerRegistry, TutoringSession::class);
+    }
+
+    public function findByTutorings(Collection $tutorings): array
+    {
+        $queryBuilder = $this->createQueryBuilder('ts')
+            ->andWhere('ts.tutoring IN (:tutorings)')
+            ->setParameter('tutorings', $tutorings)
+        ;
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
     public function findByTutored(Student $student): array

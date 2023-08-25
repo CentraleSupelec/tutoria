@@ -18,19 +18,19 @@ class Building implements Stringable
 {
     use TimestampableEntity;
 
-    #[Groups(['api', 'tutorings'])]
+    #[Groups(['api', 'tutorings', 'tutoringSessions'])]
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['api', 'tutorings'])]
+    #[Groups(['api', 'tutorings', 'tutoringSessions'])]
     #[Assert\NotBlank(message: 'Veuillez saisir le nom du batiment.', allowNull: false)]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['tutorings'])]
+    #[Groups(['tutorings', 'tutoringSessions'])]
     #[ORM\ManyToOne(inversedBy: 'buildings')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Campus $campus = null;

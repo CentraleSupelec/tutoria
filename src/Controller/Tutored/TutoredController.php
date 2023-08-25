@@ -3,6 +3,7 @@
 namespace App\Controller\Tutored;
 
 use App\Entity\Student;
+use App\Repository\TutoringRepository;
 use App\Repository\TutoringSessionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,15 +14,18 @@ class TutoredController extends AbstractController
 {
     #[Route('/', name: 'tutored_home')]
     public function index(
+        TutoringRepository $tutoringRepository,
         TutoringSessionRepository $tutoringSessionRepository,
     ): Response {
         /** @var Student $user */
         $user = $this->getUser();
         $tutoringSessions = $tutoringSessionRepository->findByTutored($user);
+        $allTutorings = $tutoringRepository->findAll();
 
         return $this->render('tutored/dashboard.html.twig', [
             'controller_name' => 'TutoredController',
             'tutoringSessions' => $tutoringSessions,
+            'tutorings' => $allTutorings,
         ]);
     }
 }

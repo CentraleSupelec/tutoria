@@ -35,7 +35,7 @@ export default function ({tutoring}) {
             <div className="card-body bg-tertiary">
                 <div className="row g-0">
                     <div className="col-md-8">
-                        <h6 className="tutoring-title">{parsedTutoring.name}</h6>
+                        <h6 className="tutoring-title bold">{parsedTutoring.name}</h6>
                         <div>
                             <div>
                                 <i className="fas fa-calendar-days text-primary px-2"></i>

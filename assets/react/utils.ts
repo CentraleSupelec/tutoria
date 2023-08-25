@@ -1,4 +1,7 @@
 import Tutoring from "./interfaces/Tutoring";
+import TutoringSession from "./interfaces/TutoringSession";
+import { format } from "date-fns";
+import { enUS, fr } from "date-fns/esm/locale";
 
 export const formatDefaultDay = (tutoring: Tutoring, t): string[] => {
     return (tutoring.defaultWeekDays.map(function (day, index) {
@@ -21,4 +24,23 @@ export const formatDefaultHour = (tutoring: Tutoring): string => {
 
 export const formatRoom = (tutoring: Tutoring): string => {
     return (tutoring.room + ', ' + tutoring.building.name + ', ' + tutoring.building.campus.name);
+}
+
+const capitalize = (str): string => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// TODO: change locales according to langage
+export const formatTutoringSessionDate = (tutoringSession: TutoringSession): string => {
+    const dateLocales = { 'fr-FR': fr, 'en-Us': enUS };
+    const browserLocale = navigator.language;
+    const startDate = new Date(tutoringSession.startDateTime);
+    const endDate = new Date(tutoringSession.endDateTime);
+
+    return (
+        capitalize(
+            format(startDate, 'eeee dd/MM - HH:mm',
+                {locale: dateLocales[browserLocale]})
+        ) + format(endDate, '-HH:mm')
+    );
 }

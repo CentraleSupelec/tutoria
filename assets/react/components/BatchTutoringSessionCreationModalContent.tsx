@@ -259,7 +259,7 @@ const BatchTutoringSessionCreationModalContent = ({ tutoring, campuses, toggleMo
                                     <Badge
                                         key={`tutor-${index}`}
                                         className={index !== 0 ? 'ms-2' : ''}
-                                        bg="secondary"
+                                        bg="tertiary"
                                     >
                                         {tutor.lastName} {tutor.firstName}
                                     </Badge>

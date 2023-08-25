@@ -6,6 +6,9 @@ use App\Entity\AcademicLevel;
 use App\Entity\Building;
 use App\Entity\Campus;
 use App\Entity\Tutoring;
+use App\Entity\TutoringSession;
+use DateInterval;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class TutoringFixturesProvider
@@ -77,5 +80,52 @@ class TutoringFixturesProvider
         }
 
         return $tutoring;
+    }
+
+    public static function getTutoringSession(Tutoring $tutoring, EntityManagerInterface $entityManager): TutoringSession
+    {
+        $tutoringSession = (new TutoringSession())
+            ->setCreatedBy($tutoring->getTutors()[0])
+            ->setStartDateTime(new DateTime())
+            ->setEndDateTime((new DateTime())->add(new DateInterval('PT1H')))
+            ->setBuilding($tutoring->getBuilding())
+            ->setRoom('E110')
+            ->addTutor($tutoring->getTutors()[0])
+            ->setTutoring($tutoring);
+
+        if (null !== $entityManager) {
+            $entityManager->persist($tutoringSession);
+            $entityManager->flush();
+        }
+
+        return $tutoringSession;
+    }
+
+    public static function getTutorings(EntityManagerInterface $entityManager): array
+    {
+        $firstTutoring = self::getTutoring($entityManager);
+
+        $secondCampus = (new Campus())
+            ->setName('Metz');
+
+        $secondBuilding = (new Building())
+            ->setCampus($secondCampus)
+            ->setName('A');
+
+        $secondTutoring = (new Tutoring())
+            ->setAcademicLevel($firstTutoring->getAcademicLevel())
+            ->setBuilding($secondBuilding)
+            ->setRoom('D210')
+            ->addTutor($firstTutoring->getTutors()[0])
+            ->setName(sprintf('%s@%s', $firstTutoring->getAcademicLevel()->getNameFr(), $secondCampus->getName()));
+
+        if (null !== $entityManager) {
+            $entityManager->persist($secondCampus);
+            $entityManager->persist($secondBuilding);
+            $entityManager->persist($secondTutoring);
+            $entityManager->flush();
+        }
+
+        return [$firstTutoring, $secondTutoring];
     }
 }

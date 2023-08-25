@@ -33,22 +33,22 @@ class Student implements Stringable, UserInterface
         return self::ROLES;
     }
 
-    #[Groups(['tutorings'])]
+    #[Groups(['tutorings', 'tutoringSessions'])]
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['tutorings'])]
+    #[Groups(['tutorings', 'tutoringSessions'])]
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
-    #[Groups(['tutorings'])]
+    #[Groups(['tutorings', 'tutoringSessions'])]
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
-    #[Groups(['tutorings'])]
+    #[Groups(['tutorings', 'tutoringSessions'])]
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Assert\Email(message: 'Veuillez saisir un email valide.')]
     #[Assert\NotBlank(message: 'Veuillez saisir un email.', allowNull: false)]

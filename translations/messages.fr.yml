@@ -3,9 +3,7 @@ admin:
   exit_impersonate: Reprendre mon rôle
 
 home_page:
-  tutor: Tuteur
-  tutored: Tutoré
-  hello: Bonjour
+  hello: Hello
 
 tutor:
   my_tutorings: Mes tutorats
@@ -16,8 +14,17 @@ tutor:
 tutee:
   info_tutoring: "Qu’est-ce que le tutorat, comment ça marche ?"
   upcoming_tutorings: Prochaines séances de tutorat
+  access_tutoring_session: Accéder à la conférence
+  info_remote: Pour ce créneau, nous proposons exceptionnellement une séance en visio. Rejoignez-nous via le lien fourni ci-dessus
+  choose_tutoring_filter: Choisir une ou plusieurs formations
+  no_tutorings: Aucune formation
+  register: "S'inscrire"
 
 utils:
+  tutor: Tuteur
+  tutors: Tuteurs
+  tutored: Tutoré
+  subjects: Sujets
   to_complete: à compléter
   days:
     monday: Lundi
