@@ -37,7 +37,7 @@ class Tutoring
 
     #[Groups(['tutorings'])]
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    #[Assert\NotNull]
+    // TODO: Assert\Choice enum (monday/tuesday/...)
     private ?array $defaultWeekDays = [];
 
     #[Groups(['tutorings'])]
