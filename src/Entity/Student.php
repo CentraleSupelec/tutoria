@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Model\TutoringUserInterface;
 use App\Repository\StudentRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,7 +18,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
-class Student implements Stringable, UserInterface
+class Student implements Stringable, UserInterface, TutoringUserInterface
 {
     use TimestampableEntity;
     final public const ROLE_TUTOR = 'ROLE_TUTOR';
@@ -72,7 +73,10 @@ class Student implements Stringable, UserInterface
     #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: TutoringSession::class)]
     private Collection $ownedTutoringSessions;
 
-    public function __construct()
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?DateTimeInterface $consentSignedAt = null;
+
+    public function __construct(private array $storage = [])
     {
         $this->ownedTutoringSessions = new ArrayCollection();
         $this->tutorings = new ArrayCollection();
@@ -133,7 +137,7 @@ class Student implements Stringable, UserInterface
         return $this;
     }
 
-    public function getEnabled(): bool
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
@@ -238,6 +242,63 @@ class Student implements Stringable, UserInterface
         if ($this->ownedTutoringSessions->removeElement($tutoringSession) && $tutoringSession->getCreatedBy() === $this) {
             $tutoringSession->setCreatedBy(null);
         }
+
+        return $this;
+    }
+
+    public function get(string $key, $default = null)
+    {
+        return $this->getStorage()[$key] ?? $default;
+    }
+
+    public function getAttribute(string $key, $default = null)
+    {
+        return $this->getStorage()['attributes'][$key] ?? $default;
+    }
+
+    public function getAttributes(): array
+    {
+        return $this->get('attributes', []);
+    }
+
+    public function getPassword(): ?string
+    {
+        return null;
+    }
+
+    public function getPgt(): ?string
+    {
+        return $this->get('proxyGrantingTicket');
+    }
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->get('user');
+    }
+
+    public function isEqualTo(UserInterface $user): bool
+    {
+        return $user->getUseridentifier() === $this->getUseridentifier();
+    }
+
+    private function getStorage(): array
+    {
+        return $this->storage;
+    }
+
+    public function getConsentSignedAt(): ?DateTimeInterface
+    {
+        return $this->consentSignedAt;
+    }
+
+    public function setConsentSignedAt(?DateTimeInterface $consentSignedAt): self
+    {
+        $this->consentSignedAt = $consentSignedAt;
 
         return $this;
     }

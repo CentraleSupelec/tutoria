@@ -25,4 +25,6 @@ return [
     Symfony\UX\React\ReactBundle::class => ['all' => true],
     FOS\JsRoutingBundle\FOSJsRoutingBundle::class => ['all' => true],
     Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true],
+    loophp\PsrHttpMessageBridgeBundle\PsrHttpMessageBridgeBundle::class => ['all' => true],
+    EcPhp\CasBundle\CasBundle::class => ['all' => true],
 ];

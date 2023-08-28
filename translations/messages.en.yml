@@ -3,7 +3,7 @@ admin:
   exit_impersonate: Resume my role
 
 home_page:
-  hello: Bonjour
+  hello: Hello
 
 tutor:
   my_tutorings: My tutorings
@@ -59,3 +59,14 @@ form:
   online_meeting_uri: 'Please enter the link to the virtual meeting'
   remote: Remote
   on_site: On site
+
+error:
+  title: "Error"
+  access_denied:
+    title: "You don't have access to this page"
+    connected_as: "You are connected as %connectedAs%."
+    disconnected: "You are disconnected."
+  header: "Something wrong happened"
+  message: "Please let us know what you were doing when this error occured, we will fix it as soon as possible."
+  apologize: "We apologize for the inconvenience caused."
+  back_to_home: "Back to home"

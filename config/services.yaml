@@ -31,3 +31,12 @@ services:
     Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
       arguments:
         - "@snc_redis.session"
+
+    App\EventListener\CasLogoutListener:
+      arguments:
+          $logoutUrl: '%env(CAS_BASE_URL)%/logout?service=https%%3A%%2F%%2F%env(SERVER_HOST)%%env(SERVER_BASE_URL)%%2F'
+      tags:
+          - { name: 'kernel.event_listener', event: 'Symfony\Component\Security\Http\Event\LogoutEvent', dispatcher: security.event_dispatcher.student_secured_cas }
+
+    app.student_secured_cas_authenticator:
+        class: App\Security\Student\StudentSecuredCasAuthenticator

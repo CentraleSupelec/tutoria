@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tutorat - {{ 'error.title' | trans }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12 text-center">
+                <div class="mb-4 lead">
+                    {{ 'error.access_denied.title' | trans }}
+                </div>
+                {% if app.user is not null %}
+                    {% if app.user is instanceof('App\\Entity\\Administrator') %}
+                        {% set connectedAs = 'admin' %}
+                    {% elseif app.user is instanceof('App\\Entity\\Student') %}
+                        {% if 'ROLE_TUTOR' in app.user.roles %}
+                            {% set connectedAs = 'tuteur' %}
+                        {% else %}
+                            {% set connectedAs = 'tutoré' %}
+                        {% endif %}
+                    {% else %}
+                        {% set connectedAs = null %}
+                    {% endif %}
+                    {% if connectedAs %}
+                        <p>{{ 'error.access_denied.connected_as'|trans({'%connectedAs%': connectedAs}) }}</p>
+                    {% endif %}
+
+                    <div class="text-center">
+                        <a href="{{ logout_url() }}" class="btn btn-primary">
+                            {{ 'menu.logout' | trans }}
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="text-center">
+                        <p>{{ 'error.access_denied.disconnected'|trans }}</p>
+                    </div>
+                {% endif %}
+                <hr class="my-4" />
+                <div class="mt-2">
+                    <a href="{{ path('home' )}}" class="btn btn-link">
+                        {{ 'error.back_to_home' | trans }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

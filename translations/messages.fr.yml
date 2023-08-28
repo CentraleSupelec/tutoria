@@ -3,7 +3,7 @@ admin:
   exit_impersonate: Reprendre mon rôle
 
 home_page:
-  hello: Hello
+  hello: Bonjour
 
 tutor:
   my_tutorings: Mes tutorats
@@ -59,3 +59,14 @@ form:
   online_meeting_uri: 'Entrer le lien de la visio :'
   remote: Distanciel
   on_site: Présentiel
+
+error:
+  title: "Erreur"
+  access_denied:
+    title: "Vous n'avez pas accès à cette page"
+    connected_as: "Vous êtes connecté en tant que %connectedAs%."
+    disconnected: "Vous n'êtes pas connecté."
+  header: "Une erreur s'est produite"
+  message: "Veuillez nous indiquer ce que vous faisiez lorsque cette erreur s'est produite, nous la réparerons dès que possible."
+  apologize: "Nous nous excusons pour le désagrément occasionné."
+  back_to_home: "Retour à l'accueil"
