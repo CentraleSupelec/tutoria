@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Building;
-use App\Entity\Student;
 use App\Entity\Tutoring;
 use App\Entity\TutoringSession;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -36,10 +35,6 @@ class TutoringSessionType extends AbstractType
             ->add('onlineMeetingUri')
             ->add('isRemote', CheckboxType::class, [
                 'false_values' => ['false'],
-            ])
-            ->add('tutors', EntityType::class, [
-                'class' => Student::class,
-                'multiple' => true,
             ])
         ;
     }

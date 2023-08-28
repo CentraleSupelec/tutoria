@@ -10,7 +10,6 @@ use App\Form\TutoringSessionType;
 use App\Form\TutoringType;
 use App\Model\BatchTutoringSessionCreationModel;
 use App\Repository\TutoringRepository;
-use App\Repository\TutoringSessionRepository;
 use App\Service\BatchTutoringSessionCreationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,7 +48,8 @@ class TutorController extends AbstractController
                     ->setDefaultStartTime($batchTutoringSessionCreationModel->getStartTime())
                     ->setDefaultEndTime($batchTutoringSessionCreationModel->getEndTime())
                     ->setDefaultBuilding($batchTutoringSessionCreationModel->getBuilding())
-                    ->setDefaultRoom($batchTutoringSessionCreationModel->getRoom());
+                    ->setDefaultRoom($batchTutoringSessionCreationModel->getRoom())
+                ;
 
                 $entityManager->persist($tutoring);
                 $entityManager->flush();
@@ -90,7 +90,10 @@ class TutorController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $tutoringSession
-                ->setCreatedBy($user);
+                ->setCreatedBy($user)
+                ->addTutor($user)
+            ;
+
             $entityManager->persist($tutoringSession);
             $entityManager->flush();
 
@@ -101,7 +104,7 @@ class TutorController extends AbstractController
     }
 
     #[Route('/tutoring-session/{id}/update', methods: ['POST'], name: 'update_tutoring_session', options: ['expose' => true])]
-    public function updateTutoringSession(TutoringSession $tutoringSession, Request $request, EntityManagerInterface $entityManager, TutoringSessionRepository $tutoringSessionRepository): Response
+    public function updateTutoringSession(TutoringSession $tutoringSession, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(TutoringSessionType::class, $tutoringSession);
         $form->handleRequest($request);
@@ -114,5 +117,14 @@ class TutorController extends AbstractController
         } else {
             return new Response('Form is invalid', Response::HTTP_UNPROCESSABLE_ENTITY);
         }
+    }
+
+    #[Route('/tutoring-session/{id}/delete', name: 'delete_tutoring_session', options: ['expose' => true])]
+    public function deleteTutoringSession(TutoringSession $tutoringSession, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($tutoringSession);
+        $entityManager->flush();
+
+        return new Response('', Response::HTTP_OK);
     }
 }

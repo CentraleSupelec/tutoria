@@ -2,6 +2,7 @@
 
 namespace App\Tests\Application\Controllers\Tutee;
 
+use App\Entity\TutoringSession;
 use App\Tests\Application\Utils\BaseWebTestCase;
 use App\Tests\Fixtures\StudentFixturesProvider;
 use App\Tests\Fixtures\TutoringFixturesProvider;
@@ -56,5 +57,46 @@ class TuteeControllerTest extends BaseWebTestCase
         ]);
         $this->assertResponseIsSuccessful();
         $this->assertCount(1, json_decode($this->client->getResponse()->getContent()));
+    }
+
+    public function testSubscribeToTutoringSession(): void
+    {
+        $tutoring = TutoringFixturesProvider::getTutoring($this->entityManager);
+        $tutoringSession = TutoringFixturesProvider::getTutoringSession($tutoring, $this->entityManager);
+        $student = StudentFixturesProvider::getTutee($this->entityManager);
+
+        $this->assertFalse($tutoringSession->getStudents()->contains($student));
+
+        $this->client->loginUser($student);
+
+        $this->client->request('GET', sprintf('/tutee/tutoring-session/%s/subscribe', $tutoringSession->getId()));
+        $this->assertResponseIsSuccessful();
+
+        /** @var TutoringSession $tutoringSession */
+        $tutoringSession = $this->entityManager->getRepository(TutoringSession::class)->findOneBy(['id' => $tutoringSession->getId()]);
+
+        $this->assertTrue($tutoringSession->getStudents()->contains($student));
+    }
+
+    public function testUnsubscribeToTutoringSession(): void
+    {
+        $tutoring = TutoringFixturesProvider::getTutoring($this->entityManager);
+        $tutoringSession = TutoringFixturesProvider::getTutoringSession($tutoring, $this->entityManager);
+        $student = StudentFixturesProvider::getTutee($this->entityManager);
+
+        $tutoringSession->addStudent($student);
+        $this->entityManager->flush();
+
+        $this->assertTrue($tutoringSession->getStudents()->contains($student));
+
+        $this->client->loginUser($student);
+
+        $this->client->request('GET', sprintf('/tutee/tutoring-session/%s/unsubscribe', $tutoringSession->getId()));
+        $this->assertResponseIsSuccessful();
+
+        /** @var TutoringSession $tutoringSession */
+        $tutoringSession = $this->entityManager->getRepository(TutoringSession::class)->findOneBy(['id' => $tutoringSession->getId()]);
+
+        $this->assertFalse($tutoringSession->getStudents()->contains($student));
     }
 }

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import TutoringModalContent from './../Modal/Content/TutoringModalContent';
@@ -25,7 +25,7 @@ export default function ({ tutoring, campuses, withBatchTutoringSessionCreation,
 
     return <>
         {withBatchTutoringSessionCreation ?
-            <Button variant="success" onClick={toggleModal}>
+            <Button variant='secondary' onClick={toggleModal}>
                 {t('form.batch_create_title')}
             </Button>
             :

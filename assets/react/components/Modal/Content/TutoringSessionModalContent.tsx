@@ -8,6 +8,7 @@ import Tutoring from '../../../interfaces/Tutoring';
 import TutoringSession from '../../../interfaces/TutoringSession';
 import DateTimePicker from 'react-datetime-picker';
 import { Value } from 'react-datetime-picker/dist/cjs/shared/types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface TutoringSessionModalContentProps {
     tutoring: Tutoring,
@@ -152,6 +153,8 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                                             value={startDateTime}
                                             onChange={(date: Value) => setStartDateTime(date)}
                                             disableClock
+                                            calendarIcon={<FontAwesomeIcon className='text-secondary' icon="calendar-days" />}
+                                            clearIcon={null}
                                         />
                                     </div>
                                 </div>
@@ -162,6 +165,8 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                                             value={endDateTime}
                                             onChange={(date: Value) => setEndDateTime(date)}
                                             disableClock
+                                            calendarIcon={<FontAwesomeIcon className='text-secondary' icon="calendar-days" />}
+                                            clearIcon={null}
                                         />
                                     </div>
                                 </div>
@@ -249,7 +254,7 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                     </div>
                 </div>
                 <div className='d-flex justify-content-end'>
-                    <Button type='submit' variant="success" onClick={handleSubmit}>
+                    <Button type='submit' variant='secondary' onClick={handleSubmit}>
                         {tutoringSession? t('form.save_button') :t('form.create_button')}
                     </Button>
                 </div>

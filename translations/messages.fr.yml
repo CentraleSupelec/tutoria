@@ -40,6 +40,7 @@ tutee:
   choose_tutoring_filter: Choisir une ou plusieurs formations
   no_tutorings: Aucune formation
   register: "S'inscrire"
+  unregister: "Se désinscrire"
 
 utils:
   tutor: Tuteur
@@ -80,6 +81,12 @@ form:
   online_meeting_uri: 'Entrer le lien de la visio :'
   remote: Distanciel
   on_site: Présentiel
+
+confirmation_modal:
+  title: Confirmer la suppression
+  body: Êtes vous sûr de vouloir supprimer ce crénau ?
+  cancel: Annnuler
+  delete: Supprimer
 
 error:
   title: "Erreur"

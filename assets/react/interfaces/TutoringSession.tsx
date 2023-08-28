@@ -1,6 +1,6 @@
 import BasicInformation from "./BasicInformation";
 import Building from "./Building";
-import Tutor from "./Tutor";
+import Student from "./Student";
 import Tutoring from "./Tutoring";
 
 export default interface TutoringSession extends BasicInformation {
@@ -11,6 +11,7 @@ export default interface TutoringSession extends BasicInformation {
     onlineMeetingUri: string,
     startDateTime: Date
     endDateTime: Date
-    tutors: Tutor[],
+    tutors: Student[],
     tutoring: Tutoring,
+    students: Student[],
 }

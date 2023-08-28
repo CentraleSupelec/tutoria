@@ -13,7 +13,8 @@
             <div class="card-body">
                 <div {{ react_component('tutee/TutoringSessionsList', {
                     tutoringSessions : tutoringSessions|serialize('json', { groups: 'tutoringSessions'}),
-                    tutorings : tutorings|serialize('json', { groups: 'tutorings'})
+                    tutorings : tutorings|serialize('json', { groups: 'tutorings'}),
+                    userId: app.user.id
                 }) }}>
                     <i class="fas fa-cog fa-spin"></i>
                 </div>

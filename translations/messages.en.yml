@@ -40,6 +40,7 @@ tutee:
   choose_tutoring_filter: Choose one or more courses
   no_tutorings: No courses
   register: Sign up
+  unregister: "Sign out"
 
 utils:
   tutor: Tutor
@@ -80,6 +81,12 @@ form:
   online_meeting_uri: 'Please enter the link to the virtual meeting'
   remote: Remote
   on_site: On site
+
+confirmation_modal:
+  title: Confirm deletion
+  body: Are you sure to delete this tutoring session ?
+  cancel: Cancel
+  delete: Delete
 
 error:
   title: "Error"

@@ -360,6 +360,21 @@ class TutorControllerTest extends BaseWebTestCase
         $this->assertEqualsDateTime($tutoringSession->getEndDateTime(), $endDateTime);
     }
 
+    public function testDeleteTutoringSession(): void
+    {
+        $tutoring = TutoringFixturesProvider::getTutoring($this->entityManager);
+        $tutoringSession = TutoringFixturesProvider::getTutoringSession($tutoring, $this->entityManager);
+
+        $this->client->loginUser($tutoring->getTutors()[0]);
+
+        $this->client->request('GET', sprintf('/tutor/tutoring-session/%s/delete', $tutoringSession->getId()));
+        $this->assertResponseIsSuccessful();
+
+        $tutoringSession = $this->entityManager->getRepository(TutoringSession::class)->findOneBy(['id' => $tutoringSession->getId()]);
+
+        $this->assertNull($tutoringSession);
+    }
+
     private function assertEqualsDateTime(DateTimeInterface $firstDate, DateTimeInterface $secondDate): void
     {
         $formats = ['Y', 'n', 'j', 'H', 'i'];

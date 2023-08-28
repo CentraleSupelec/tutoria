@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Badge, Button } from "react-bootstrap";
 import TutoringSession from "../interfaces/TutoringSession";
 import { formatTutoringSessionDate, formatRoom } from "../utils";
@@ -7,15 +7,19 @@ import Tutoring from "../interfaces/Tutoring";
 import Campus from "../interfaces/Campus";
 import Routing from "../../Routing";
 import EditTutoringSession from "./Modal/EditTutoringSession";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DeleteConfirmation from "./Modal/DeleteConfirmation";
 
 interface TutoringSessionCardProps {
     tutoring: Tutoring,
     initialTutoringSession: TutoringSession,
     campuses: Campus[],
-    isUserTutor: boolean
+    isUserTutor: boolean,
+    userId?: string,
+    onDelete?: Function,
 }
 
-export default function ({ initialTutoringSession, tutoring, campuses, isUserTutor }: TutoringSessionCardProps) {
+export default function ({ initialTutoringSession, tutoring, campuses, isUserTutor, userId, onDelete }: TutoringSessionCardProps) {
     const { t } = useTranslation();
 
     const [tutoringSession, setTutoringSession] = useState<TutoringSession>();
@@ -33,6 +37,31 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
                 setTutoringSession(data);
             })
     }
+
+    const subscribe = () => {
+        fetch(Routing.generate('subscribe_to_tutoring_session', { id: tutoringSession?.id }))
+            .then(() => {
+                fetchTutoringSession();
+            })
+    }
+
+    const unsubscribe = () => {
+        fetch(Routing.generate('unsubscribe_to_tutoring_session', { id: tutoringSession?.id }))
+            .then(() => {
+                fetchTutoringSession();
+            })
+    }
+
+    const deleteTutoringSession = () => {
+        fetch(Routing.generate('delete_tutoring_session', { id: tutoringSession?.id }))
+            .then(() => {
+                onDelete();
+            })
+    }
+    
+    const userInListOfTutoringSessionStudent = useCallback(() => {
+        return tutoringSession.students.find(student => student.id === userId)? true: false;
+    }, [tutoringSession, userId]);
 
     useEffect(() => {
         if (initialTutoringSession) {
@@ -54,13 +83,13 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
                                     </h6>
                                     {tutoringSession.isRemote ?
                                         <div>
-                                            <i className="fas fa-video text-secondary px-2"></i>
+                                            <FontAwesomeIcon className="text-secondary px-2" icon="video" />
                                             <a className="tutoring-session-description bold text-secondary">
                                                 {t('tutee.access_tutoring_session')}
                                             </a>
                                         </div> :
                                         <div>
-                                            <i className="fas fa-location-dot text-primary px-2"></i>
+                                            <FontAwesomeIcon className="text-primary px-2" icon="location-dot" />
                                             <span className="tutoring-session-description bold">
                                                 {t('tutor.default_room')} : {tutoringSession.room && tutoringSession.building ? formatRoom(tutoringSession.room, tutoringSession.building) : t('utils.to_complete')}
                                             </span>
@@ -101,11 +130,20 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
                         </div>
                         <div className="col-md-2 d-flex align-items-center justify-content-center">
                             {isUserTutor?
+                            <>
                                 <EditTutoringSession tutoring={tutoring} tutoringSession={tutoringSession} campuses={campuses} updateTutoringSession={fetchTutoringSession}/>
+                                <DeleteConfirmation onConfirmDelete={deleteTutoringSession} />
+                            </>
                                 :
-                                <Button variant="secondary">
-                                    {t('tutee.register')}
-                                </Button>
+                                (userInListOfTutoringSessionStudent()?
+                                    <Button variant="secondary" onClick={unsubscribe}>
+                                        {t('tutee.unregister')}
+                                    </Button>
+                                    :
+                                    <Button variant="secondary" onClick={subscribe}>
+                                        {t('tutee.register')}
+                                    </Button>
+                                )
                             }
                         </div>
                     </div>

@@ -95,6 +95,7 @@ export default function ({ tutoring }) {
                             initialTutoringSession={tutoringSession}
                             campuses={campuses}
                             isUserTutor={true}
+                            onDelete={fetchTutoring}
                         />
                     )}
                 </div>

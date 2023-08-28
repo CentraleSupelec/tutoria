@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Badge, Button, Form, Spinner } from 'react-bootstrap';
-import DatePicker from 'react-date-picker';
 import { useTranslation } from "react-i18next";
 import TimePicker from 'react-time-picker';
 import Routing from "../../../../Routing";
@@ -160,6 +159,7 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                                             value={startTime}
                                             onChange={(time: Value) => onTimeChange(time, true)}
                                             clockIcon={null}
+                                            clearIcon={null}
                                         />
                                     </div>
                                 </div>
@@ -170,6 +170,7 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                                             value={endTime}
                                             onChange={(time: Value) => onTimeChange(time, false)}
                                             clockIcon={null}
+                                            clearIcon={null}
                                         />
                                     </div>
                                 </div>
@@ -239,7 +240,7 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                     </div>
                 </div>
                 <div className='d-flex justify-content-end'>
-                    <Button type='submit' variant="success" onClick={handleSubmit}>
+                    <Button type='submit' variant='secondary' onClick={handleSubmit}>
                         {t('form.save_button')}
                     </Button>
                 </div>

@@ -60,6 +60,7 @@ class TutoringSession
     #[ORM\JoinTable(name: 'tutoring_session_tutor')]
     private Collection $tutors;
 
+    #[Groups(['tutoringSessions', 'tutorings'])]
     #[ORM\ManyToMany(targetEntity: Student::class)]
     #[ORM\JoinTable(name: 'tutoring_session_tutee')]
     private Collection $students;

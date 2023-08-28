@@ -3,8 +3,10 @@
 namespace App\Controller\Tutee;
 
 use App\Entity\Student;
+use App\Entity\TutoringSession;
 use App\Repository\TutoringRepository;
 use App\Repository\TutoringSessionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,5 +29,31 @@ class TuteeController extends AbstractController
             'tutoringSessions' => $tutoringSessions,
             'tutorings' => $allTutorings,
         ]);
+    }
+
+    #[Route('/tutoring-session/{id}/subscribe', name: 'subscribe_to_tutoring_session', options: ['expose' => true])]
+    public function subscribeToTutoringSession(TutoringSession $tutoringSession, EntityManagerInterface $entityManager): Response
+    {
+        /** @var Student $user */
+        $user = $this->getUser();
+        $tutoringSession->addStudent($user);
+
+        $entityManager->persist($tutoringSession);
+        $entityManager->flush();
+
+        return new Response('', Response::HTTP_OK);
+    }
+
+    #[Route('/tutoring-session/{id}/unsubscribe', name: 'unsubscribe_to_tutoring_session', options: ['expose' => true])]
+    public function unsubscribeToTutoringSession(TutoringSession $tutoringSession, EntityManagerInterface $entityManager): Response
+    {
+        /** @var Student $user */
+        $user = $this->getUser();
+        $tutoringSession->removeStudent($user);
+
+        $entityManager->persist($tutoringSession);
+        $entityManager->flush();
+
+        return new Response('', Response::HTTP_OK);
     }
 }

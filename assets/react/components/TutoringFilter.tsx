@@ -4,11 +4,16 @@ import Tutoring from "../interfaces/Tutoring";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 
-export default function ({tutorings, updateTutorings}) {
+interface TutoringFilterProps {
+    tutorings: Tutoring[],
+    updateTutorings: Function,
+}
+
+export default function ({tutorings, updateTutorings}: TutoringFilterProps) {
     const { t } = useTranslation();
     const animatedComponents = makeAnimated();
 
-    const onChange = (tutorings) => {
+    const onChange = (tutorings: Tutoring[]) => {
         localStorage.setItem('tutoringFilter', JSON.stringify(tutorings));
         const tutoringIds = tutorings.map((tutoring) => {
             return tutoring.id;
@@ -17,7 +22,7 @@ export default function ({tutorings, updateTutorings}) {
     }
 
     const defaultValues = () => {
-        const defaultTutorings = JSON.parse(localStorage.getItem('tutoringFilter'));
+        const defaultTutorings = JSON.parse(localStorage.getItem('tutoringFilter'))?? [];
         onChange(defaultTutorings);
 
         return defaultTutorings;

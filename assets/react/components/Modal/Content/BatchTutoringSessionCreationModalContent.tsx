@@ -1,3 +1,4 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { Badge, Button, Form, Spinner } from 'react-bootstrap';
 import DatePicker from 'react-date-picker';
@@ -210,6 +211,8 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                                     <DatePicker
                                         value={startDate}
                                         onChange={(date: Value) => setStartDate(date)}
+                                        calendarIcon={<FontAwesomeIcon className='text-secondary' icon="calendar-days" />}
+                                        clearIcon={null}
                                     />
                                 </div>
                             </div>
@@ -221,6 +224,8 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                                     <DatePicker
                                         value={endDate}
                                         onChange={(date: Value) => setEndDate(date)}
+                                        calendarIcon={<FontAwesomeIcon className='text-secondary' icon="calendar-days" />}
+                                        clearIcon={null}
                                     />
                                 </div>
                             </div>
@@ -288,7 +293,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                     </div>
                 </div>
                 <div className='d-flex justify-content-end'>
-                    <Button type='submit' variant="success" onClick={handleSubmit}>
+                    <Button type='submit' variant='secondary' onClick={handleSubmit}>
                         {saveTutoring ? t('form.save_and_batch_create_button') : t('form.create_button')}
                     </Button>
                 </div>

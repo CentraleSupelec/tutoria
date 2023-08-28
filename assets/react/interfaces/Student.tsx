@@ -1,4 +1,4 @@
-export default interface Tutor {
+export default interface Student {
     id: string,
     firstName: string,
     lastName: string,

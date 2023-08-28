@@ -5,7 +5,7 @@ import TutoringSessionCard from "../../components/TutoringSessionCard";
 import TutoringFilter from "../../components/TutoringFilter";
 import Routing from "../../../Routing";
 
-export default function ({tutoringSessions, tutorings}) {
+export default function ({tutoringSessions, tutorings, userId}) {
     const [parsedTutoringSessions, setParsedTutoringSessions] = useState<TutoringSession[]>([]);
     const [parsedTutorings, setParsedTutorings] = useState<Tutoring[]>([]);
 
@@ -20,7 +20,6 @@ export default function ({tutoringSessions, tutorings}) {
 
     const updateTutorings = (tutorings: string[]): void => {
         const params = new FormData();
-
 
         for (let i = 0; i < tutorings.length; i++) {
             params.append('tutoring_session_search[tutorings][]', tutorings[i]);
@@ -46,7 +45,13 @@ export default function ({tutoringSessions, tutorings}) {
                     tutoringSession => {
                         return(
                             <li key={`tutoring-${tutoringSession.id}`}>
-                                <TutoringSessionCard initialTutoringSession={tutoringSession} tutoring={tutoringSession.tutoring} campuses={null} isUserTutor={false}></TutoringSessionCard>
+                                <TutoringSessionCard 
+                                    initialTutoringSession={tutoringSession}
+                                    tutoring={tutoringSession.tutoring}
+                                    campuses={null}
+                                    isUserTutor={false}
+                                    userId={userId}
+                                />
                             </li>
                         )
                     }

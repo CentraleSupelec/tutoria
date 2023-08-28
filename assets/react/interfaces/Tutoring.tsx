@@ -1,10 +1,10 @@
 import BasicInformation from "./BasicInformation";
 import Building from "./Building";
-import Tutor from "./Tutor";
+import Student from "./Student";
 import TutoringSession from "./TutoringSession";
 
 export default interface Tutoring extends BasicInformation {
-    tutors: Tutor[],
+    tutors: Student[],
     defaultBuilding: Building,
     defaultRoom: string,
     defaultStartTime: Date

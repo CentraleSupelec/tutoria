@@ -40,7 +40,9 @@ readonly class BatchTutoringSessionCreationService
                     ->setCreatedBy($user)
                     ->setTutoring($batchTutoringSessionCreationModel->getTutoring())
                     ->setStartDateTime($startDateTime)
-                    ->setEndDateTime($endDateTime);
+                    ->setEndDateTime($endDateTime)
+                    ->addTutor($user)
+                ;
                 $this->entityManager->persist($turoringSession);
             }
             $this->entityManager->flush();
