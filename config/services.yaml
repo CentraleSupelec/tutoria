@@ -42,3 +42,20 @@ services:
 
     app.student_secured_cas_authenticator:
         class: App\Security\Student\StudentSecuredCasAuthenticator
+
+    App\EventListener\RequestLocaleListener:
+      arguments:
+        $localeCookieName: _locale
+        $localeQueryName: _locale
+        $allowedLocales: ['fr', 'en']
+      tags:
+        - name: kernel.event_listener
+          event: kernel.request
+          priority: 64
+
+    App\EventListener\ResponseLocaleListener:
+      arguments:
+        $localeCookieName: _locale
+      tags:
+        - name: kernel.event_listener
+          event: kernel.response

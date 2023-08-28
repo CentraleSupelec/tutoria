@@ -1,5 +1,6 @@
 import { registerReactControllerComponents } from '@symfony/ux-react';
 import './bootstrap';
+import 'bootstrap';
 import "./i18n";
 import './styles/global.scss';
 import './styles/styles.scss';

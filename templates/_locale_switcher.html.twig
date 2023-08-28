@@ -1,0 +1,29 @@
+{% set currentRoute = app.request.attributes.get('_route') %}
+{% set currentRouteParams = (app.request.attributes.get('_route_params') ?? [])|merge(app.request.query.all ?? []) %}
+{% set currentLocaleFlagCode = app.request.locale is same as('en') ? 'gb' : app.request.locale %}
+
+<div class="dropdown d-inline">
+    <button
+            id="localeSwitcher"
+            class="btn btn-sm btn-light dropdown-toggle mx-2"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+    >
+        <i class="fi fi-{{ currentLocaleFlagCode }}"></i> <span class="caret"></span>
+    </button>
+    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="localeSwitcher">
+        {% for locale in locales %}
+            {% set flagCode = locale is same as('en') ? 'gb' : locale %}
+            <a
+                    class="dropdown-item {% if app.request.locale is same as(locale) %}active{% endif %}"
+                    href="{{ currentRoute ? path(currentRoute, currentRouteParams|merge({ _locale: locale })) : '#' }}"
+                    title="{{ locale }}"
+            >
+                <i class="fi fi-{{ flagCode }}"></i>
+                &nbsp; {{ ('menu.locale.' ~ locale)|trans }}
+            </a>
+        {% endfor %}
+    </div>
+</div>

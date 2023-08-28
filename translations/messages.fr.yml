@@ -4,9 +4,21 @@ admin:
 
 home_page:
   hello: Bonjour
+  tutor: 
+    title: Tuteur
+    description: Je suis tuteur
+    link: Accès tuteur
+  tutee: 
+    title: Tutoré
+    description: Je suis inscrit à des tutorat
+    link: Accès tutoré
+  tutoring: Tutorat
 
 menu:
-  logout: Se déconnecter
+  logout: "Se déconnecter"
+  locale:
+    fr: Français
+    en: English
 
 no_student:
   title: Vous n'avez pas le droit d'accéder à Tutorat

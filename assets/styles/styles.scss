@@ -161,10 +161,12 @@ body {
 
 .react-time-picker__wrapper {
   border-radius: 4px;
+  padding: 0.25rem;
 }
 
 .react-date-picker__wrapper {
   border-radius: 4px;
+  padding: 0.25rem;
 }
 
 .interactive-button-container {
@@ -173,10 +175,16 @@ body {
   background: rgba(0, 0, 0, 0.00);
 }
 
+.header {
+  min-height: 45px;
+}
+
+
 .react-datetime-picker {
   background-color: white;
 }
 
 .react-datetime-picker__wrapper {
   border-radius: 4px;
+  padding: 0.25rem;
 }

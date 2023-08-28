@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center align-items-center mt-5">
+            <div class="col-12 col-md-6 col-lg-5 col-xl-4">
+                <div class="card mb-5 mx-0 mx-md-3 mb-md-0 lift lift-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="text-center my-2">
+                            {{ 'home_page.tutor.title' | trans }}
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">
+                            {{ 'home_page.tutor.description' | trans }}
+                        </p>
+
+                        <a href="{{ path('tutor_home') }}" class="text-decoration-none stretched-link">
+                            {{ 'home_page.tutor.link' | trans }}
+                            <i class="fas fa-fw fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-5 col-xl-4">
+                <div class="card mb-5 mx-0 mx-md-3 mb-md-0 lift lift-lg">
+                    <div class="card-header bg-info text-white">
+                        <h4 class="text-center my-2">
+                            {{ 'home_page.tutee.title' | trans }}
+                        </h4>
+                    </div>
+                    <div class="card-body">
+
+                        <p class="text-muted">
+                            {{ 'home_page.tutee.description' | trans }}
+                        </p>
+
+                        <a href="{{ path('tutee_home') }}" class="text-decoration-none stretched-link">
+                            {{ 'home_page.tutee.link' | trans }}
+                            <i class="fas fa-fw fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+<div class="d-flex d-print-none flex-row align-items-center px-md-4 mb-4 justify-content-between border-bottom header">
+    <div class="d-flex align-items-center">
+        <a class="pe-3" href="{{ path('tutor_home') }}">
+            <img class="paris-saclay-logo" src="{{ asset('build/images/paris-saclay-logo.png') }}" alt="{{ 'menu.title_teacher' | trans }}">
+        </a>
+        <h4 class="m-0">{{ 'home_page.tutoring' | trans }}<h4>
+    </div>
+
+    <nav class="my-2 my-md-0 mr-md-3">
+        {% include '_locale_switcher.html.twig' %}
+        {% if app.user %}
+            <small class="ms-2">
+                {{ app.user }}
+            </small>
+            <a
+                class="btn btn-link p-2 text-decoration-none gray-link"
+                href="{{ logout_path() }}"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="{{ 'menu.logout' | trans }}"
+            >
+                <i class="fas fa-fw fa-power-off" data-fa-transform="grow-4"></i>
+            </a>
+        {% endif %}
+    </nav>
+</div>

@@ -14,7 +14,4 @@ $badge-color: black !default;
 @import 'react-time-picker/dist/TimePicker.css';
 @import 'react-clock/dist/Clock.css';
 @import 'react-datetime-picker/dist/DateTimePicker.css';
-
-body {
-  background-color: lightgray;
-}
+@import "~flag-icons/css/flag-icons.min.css";

@@ -3,6 +3,11 @@ twig:
   form_themes:
     - 'bootstrap_5_layout.html.twig'
 
+  globals:
+    locales:
+      - fr
+      - en
+
 when@test:
   twig:
     strict_variables: true
