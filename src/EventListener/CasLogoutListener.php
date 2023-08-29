@@ -17,9 +17,6 @@ class CasLogoutListener
         $this->tokenStorage->setToken(null);
 
         $logoutEvent->getRequest()->getSession()->invalidate();
-        dump($this->logoutUrl);
-        dump($logoutEvent);
-        dump(new RedirectResponse($this->logoutUrl));
         $logoutEvent->setResponse(new RedirectResponse($this->logoutUrl));
     }
 }

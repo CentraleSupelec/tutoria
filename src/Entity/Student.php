@@ -18,9 +18,12 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: StudentRepository::class)]
-class Student implements Stringable, UserInterface, TutoringUserInterface
+class Student implements Stringable, TutoringUserInterface
 {
     use TimestampableEntity;
+    final public const TUTEE = 'tutee';
+    final public const TUTOR = 'tutor';
+
     final public const ROLE_TUTOR = 'ROLE_TUTOR';
     final public const ROLE_TUTEE = 'ROLE_TUTEE';
 
@@ -72,9 +75,6 @@ class Student implements Stringable, UserInterface, TutoringUserInterface
 
     #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: TutoringSession::class)]
     private Collection $ownedTutoringSessions;
-
-    #[ORM\Column(type: 'datetime', nullable: true)]
-    private ?DateTimeInterface $consentSignedAt = null;
 
     public function __construct(private array $storage = [])
     {
@@ -289,17 +289,5 @@ class Student implements Stringable, UserInterface, TutoringUserInterface
     private function getStorage(): array
     {
         return $this->storage;
-    }
-
-    public function getConsentSignedAt(): ?DateTimeInterface
-    {
-        return $this->consentSignedAt;
-    }
-
-    public function setConsentSignedAt(?DateTimeInterface $consentSignedAt): self
-    {
-        $this->consentSignedAt = $consentSignedAt;
-
-        return $this;
     }
 }

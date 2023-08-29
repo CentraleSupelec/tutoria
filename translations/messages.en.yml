@@ -5,6 +5,15 @@ admin:
 home_page:
   hello: Hello
 
+menu:
+  logout: Logout
+
+no_student:
+  title: Missing right to acces Tutorat
+  text: You do not have the rights to acces Tutorat. Please retry with another account
+  connect_as_tutor: Log in as tutor
+  connect_as_tutee: Log in as tutee
+
 tutor:
   my_tutorings: My tutorings
   default_day: Default day(s)
@@ -64,7 +73,10 @@ error:
   title: "Error"
   access_denied:
     title: "You don't have access to this page"
-    connected_as: "You are connected as %connectedAs%."
+    connected_as: 
+      admin: Connected as administrator
+      tutor: Connected as tutor
+      tutee: Connected as tutee
     disconnected: "You are disconnected."
   header: "Something wrong happened"
   message: "Please let us know what you were doing when this error occured, we will fix it as soon as possible."

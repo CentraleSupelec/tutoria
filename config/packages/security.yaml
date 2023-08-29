@@ -38,7 +38,7 @@ security:
 
     student_secured_cas:
       provider: student
-      pattern: ^/tut(.*)
+      pattern: ^/(tutor|tutee|student)(.*)
       user_checker: App\Security\UserChecker
       context: main
       custom_authenticator: app.student_secured_cas_authenticator
@@ -47,12 +47,6 @@ security:
       entry_point: app.student_secured_cas_authenticator
       switch_user: { role: ROLE_SUPER_ADMIN, parameter: _switch_user }
       access_denied_url: student_access_denied
-
-    main:
-      lazy: true
-      # activate different ways to authenticate
-      # https://symfony.com/doc/current/security.html#firewalls-authentication
-      # https://symfony.com/doc/current/security/impersonating_user.html
 
   # Easy way to control access for large sections of your site
   # Note: Only the *first* access control that matches will be used
@@ -64,9 +58,6 @@ security:
     # Student
     - { path: ^/tutee, roles: ROLE_TUTEE }
     - { path: ^/tutor, roles: ROLE_TUTOR }
-    # CAS
-    - { path: ^/cas, roles: PUBLIC_ACCESS }
-    - { path: ^/secured, roles: ROLE_CAS_AUTHENTICATED }
 
   role_hierarchy:
     ROLE_ADMIN: [ROLE_TUTEE, ROLE_TUTOR]

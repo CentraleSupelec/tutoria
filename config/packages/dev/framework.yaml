@@ -1,6 +1,0 @@
-# see https://symfony.com/doc/current/reference/configuration/framework.html
-framework:
-    http_client:
-        scoped_clients:
-            geode_ds.client:
-                base_uri: '%env(GEODE_DS_BASE_URL)%'

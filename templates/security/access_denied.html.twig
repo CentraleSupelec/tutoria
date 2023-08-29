@@ -14,15 +14,15 @@
                         {% set connectedAs = 'admin' %}
                     {% elseif app.user is instanceof('App\\Entity\\Student') %}
                         {% if 'ROLE_TUTOR' in app.user.roles %}
-                            {% set connectedAs = 'tuteur' %}
+                            {% set connectedAs = 'tutor' %}
                         {% else %}
-                            {% set connectedAs = 'tutoré' %}
+                            {% set connectedAs = 'tutee' %}
                         {% endif %}
                     {% else %}
                         {% set connectedAs = null %}
                     {% endif %}
                     {% if connectedAs %}
-                        <p>{{ 'error.access_denied.connected_as'|trans({'%connectedAs%': connectedAs}) }}</p>
+                        <p>{{ ('error.access_denied.connected_as.' ~ connectedAs) |trans }}</p>
                     {% endif %}
 
                     <div class="text-center">
@@ -35,12 +35,6 @@
                         <p>{{ 'error.access_denied.disconnected'|trans }}</p>
                     </div>
                 {% endif %}
-                <hr class="my-4" />
-                <div class="mt-2">
-                    <a href="{{ path('home' )}}" class="btn btn-link">
-                        {{ 'error.back_to_home' | trans }}
-                    </a>
-                </div>
             </div>
         </div>
     </div>

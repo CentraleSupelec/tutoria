@@ -3,15 +3,13 @@
 namespace App\Security\Student;
 
 use App\Entity\Student;
-use App\Exception\ExternalConnector\ExternalConnectorException;
-use App\Service\StudentManager;
+use App\Repository\StudentRepository;
 use EcPhp\CasBundle\Security\Core\User\CasUserInterface;
 use EcPhp\CasBundle\Security\Core\User\CasUserProviderInterface;
 use EcPhp\CasLib\Introspection\Contract\IntrospectorInterface;
 use EcPhp\CasLib\Introspection\Contract\ServiceValidate;
 use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
@@ -20,8 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class StudentProvider implements CasUserProviderInterface
 {
     public function __construct(
-        private readonly StudentManager $studentManager,
-        private readonly LoggerInterface $logger,
+        private readonly StudentRepository $studentRepository,
         private readonly IntrospectorInterface $introspector,
     ) {
     }
@@ -33,24 +30,7 @@ class StudentProvider implements CasUserProviderInterface
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        $user = $this->studentManager->findUserByEmail($identifier);
-
-        if ($user && $user->getEmail()) {
-            try {
-                $this->studentManager->updateExistingStudentFromExternalSourceByEmail($user, $user->getEmail());
-            } catch (ExternalConnectorException $exception) {
-                $this->logger->warning(sprintf('Not refreshing %s from Geode: %s', $identifier, $exception));
-            }
-        }
-
-        if (!$user instanceof Student) {
-            try {
-                $user = $this->studentManager->createOrUpdateStudentFromExternalSourceByEmail($identifier);
-            } catch (ExternalConnectorException $exception) {
-                $this->logger->warning($exception);
-                throw new UserNotFoundException(sprintf('Username "%s" does not exist.', $identifier), 0, $exception);
-            }
-        }
+        $user = $this->studentRepository->findOneBy(['email' => $identifier]);
 
         if (!$user instanceof Student) {
             throw new UserNotFoundException(sprintf('Username "%s" does not exist.', $identifier));
@@ -66,7 +46,7 @@ class StudentProvider implements CasUserProviderInterface
         }
 
         /** @var Student $user */
-        if (!($student = $this->studentManager->findUserById($user->getId())) instanceof Student) {
+        if (!($student = $this->studentRepository->findOneBy(['id' => $user->getId()])) instanceof Student) {
             throw new UserNotFoundException(sprintf('User with ID "%s" could not be reloaded.', $user->getId()));
         }
 
@@ -87,13 +67,12 @@ class StudentProvider implements CasUserProviderInterface
         }
 
         if ($introspection instanceof ServiceValidate) {
-            $student = $this->studentManager->findUserByEmail($introspection->getCredentials()['user']);
+            $student = $this->studentRepository->findOneBy(['email' => $introspection->getCredentials()['user']]);
             if ($student instanceof Student) {
                 return $student;
             }
-
-            return (new Student($introspection->getCredentials()))
-                ->setEmail($introspection->getCredentials()['user'] ?? null);
+            // TODO: Handle user creation on login
+            throw new AuthenticationException('User not found');
         }
 
         throw new AuthenticationException('Unable to load user from response.');

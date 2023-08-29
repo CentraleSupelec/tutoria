@@ -4,14 +4,14 @@
     <div class="container mt-5">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">{{ 'no_temporary.title' | trans }}</h4>
-                <p>
-                    {{ 'no_temporary.text' | trans({'%hr_support_email%': hr_support_email}) | raw }}
+                <h4 class="card-title text-center mb-3">{{ 'no_student.title' | trans }}</h4>
+                <p class='text-center'>
+                    {{ 'no_student.text' | trans }}
                 </p>
                 <hr class="my-4">
                 <div class="text-center">
-                    <a class="btn btn-light mr-3" href="{{ retryURL }}" role="button">{{ 'no_temporary.connect_with_other_account' | trans }}</a>
-                    <a class="btn btn-primary" href="{{ path('home') }}" role="button">{{ 'no_temporary.back_to_dashboard' | trans }}</a>
+                    <a class="btn btn-light mr-3" href="{{ path('tutor_home') }}" role="button">{{ 'no_student.connect_as_tutor' | trans }}</a>
+                    <a class="btn btn-light mr-3" href="{{ path('tutee_home') }}" role="button">{{ 'no_student.connect_as_tutee' | trans }}</a>
                 </div>
             </div>
         </div>

@@ -5,6 +5,15 @@ admin:
 home_page:
   hello: Bonjour
 
+menu:
+  logout: Se déconnecter
+
+no_student:
+  title: Vous n'avez pas le droit d'accéder à Tutorat
+  text: Vous n'avez pas les droits nécessaires pour accéder à Tutorat. Veuillez réessayer avec un autre compte
+  connect_as_tutor: Se connecter en tant que tuteur
+  connect_as_tutee: Se connecter en tant que tutoré
+
 tutor:
   my_tutorings: Mes tutorats
   default_day: Jour(s) par défaut
@@ -64,7 +73,10 @@ error:
   title: "Erreur"
   access_denied:
     title: "Vous n'avez pas accès à cette page"
-    connected_as: "Vous êtes connecté en tant que %connectedAs%."
+    connected_as: 
+      admin: Connecté en tant qu'administrateur
+      tutor: Connecté en tant que tuteur
+      tutee: Connecté en tant que tutoré
     disconnected: "Vous n'êtes pas connecté."
   header: "Une erreur s'est produite"
   message: "Veuillez nous indiquer ce que vous faisiez lorsque cette erreur s'est produite, nous la réparerons dès que possible."
