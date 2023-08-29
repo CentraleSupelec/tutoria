@@ -11,10 +11,7 @@
                 <h4 class="mb-0">{{ 'tutee.upcoming_tutorings' | trans }}</h4>
             </div>
             <div class="card-body">
-                <div {{ react_component('tutee/TutoringSessionsList', {
-                    tutoringSessions : tutoringSessions|serialize('json', { groups: 'tutoringSessions'}),
-                    tutorings : tutorings|serialize('json', { groups: 'tutorings'})
-                }) }}>
+                <div>
                     <i class="fas fa-cog fa-spin"></i>
                 </div>
             </div>

@@ -18,14 +18,14 @@ class Campus implements Stringable
 {
     use TimestampableEntity;
 
-    #[Groups(['api', 'tutorings', 'tutoringSessions'])]
+    #[Groups(['api', 'tutorings'])]
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[Groups(['api', 'tutorings', 'tutoringSessions'])]
+    #[Groups(['api', 'tutorings'])]
     #[Assert\NotBlank(message: 'Veuillez saisir le nom du campus.', allowNull: false)]
     #[ORM\Column(length: 255)]
     private ?string $name = null;

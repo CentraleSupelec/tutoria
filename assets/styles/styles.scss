@@ -57,39 +57,14 @@ body {
   background-color: rgba($tertiary, 0.25);
 }
 
-.bold {
+.tutoring-title {
+  font-family: Inter, sans-serif ;
   font-weight: 600;
 }
 
-.tutoring-title {
-  font-family: Inter, sans-serif ;
-}
-
 .tutoring-description {
-  font-family: Inter, sans-serif;
+  font-family: Roboto, sans-serif;
   font-size: 12px;
-}
-
-.tutoring-session-description {
-  font-family: Inter, sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 19px;
-  letter-spacing: 0;
-  text-align: left;
-}
-
-.dotted {
-  border-top: dotted 1px;
-}
-
-.gray-badge {
-  background-color: rgba(#D6DBDF80, 0.5) !important;
-  color: #152536;
-}
-
-.multi-line-badge {
-  white-space: normal !important;
 }
 
 .session-creation-modal {

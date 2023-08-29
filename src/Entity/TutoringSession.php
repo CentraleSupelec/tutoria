@@ -10,7 +10,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Types\UuidType;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: TutoringSessionRepository::class)]
@@ -18,38 +17,31 @@ class TutoringSession
 {
     use TimestampableEntity;
 
-    #[Groups(['tutoringSessions'])]
     #[ORM\Id]
     #[ORM\Column(type: UuidType::NAME, unique: true)]
     #[ORM\GeneratedValue(strategy: 'CUSTOM')]
     #[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[ORM\ManyToOne(targetEntity: Student::class, inversedBy: 'ownedTutoringSessions')]
+    #[ORM\ManyToOne(inversedBy: 'ownedTutoringSessions', targetEntity: Student::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?Student $createdBy = null;
 
-    #[Groups(['tutoringSessions'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $startDateTime = null;
 
-    #[Groups(['tutoringSessions'])]
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?DateTimeInterface $endDateTime = null;
 
-    #[Groups(['tutoringSessions'])]
     #[ORM\Column]
     private ?bool $isRemote = false;
 
-    #[Groups(['tutoringSessions'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $room = null;
 
-    #[Groups(['tutoringSessions'])]
     #[ORM\ManyToOne()]
     private ?Building $building = null;
 
-    #[Groups(['tutoringSessions'])]
     #[ORM\ManyToMany(targetEntity: Student::class)]
     #[ORM\JoinTable(name: 'tutoring_session_tutor')]
     private Collection $tutors;
@@ -58,7 +50,6 @@ class TutoringSession
     #[ORM\JoinTable(name: 'tutoring_session_tutored')]
     private Collection $students;
 
-    #[Groups(['tutoringSessions'])]
     #[ORM\ManyToOne(inversedBy: 'tutoringSessions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Tutoring $tutoring = null;
