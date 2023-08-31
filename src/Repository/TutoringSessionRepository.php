@@ -28,17 +28,19 @@ class TutoringSessionRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('ts')
             ->andWhere('ts.tutoring IN (:tutorings)')
+            ->andWhere('ts.startDateTime >= :now')
             ->setParameter('tutorings', $tutorings)
+            ->setParameter('now', new DateTime())
         ;
 
         return $queryBuilder->getQuery()->getResult();
     }
 
-    public function findByTutee(Student $student): array
+    public function fetchAllTutoringSessionsWithFutureEndDate(): array
     {
         $queryBuilder = $this->createQueryBuilder('ts')
-            ->andWhere(':tutee MEMBER OF ts.students')
-            ->setParameter('tutee', $student)
+            ->andWhere('ts.endDateTime >= :now')
+            ->setParameter('now', new DateTime())
         ;
 
         return $queryBuilder->getQuery()->getResult();

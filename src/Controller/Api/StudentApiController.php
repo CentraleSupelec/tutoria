@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/student/api')]
-class ApiController extends AbstractController
+class StudentApiController extends AbstractController
 {
     #[Route('/campuses', name: 'campuses', options: ['expose' => true])]
     public function getBuildings(CampusRepository $campusRepository, SerializerInterface $serializer): JsonResponse
@@ -82,7 +82,7 @@ class ApiController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $tutoringSessions = $tutoringSessionRepository->findByTutorings($tutoringSessionSearch->getTutorings());
         } else {
-            $tutoringSessions = $tutoringSessionRepository->findAll();
+            $tutoringSessions = $tutoringSessionRepository->fetchAllTutoringSessionsWithFutureEndDate();
         }
         $tutoringSessionsJSON = $serializer->serialize($tutoringSessions, 'json', ['groups' => 'tutoringSessions']);
 

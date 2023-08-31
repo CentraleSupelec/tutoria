@@ -21,9 +21,8 @@ class TuteeController extends AbstractController
     ): Response {
         /** @var Student $user */
         $user = $this->getUser();
-        // TODO: ask about past tutorings
-        $allTutorings = $tutoringRepository->findAll();
-        $allTutoringSessions = $tutoringSessionRepository->findAll();
+        $allTutorings = $tutoringRepository->fetchAllTutoringWithSessionsWithFutureEndDate();
+        $allTutoringSessions = $tutoringSessionRepository->fetchAllTutoringSessionsWithFutureEndDate();
         $incomingTutoringSessions = $tutoringSessionRepository->findIncomingSessionsByTutee($user);
         $pastTutoringSessions = $tutoringSessionRepository->findPastSessionsByTutee($user);
 

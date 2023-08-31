@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Student;
 use App\Entity\Tutoring;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -27,6 +28,17 @@ class TutoringRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('t')
             ->andWhere(':tutor MEMBER OF t.tutors')
             ->setParameter('tutor', $student)
+        ;
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    public function fetchAllTutoringWithSessionsWithFutureEndDate(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('t')
+            ->join('t.tutoringSessions', 'ts')
+            ->andWhere('ts.endDateTime >= :now')
+            ->setParameter('now', new DateTime())
         ;
 
         return $queryBuilder->getQuery()->getResult();

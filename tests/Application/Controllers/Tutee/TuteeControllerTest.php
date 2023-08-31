@@ -9,6 +9,20 @@ use App\Tests\Fixtures\TutoringFixturesProvider;
 
 class TuteeControllerTest extends BaseWebTestCase
 {
+    public function testStudentIndex(): void
+    {
+        $tutee = StudentFixturesProvider::getTutee($this->entityManager);
+
+        $this->client->loginUser($tutee);
+
+        // Go to student home page
+        $crawler = $this->client->request('GET', '/tutee/');
+        $this->assertResponseIsSuccessful();
+
+        $myTutoringCrawler = $crawler->filterXPath('//*[@id="main"]/div[2]/div[1]/span');
+        $this->assertStringContainsString('Qu’est-ce que le tutorat, comment ça marche ?', $myTutoringCrawler->getNode(0)->textContent);
+    }
+
     public function testTutoringSessionFilter(): void
     {
         $tutorings = TutoringFixturesProvider::getTutorings($this->entityManager);

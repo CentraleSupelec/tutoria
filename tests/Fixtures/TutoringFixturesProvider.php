@@ -5,6 +5,7 @@ namespace App\Tests\Fixtures;
 use App\Entity\AcademicLevel;
 use App\Entity\Building;
 use App\Entity\Campus;
+use App\Entity\Student;
 use App\Entity\Tutoring;
 use App\Entity\TutoringSession;
 use DateInterval;
@@ -17,7 +18,7 @@ class TutoringFixturesProvider
     ) {
     }
 
-    public static function getCampus(EntityManagerInterface $entityManager): Campus
+    public static function getCampus(?EntityManagerInterface $entityManager): Campus
     {
         $campus = (new Campus())
             ->setName('Gif-sur-Yvette');
@@ -30,7 +31,7 @@ class TutoringFixturesProvider
         return $campus;
     }
 
-    public static function getBuilding(EntityManagerInterface $entityManager): Building
+    public static function getBuilding(?EntityManagerInterface $entityManager): Building
     {
         $campus = self::getCampus($entityManager);
 
@@ -46,7 +47,7 @@ class TutoringFixturesProvider
         return $building;
     }
 
-    public static function getAcademicLevel(EntityManagerInterface $entityManager): AcademicLevel
+    public static function getAcademicLevel(?EntityManagerInterface $entityManager): AcademicLevel
     {
         $academicLevel = (new AcademicLevel())
             ->setNameFr('M1 en Mathématique')
@@ -61,7 +62,7 @@ class TutoringFixturesProvider
         return $academicLevel;
     }
 
-    public static function getTutoring(EntityManagerInterface $entityManager): Tutoring
+    public static function getTutoring(?EntityManagerInterface $entityManager): Tutoring
     {
         $tutor = StudentFixturesProvider::getTutor($entityManager);
         $building = self::getBuilding($entityManager);
@@ -83,12 +84,12 @@ class TutoringFixturesProvider
         return $tutoring;
     }
 
-    public static function getTutoringSession(Tutoring $tutoring, EntityManagerInterface $entityManager): TutoringSession
+    public static function getTutoringSession(Tutoring $tutoring, ?EntityManagerInterface $entityManager): TutoringSession
     {
         $tutoringSession = (new TutoringSession())
             ->setCreatedBy($tutoring->getTutors()[0])
-            ->setStartDateTime(new DateTime())
-            ->setEndDateTime((new DateTime())->add(new DateInterval('PT1H')))
+            ->setStartDateTime((new DateTime())->add(new DateInterval('P1D')))
+            ->setEndDateTime((new DateTime())->add(new DateInterval('P1DT1H')))
             ->setBuilding($tutoring->getDefaultBuilding())
             ->setRoom('E110')
             ->addTutor($tutoring->getTutors()[0])
@@ -102,7 +103,42 @@ class TutoringFixturesProvider
         return $tutoringSession;
     }
 
-    public static function getTutorings(EntityManagerInterface $entityManager): array
+    public static function getTutoringSessions(Student $tutee, ?EntityManagerInterface $entityManager): array
+    {
+        $tutoring = self::getTutoring($entityManager);
+        $firstTutoringSession = self::getTutoringSession($tutoring, $entityManager);
+        $firstTutoringSession->addStudent($tutee);
+
+        $secondTutoringSession = (new TutoringSession())
+            ->setCreatedBy($tutoring->getTutors()[0])
+            ->setStartDateTime(DateTime::createFromFormat('Y-m-d', '2020-01-01'))
+            ->setEndDateTime(DateTime::createFromFormat('Y-m-d', '2020-01-01')->add(new DateInterval('PT1H')))
+            ->setBuilding($tutoring->getDefaultBuilding())
+            ->setRoom('A105')
+            ->addTutor($tutoring->getTutors()[0])
+            ->addStudent($tutee)
+            ->setTutoring($tutoring);
+
+        $thirdTutoringSession = (new TutoringSession())
+            ->setCreatedBy($tutoring->getTutors()[0])
+            ->setStartDateTime(DateTime::createFromFormat('Y-m-d', '2020-01-01'))
+            ->setEndDateTime(DateTime::createFromFormat('Y-m-d', '2020-01-01')->add(new DateInterval('PT1H')))
+            ->setBuilding($tutoring->getDefaultBuilding())
+            ->setRoom('A102')
+            ->addTutor($tutoring->getTutors()[0])
+            ->addStudent($tutee)
+            ->setTutoring($tutoring);
+
+        if (null !== $entityManager) {
+            $entityManager->persist($secondTutoringSession);
+            $entityManager->persist($thirdTutoringSession);
+            $entityManager->flush();
+        }
+
+        return [$firstTutoringSession, $secondTutoringSession, $thirdTutoringSession];
+    }
+
+    public static function getTutorings(?EntityManagerInterface $entityManager): array
     {
         $firstTutoring = self::getTutoring($entityManager);
 
