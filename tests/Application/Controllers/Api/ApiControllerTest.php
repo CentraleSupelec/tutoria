@@ -14,7 +14,7 @@ class ApiControllerTest extends BaseWebTestCase
 
         $this->client->loginUser($tutoring->getTutors()->get(0));
 
-        $this->client->xmlHttpRequest('GET', sprintf('/api/tutoring/%s', $tutoring->getId()));
+        $this->client->xmlHttpRequest('GET', sprintf('/student/api/tutoring/%s', $tutoring->getId()));
         $this->assertResponseIsSuccessful();
 
         $responseData = json_decode($this->client->getResponse()->getContent(), true);
@@ -32,7 +32,7 @@ class ApiControllerTest extends BaseWebTestCase
 
         $this->client->loginUser($tutoring->getTutors()->get(0));
 
-        $this->client->xmlHttpRequest('GET', sprintf('/api/tutoring-session/%s', $tutoringSession->getId()));
+        $this->client->xmlHttpRequest('GET', sprintf('/student/api/tutoring-session/%s', $tutoringSession->getId()));
         $this->assertResponseIsSuccessful();
 
         $responseData = json_decode($this->client->getResponse()->getContent(), true);
@@ -50,7 +50,7 @@ class ApiControllerTest extends BaseWebTestCase
 
         $this->client->loginUser($tutor);
 
-        $this->client->xmlHttpRequest('GET', sprintf('/api/campuses'));
+        $this->client->xmlHttpRequest('GET', '/student/api/campuses');
         $this->assertResponseIsSuccessful();
 
         $responseData = json_decode($this->client->getResponse()->getContent(), true);

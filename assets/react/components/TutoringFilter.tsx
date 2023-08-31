@@ -6,24 +6,16 @@ import makeAnimated from "react-select/animated";
 
 interface TutoringFilterProps {
     tutorings: Tutoring[],
-    updateTutorings: Function,
+    onFilterChange: (tutorings: string[]) => void,
 }
 
-export default function ({tutorings, updateTutorings}: TutoringFilterProps) {
+export default function ({tutorings, onFilterChange}: TutoringFilterProps) {
     const { t } = useTranslation();
     const animatedComponents = makeAnimated();
 
-    const onChange = (tutorings: Tutoring[]) => {
-        localStorage.setItem('tutoringFilter', JSON.stringify(tutorings));
-        const tutoringIds = tutorings.map((tutoring) => {
-            return tutoring.id;
-        })
-        updateTutorings(tutoringIds);
-    }
-
     const defaultValues = () => {
         const defaultTutorings = JSON.parse(localStorage.getItem('tutoringFilter'))?? [];
-        onChange(defaultTutorings);
+        onFilterChange(defaultTutorings);
 
         return defaultTutorings;
     }
@@ -43,7 +35,7 @@ export default function ({tutorings, updateTutorings}: TutoringFilterProps) {
             }}
             placeholder={t('tutee.choose_tutoring_filter')}
             noOptionsMessage={() => { return t('tutee.no_tutorings'); }}
-            onChange={onChange}
+            onChange={onFilterChange}
         />
     </>;
 }

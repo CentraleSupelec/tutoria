@@ -4,11 +4,11 @@ admin:
 
 home_page:
   hello: Hello
-  tutor: 
+  tutor:
     title: Tutor
     description: I'm a tutor
     link: Tutor access
-  tutee: 
+  tutee:
     title: Tutee
     description: I'm taking tutoring session
     link: Tutee access
@@ -35,12 +35,15 @@ tutor:
 tutee:
   info_tutoring: "What is tutoring, how does it works ?"
   upcoming_tutorings: Upcoming tutoring sessions
+  my_registrations: My registrations
   access_tutoring_session: Access the conference
   info_remote: For this session, we are exceptionally offering a video session. Join us via the link provided above
   choose_tutoring_filter: Choose one or more courses
   no_tutorings: No courses
   register: Sign up
   unregister: "Sign out"
+  incoming: "Incoming"
+  past: "Past"
 
 utils:
   tutor: Tutor

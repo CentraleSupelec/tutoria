@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Student;
 use App\Entity\Tutoring;
 use App\Entity\TutoringSession;
 use App\Form\TutoringSessionSearchType;
@@ -13,9 +14,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Serializer\SerializerInterface;
 
-#[Route('/api')]
+#[Route('/student/api')]
 class ApiController extends AbstractController
 {
     #[Route('/campuses', name: 'campuses', options: ['expose' => true])]
@@ -39,6 +41,30 @@ class ApiController extends AbstractController
     public function getTutoringSession(TutoringSession $tutoringSession, SerializerInterface $serializer): JsonResponse
     {
         $tutoringSessionJSON = $serializer->serialize($tutoringSession, 'json', ['groups' => 'tutorings']);
+
+        return new JsonResponse($tutoringSessionJSON, json: true);
+    }
+
+    #[Route('/incoming-tutoring-sessions', name: 'get_incoming_tutoring_sessions', options: ['expose' => true])]
+    public function getIncomingTutoringSessions(
+        SerializerInterface $serializer,
+        #[CurrentUser] Student $student,
+        TutoringSessionRepository $tutoringSessionRepository,
+    ): JsonResponse {
+        $tutoringSessions = $tutoringSessionRepository->findIncomingSessionsByTutee($student);
+        $tutoringSessionJSON = $serializer->serialize($tutoringSessions, 'json', ['groups' => 'tutoringSessions']);
+
+        return new JsonResponse($tutoringSessionJSON, json: true);
+    }
+
+    #[Route('/past-tutoring-sessions', name: 'get_past_tutoring_sessions', options: ['expose' => true])]
+    public function getPastTutoringSessions(
+        SerializerInterface $serializer,
+        #[CurrentUser] Student $student,
+        TutoringSessionRepository $tutoringSessionRepository,
+    ): JsonResponse {
+        $tutoringSessions = $tutoringSessionRepository->findPastSessionsByTutee($student);
+        $tutoringSessionJSON = $serializer->serialize($tutoringSessions, 'json', ['groups' => 'tutoringSessions']);
 
         return new JsonResponse($tutoringSessionJSON, json: true);
     }

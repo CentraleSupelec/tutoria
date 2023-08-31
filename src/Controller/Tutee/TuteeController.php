@@ -21,13 +21,18 @@ class TuteeController extends AbstractController
     ): Response {
         /** @var Student $user */
         $user = $this->getUser();
-        $tutoringSessions = $tutoringSessionRepository->findByTutee($user);
+        // TODO: ask about past tutorings
         $allTutorings = $tutoringRepository->findAll();
+        $allTutoringSessions = $tutoringSessionRepository->findAll();
+        $incomingTutoringSessions = $tutoringSessionRepository->findIncomingSessionsByTutee($user);
+        $pastTutoringSessions = $tutoringSessionRepository->findPastSessionsByTutee($user);
 
         return $this->render('tutee/dashboard.html.twig', [
             'controller_name' => 'TuteeController',
-            'tutoringSessions' => $tutoringSessions,
             'tutorings' => $allTutorings,
+            'tutoringSessions' => $allTutoringSessions,
+            'incomingTutoringSessions' => $incomingTutoringSessions,
+            'pastTutoringSessions' => $pastTutoringSessions,
         ]);
     }
 

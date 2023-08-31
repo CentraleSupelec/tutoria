@@ -6,19 +6,13 @@
             <span>{{ 'tutee.info_tutoring' | trans }}</span>
             <small class="text-muted">Texte à réaliser</small>
         </div>
-        <div class="card mb-3">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">{{ 'tutee.upcoming_tutorings' | trans }}</h4>
-            </div>
-            <div class="card-body">
-                <div {{ react_component('tutee/TutoringSessionsList', {
-                    tutoringSessions : tutoringSessions|serialize('json', { groups: 'tutoringSessions'}),
-                    tutorings : tutorings|serialize('json', { groups: 'tutorings'}),
-                    userId: app.user.id
-                }) }}>
-                    <i class="fas fa-cog fa-spin"></i>
-                </div>
-            </div>
+        <div {{react_component('tutee/TuteeDashboard', {
+            tutoringSessions : tutoringSessions|serialize('json', {groups: 'tutoringSessions'}),
+            tutorings : tutorings|serialize('json', {groups: 'tutorings'}),
+            incomingTutoringSessions : incomingTutoringSessions|serialize('json', {groups: 'tutoringSessions'}),
+            pastTutoringSessions : pastTutoringSessions|serialize('json', {groups: 'tutoringSessions'}),
+            userId: app.user.id
+        })}}>
         </div>
     </div>
 {% endblock %}

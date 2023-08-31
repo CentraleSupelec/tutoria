@@ -57,6 +57,17 @@ body {
   background-color: rgba($tertiary, 0.25);
 }
 
+.registration-navbar {
+  .nav-tabs .nav-link {
+    color: #8B1B59;
+  }
+
+  .nav-tabs .nav-link.active {
+    color: #000000;
+    font-weight: 600;
+  }
+}
+
 .bold {
   font-weight: 600;
 }

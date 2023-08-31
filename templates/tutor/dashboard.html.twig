@@ -7,7 +7,7 @@
                 <h4 class="mb-0">{{ 'tutor.my_tutorings' | trans }}</h4>
             </div>
             <div class="card-body">
-                {% for tutoring in tutorings  %}
+                {% for tutoring in tutorings %}
                     <div {{ react_component('tutor/TutoringCard', {tutoring : tutoring|serialize('json', { groups: 'tutorings'})}) }}>
                     </div>
                 {% endfor %}

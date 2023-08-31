@@ -17,9 +17,10 @@ interface TutoringSessionCardProps {
     isUserTutor: boolean,
     userId?: string,
     onDelete?: Function,
+    onUpdate?: Function,
 }
 
-export default function ({ initialTutoringSession, tutoring, campuses, isUserTutor, userId, onDelete }: TutoringSessionCardProps) {
+export default function ({ initialTutoringSession, tutoring, campuses, isUserTutor, userId, onDelete, onUpdate }: TutoringSessionCardProps) {
     const { t } = useTranslation();
 
     const [tutoringSession, setTutoringSession] = useState<TutoringSession>();
@@ -43,6 +44,9 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
             .then(() => {
                 fetchTutoringSession();
             })
+            .then(() => {
+                onUpdate();
+            });
     }
 
     const unsubscribe = () => {
@@ -50,6 +54,9 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
             .then(() => {
                 fetchTutoringSession();
             })
+            .then(() => {
+                onUpdate()
+            });
     }
 
     const deleteTutoringSession = () => {
@@ -58,9 +65,9 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
                 onDelete();
             })
     }
-    
+
     const userInListOfTutoringSessionStudent = useCallback(() => {
-        return tutoringSession.students.find(student => student.id === userId)? true: false;
+        return !!tutoringSession.students.find(student => student.id === userId);
     }, [tutoringSession, userId]);
 
     useEffect(() => {
