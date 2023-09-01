@@ -1,0 +1,25 @@
+ARG PHP_DESTINATION=php
+FROM $PHP_DESTINATION as php-build
+
+FROM node:20 as assets-prod
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY assets assets
+COPY public public
+COPY translations translations
+COPY package.json \
+    package-lock.json \
+    webpack.config.js \
+    ./
+
+COPY --from=php-build /app/vendor/symfony /app/vendor/symfony
+
+RUN npm ci && npm run build
+
+FROM nginx:1.25-alpine as nginx
+
+COPY docker/nginx/default-prod.conf.template /etc/nginx/templates/default.conf.template
+COPY --from=assets-prod /app/public /app/public
+COPY --from=php-build /app/public/bundles /app/public/bundles

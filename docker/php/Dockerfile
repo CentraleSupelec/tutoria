@@ -1,3 +1,7 @@
+#  Hack to copy files from our nginx custom image
+ARG NGINX_DESTINATION=nginx
+FROM $NGINX_DESTINATION as nginx-build
+
 FROM php:8.2-fpm-alpine3.18 as php_base
 
 RUN apk update \
@@ -28,30 +32,19 @@ COPY .env \
     symfony.lock \
     ./
 
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
 ADD docker/symfony-entrypoint.sh /
+
+CMD ["php-fpm"]
 
 ENTRYPOINT ["/bin/bash", "/symfony-entrypoint.sh"]
 
-FROM node:20 as js_builder
-
-WORKDIR /app
-
-COPY --from=php_base /app /app/
-
-ARG SERVER_BASE_URL=''
-
-RUN npm install
-RUN npm run build
-
 FROM php_base as php_installer
 
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-RUN APP_ENV=prod composer install --optimize-autoloader --no-progress --no-interaction --no-dev
+RUN APP_ENV=prod composer install --optimize-autoloader --no-progress --no-interaction --no-dev --no-scripts
 
 FROM php_base as php_dev
-
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
@@ -65,4 +58,31 @@ RUN echo "[xdebug]" >> /usr/local/etc/php/php.ini-development \
 RUN mkdir -p var /.composer /.symfony && chown -R www-data:www-data var/ /.composer/ /.symfony/
 USER www-data
 
-CMD ["php-fpm"]
+FROM php_base as php_prod
+
+ENV APP_ENV=prod
+
+COPY --from=php_installer /app/vendor /app/vendor
+
+## Copy project files to workdir
+COPY assets assets
+COPY bin bin
+COPY config config
+COPY public public
+COPY src src
+COPY templates templates
+COPY tests tests
+COPY translations translations
+COPY migrations migrations
+
+RUN chmod +x bin/console
+
+# php-fpm is run with www-data
+RUN mkdir -p var && chown -R www-data:www-data var/
+USER www-data
+
+# Install bundles assets
+RUN APP_ENV=prod composer run-script post-install-cmd
+
+COPY --from=nginx-build /app/public/build/entrypoints.json /app/public/build/entrypoints.json
+COPY --from=nginx-build /app/public/build/manifest.json /app/public/build/manifest.json

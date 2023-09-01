@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6101bd035eea1c276c1569ae02a3ce89",
+    "content-hash": "e1ade79f0aa914f9eaa636f75db079c9",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -8181,16 +8181,16 @@
         },
         {
             "name": "symfony/ux-react",
-            "version": "v2.10.0",
+            "version": "v2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ux-react.git",
-                "reference": "dc9a25c855a119029af39c62e7b564f83cb96ba5"
+                "reference": "9131079b8b18317145db1bdf1e2eae8c1820cc9a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/ux-react/zipball/dc9a25c855a119029af39c62e7b564f83cb96ba5",
-                "reference": "dc9a25c855a119029af39c62e7b564f83cb96ba5",
+                "url": "https://api.github.com/repos/symfony/ux-react/zipball/9131079b8b18317145db1bdf1e2eae8c1820cc9a",
+                "reference": "9131079b8b18317145db1bdf1e2eae8c1820cc9a",
                 "shasum": ""
             },
             "require": {
@@ -8237,7 +8237,7 @@
                 "symfony-ux"
             ],
             "support": {
-                "source": "https://github.com/symfony/ux-react/tree/v2.10.0"
+                "source": "https://github.com/symfony/ux-react/tree/v2.11.0"
             },
             "funding": [
                 {
@@ -8253,7 +8253,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-06-28T20:17:17+00:00"
+            "time": "2023-07-15T11:42:27+00:00"
         },
         {
             "name": "symfony/validator",
@@ -11642,5 +11642,5 @@
         "ext-iconv": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
