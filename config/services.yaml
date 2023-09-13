@@ -8,6 +8,10 @@ imports:
 parameters:
     router.request_context.scheme: '%env(SERVER_SCHEME)%'
     asset.request_context.secure: true
+    lti_keys_folder_path: '%env(LTI_KEYS_BASE_FOLDER_PATH)%'
+    lti_public_key_path: file://%lti_keys_folder_path%/config/secrets/%env(APP_ENV)%/public.key
+    lti_private_key_path: file://%lti_keys_folder_path%/config/secrets/%env(APP_ENV)%/private.key
+    host_url: '%env(SERVER_SCHEME)%://%env(SERVER_HOST)%'
 
 services:
     # default configuration for services in *this* file
@@ -34,6 +38,12 @@ services:
       arguments:
         - "@snc_redis.session"
 
+    App\Utils\LtiToolUtils:
+      arguments:
+          $publicKeyPath: '%lti_public_key_path%'
+          $privateKeyPath: '%lti_private_key_path%'
+          $hostUrl: '%host_url%'
+
     App\EventListener\CasLogoutListener:
       arguments:
           $logoutUrl: '%env(CAS_BASE_URL)%/logout?service=https%%3A%%2F%%2F%env(SERVER_HOST)%%env(SERVER_BASE_URL)%%2F'
@@ -59,3 +69,18 @@ services:
       tags:
         - name: kernel.event_listener
           event: kernel.response
+
+    OAT\Library\Lti1p3Core\Security\Key\KeyChainRepositoryInterface:
+      class: App\Service\KeyChainManager
+
+    OAT\Library\Lti1p3Core\Security\Jwks\Exporter\JwksExporter: ~
+
+    OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface:
+      class: App\Service\RegistrationManager
+
+    OAT\Library\Lti1p3Core\Security\Oidc\OidcInitiator: ~
+
+    OAT\Library\Lti1p3Core\Security\Nonce\NonceRepositoryInterface:
+      class: OAT\Library\Lti1p3Core\Security\Nonce\NonceRepository
+
+    OAT\Library\Lti1p3Core\Message\Launch\Validator\Tool\ToolLaunchValidator: ~

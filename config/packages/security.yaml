@@ -38,7 +38,7 @@ security:
 
     student_secured_cas:
       provider: student
-      pattern: ^/(tutor|tutee|student)(.*)
+      pattern: ^/(tutor|tutee|student|lti)(.*)
       user_checker: App\Security\UserChecker
       context: main
       custom_authenticator: app.student_secured_cas_authenticator

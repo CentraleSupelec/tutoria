@@ -14,6 +14,7 @@
         "friendsofsymfony/jsrouting-bundle": "*",
         "gedmo/doctrine-extensions": "^3.11",
         "nyholm/psr7": "^1.8",
+        "oat-sa/lib-lti1p3-core": "^6.9",
         "snc/redis-bundle": "^3.4",
         "sonata-project/admin-bundle": "^4.22",
         "sonata-project/doctrine-orm-admin-bundle": "^4.9",

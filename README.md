@@ -18,6 +18,9 @@ cp -f .env .env.local
 ```
 cp -f .env.test .env.test.local
 ```
+
+Change LTI_KEYS_BASE_FOLDER_PATH to '/app' in your .env.local and .env.test.local
+
 Make sure the database name and ports are accurate in the `DATABASE_URL`. Otherwise, change the variable accordingly to the database definition in `docker-compose.yml`.
 ```
 DATABASE_URL="postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@postgres-test:<PORT>/<POSTGRES_DB>?serverVersion=15&charset=utf8"
@@ -80,6 +83,73 @@ To run a given testing directory:
 ```
 docker-compose exec -it php vendor/bin/phpunit tests/<SUBDIRECTORY_NAME>
 ```
+
+## LTI Integration
+
+Moodle URL :
+
+```
+http://localhost:9180/
+```
+
+* Create Moodle as a Platform :
+
+    * Audience : http://localhost:9180
+
+    * Oidc Authentication Url : http://localhost:9180/mod/lti/auth.php
+
+* Create an LTI Integration specifying Moodle as a Platform (previously created)
+
+* Important Intergration parameters :
+
+    * Client ID : from the External Tool parameters created in Moodle
+
+    * Platform Jwks Url : http://moodle:8080/mod/lti/certs.php (Notice that the base URL is different from Moodle URL, because it will be called inside the docker container)
+
+    * Deployment IDs/Default Deplyment ID : from the External Tool parameters created in Moodle
+
+Add Tutorat as an External Tool in Moodle:
+
+* Go to tool configuration panel :
+
+```
+http://localhost:9180/mod/lti/toolconfigure.php
+```
+
+* Click on "configure a tool manually"
+
+    * Tool Name : Choose your tool name
+
+    * Tool URL : https://tutorat-local.centralesupelec.fr/lti/launch
+
+    * LTI version : 1.3
+
+    * Public key type : Key Set URL
+
+    * Public keyset : https://localhost.centralesupelec.fr/jwks/tutorIaKeySet.json
+
+    * Initiate login URL : https://tutorat-local.centralesupelec.fr/lti/oidc/initiation
+
+    * Redirection URLs : https://tutorat-local.centralesupelec.fr/lti/launch
+
+    * Default launch container : New Window
+
+    * After creating the External Tool, you can click on the list icon on the created tool to get some other useful information. Example :
+
+```
+Platform ID: http://localhost:9180
+Client ID: Ezt2pDP3XQit2ZE
+Deployment ID: 2
+Public keyset URL: http://localhost:9180/mod/lti/certs.php
+Access token URL: http://localhost:9180/mod/lti/token.php
+Authentication request URL: http://localhost:9180/mod/lti/auth.php
+```
+
+* Select an activity or a course in Moodle -> Click on "Add an activity or resource" -> External Tool
+
+    * Preconfigured tool : Select the External Tool that you created
+
+    * You can click on "Show more", then there is "Custom parameters" field where you can send additional information to the External Tool
 
 ## Other useful commands
 

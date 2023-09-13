@@ -56,3 +56,21 @@ services:
             manager_type: orm
             group: Gestion des tutorats
             label: Tutorats
+  
+  admin.platform:
+      class: App\Admin\Lti\PlatformAdmin
+      tags:
+          - name: sonata.admin
+            model_class: App\Entity\Lti\Platform
+            manager_type: orm
+            group: Intégration Moodle LTI
+            label: Plateformes
+  
+  admin.registration:
+      class: App\Admin\Lti\RegistrationAdmin
+      tags:
+          - name: sonata.admin
+            model_class: App\Entity\Lti\Registration
+            manager_type: orm
+            group: Intégration Moodle LTI
+            label: Intégration

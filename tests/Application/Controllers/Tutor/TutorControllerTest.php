@@ -115,12 +115,10 @@ class TutorControllerTest extends BaseWebTestCase
         $this->client->xmlHttpRequest('POST', '/tutor/batch-create-sessions', $batchTutoringSessionCreationForm);
         $this->assertResponseIsSuccessful();
 
-        $yesterday = (new DateTime())->sub(new DateInterval('P1D'));
-
         $batchTutoringSessionCreationForm['batch_tutoring_session_creation']['endDate'] = [
-            'year' => $yesterday->format('Y'),
-            'month' => $yesterday->format('n'),
-            'day' => $yesterday->format('j'),
+            'year' => 2023,
+            'month' => 9,
+            'day' => 14,
         ];
 
         $this->client->xmlHttpRequest('POST', '/tutor/batch-create-sessions', $batchTutoringSessionCreationForm);
