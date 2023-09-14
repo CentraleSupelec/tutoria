@@ -67,11 +67,13 @@ class StudentProvider implements CasUserProviderInterface
         }
 
         if ($introspection instanceof ServiceValidate) {
-            $student = $this->studentRepository->findOneBy(['email' => $introspection->getCredentials()['user']]);
+            // The 'eduPersonPrincipalName' attribute is specific for UPS CAS
+            $email = $introspection->getCredentials()['attributes']['eduPersonPrincipalName'][0] ?? $introspection->getCredentials()['user'] ?? null;
+            $student = $this->studentRepository->findOneBy(['email' => $email]);
             if ($student instanceof Student) {
                 return $student;
             }
-            // TODO: Handle user creation on login
+
             throw new AuthenticationException('User not found');
         }
 

@@ -14,7 +14,7 @@ RUN set -xe \
  && apk add --no-cache bash linux-headers
 
 RUN docker-php-ext-install intl mbstring opcache pdo pdo_pgsql pdo_mysql zip bcmath sockets ldap gd xml pcntl \
-    && pecl install redis \
+    && pecl install redis-5.3.7 \
     && docker-php-ext-enable redis
 
 RUN echo "date.timezone = Europe/Paris" >> /usr/local/etc/php/conf.d/timezone.ini && \

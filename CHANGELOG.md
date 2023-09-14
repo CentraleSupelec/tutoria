@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixes
+- `phpredis` version fixed to 5.3.7 in `Dockerfile` !19
+- CAS response processing adjusted to work with UPSaclay SSO !19
+
 ## [1.0.0] - 2023-13-09
 
 ### Added
