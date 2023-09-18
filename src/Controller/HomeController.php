@@ -10,7 +10,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'base_home')]
+    #[Route('/accueil', name: 'home')]
     public function index(): Response
     {
         $user = $this->getUser();

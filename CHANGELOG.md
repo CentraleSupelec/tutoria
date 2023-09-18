@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Added
 - LTI authentication for tutees (with account creation if it does not exist) !17
+- Logout button in Sonata Admin
+
+## Fixes
+- Moved Homepage to /accueil
 
 ## [1.0.1] - 2023-09-14
 

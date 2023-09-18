@@ -9,7 +9,7 @@ class HomeControllerTest extends BaseWebTestCase
 {
     public function testTutorCasRedirection(): void
     {
-        $crawler = $this->client->request('GET', '/');
+        $crawler = $this->client->request('GET', '/accueil');
 
         $crawler = $crawler->filterXPath('//*[@id="main"]/div[2]/div/div[1]/div/div[2]/a');
         $this->assertStringContainsString('Accès tuteur', $crawler->getNode(0)->textContent);
@@ -22,7 +22,7 @@ class HomeControllerTest extends BaseWebTestCase
 
     public function testTuteeCasRedirection(): void
     {
-        $crawler = $this->client->request('GET', '/');
+        $crawler = $this->client->request('GET', '/accueil');
 
         $crawler = $crawler->filterXPath('//*[@id="main"]/div[2]/div/div[2]/div/div[2]/a');
         $this->assertStringContainsString('Accès tutoré', $crawler->getNode(0)->textContent);
@@ -38,7 +38,7 @@ class HomeControllerTest extends BaseWebTestCase
         $tutor = StudentFixturesProvider::getTutor($this->entityManager);
         $this->client->loginUser($tutor);
 
-        $this->client->request('GET', '/');
+        $this->client->request('GET', '/accueil');
         $this->assertResponseRedirects('/tutor/');
     }
 
@@ -47,7 +47,7 @@ class HomeControllerTest extends BaseWebTestCase
         $tutee = StudentFixturesProvider::getTutee($this->entityManager);
         $this->client->loginUser($tutee);
 
-        $this->client->request('GET', '/');
+        $this->client->request('GET', '/accueil');
         $this->assertResponseRedirects('/tutee/');
     }
 }
