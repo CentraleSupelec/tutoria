@@ -66,7 +66,7 @@ class Registration implements RegistrationInterface
         return $this;
     }
 
-    public function getPlatform(): ?Platform
+    public function getPlatform(): Platform
     {
         return $this->platform;
     }
@@ -78,7 +78,7 @@ class Registration implements RegistrationInterface
         return $this;
     }
 
-    public function getTool(): ?Tool
+    public function getTool(): Tool
     {
         return $this->tool;
     }
