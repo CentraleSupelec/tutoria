@@ -9,6 +9,10 @@ import TutoringSession from '../../../interfaces/TutoringSession';
 import DateTimePicker from 'react-datetime-picker';
 import { Value } from 'react-datetime-picker/dist/cjs/shared/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ErrorInterface from '../../../interfaces/ErrorInterface';
+import ModalErrorsInterface from '../../../interfaces/ModalErrorsInterface';
+import { parseErrors } from '../../../utils';
+import GeneralErrorsRenderer from '../../GeneralErrorsRenderer';
 
 interface TutoringSessionModalContentProps {
     tutoring: Tutoring,
@@ -19,6 +23,12 @@ interface TutoringSessionModalContentProps {
     updateTutoringSession?: Function,
 }
 
+interface TutoringSessionModalContentErrors extends ModalErrorsInterface {
+    endDateTime?: string,
+    room?: string,
+    onlineMeetingUri?: string
+}
+
 interface RouteParams {
     id?: string
 }
@@ -26,16 +36,15 @@ interface RouteParams {
 export default function ({ tutoring, tutoringSession, campuses, toggleModal, updateTutoring, updateTutoringSession }: TutoringSessionModalContentProps) {
     const { t } = useTranslation();
     const [ready, setReady] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
     const [selectedCampus, setSelectedCampus] = useState<Campus>();
     const [selectedBuilding, setSelectedBuilding] = useState<Building>();
-
     const [isRemote, setIsRemote] = useState<boolean>(false);
     const [onlineMeetingUri, setOnlineMeetingUri] = useState<string>('');
-
     const [startDateTime, setStartDateTime] = useState<Date|null>(new Date());
     const [endDateTime, setEndDateTime] = useState<Date|null>(new Date());
-
     const [room, setRoom] = useState<string>('');
+    const [errors, setErrors] = useState<TutoringSessionModalContentErrors>({generalErrors: []});
 
     useEffect(() => {
         if (campuses) {
@@ -48,7 +57,7 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                 const tutoringDefaultCampus = campuses.find(campus => campus.id === tutoring.defaultBuilding.campus.id);
                 setSelectedCampus(tutoringDefaultCampus);
                 setSelectedBuilding(tutoring.defaultBuilding);
-                setRoom(tutoring.defaultRoom);
+                setRoom(tutoring.defaultRoom?? '');
             } else {
                 setSelectedCampus(campuses[0]);
                 setSelectedBuilding(campuses[0].buildings[0])
@@ -66,6 +75,23 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
         }
     }, [tutoringSession])
 
+    const removeError = (errorName: string) => {
+        if (errors[errorName]) {
+            let newErrors = {...errors};
+            delete newErrors[errorName];
+            setErrors(newErrors);
+        }
+    }
+
+    const onDateTimeChange = (date: Value, start: boolean) => {
+        let setter = setEndDateTime;
+        if (start) {
+            setter = setStartDateTime
+        }
+        setter(date);
+        removeError('endDateTime');
+    }
+
     const onCampusChange = (event: ChangeEvent<HTMLSelectElement>) => {
         const campus = campuses.find(campus => campus.id === event.target.value);
         if (campus) {
@@ -82,6 +108,8 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
     }
 
     const handleSubmit = () => {
+        setDisableSaveButton(true);
+
         const params = new FormData();
         let routeName = 'create_tutoring_session';
         let routeParams : RouteParams = {}
@@ -121,14 +149,25 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                 method: 'POST',
                 body: params,
             })
-            .then(() => {
-                if (tutoringSession && updateTutoringSession) {
-                    updateTutoringSession();
-                } else if (updateTutoring) {
-                    updateTutoring();
-                }
 
-                toggleModal()
+            .then(response => {
+                setDisableSaveButton(false);
+                if (response.status === 200) {
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.errors) {
+                    setErrors(parseErrors(data.errors));
+                } else {
+                    if (tutoringSession && updateTutoringSession) {
+                        updateTutoringSession();
+                    } else if (updateTutoring) {
+                        updateTutoring();
+                    }
+                    toggleModal();
+                }
             });
     }
 
@@ -139,19 +178,20 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
     return <>
         {ready ?
             <>
+                <GeneralErrorsRenderer errors={errors.generalErrors} />
                 <div className='d-flex flex-column flex-lg-row'>
                     <div className='multiple-session-creation-info flex-1'>
                         <div className='hours line'>
                             <div className='label'>
                                 {t('form.session')}
                             </div>
-                            <div className='d-flex justify-content-between'>
+                            <div className={'d-flex justify-content-between' + (errors.endDateTime? ' invalid': '')}>
                                 <div className='d-flex align-items-center flex-grow-1'>
                                     <span className='pe-2'>{t('form.from')} </span>
                                     <div className='start-time-value pe-2'>
                                         <DateTimePicker
                                             value={startDateTime}
-                                            onChange={(date: Value) => setStartDateTime(date)}
+                                            onChange={(date: Value) => onDateTimeChange(date, true)}
                                             disableClock
                                             calendarIcon={<FontAwesomeIcon className='text-secondary' icon="calendar-days" />}
                                             clearIcon={null}
@@ -163,7 +203,7 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                                     <div className='end-time-value'>
                                         <DateTimePicker
                                             value={endDateTime}
-                                            onChange={(date: Value) => setEndDateTime(date)}
+                                            onChange={(date: Value) => onDateTimeChange(date, false)}
                                             disableClock
                                             calendarIcon={<FontAwesomeIcon className='text-secondary' icon="calendar-days" />}
                                             clearIcon={null}
@@ -171,6 +211,14 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                                     </div>
                                 </div>
                             </div>
+
+                            <Form.Control
+                                hidden={true}
+                                isInvalid={errors.endDateTime? true : false}
+                            />
+                            <Form.Control.Feedback className='mt-2' type='invalid'>
+                                {errors.endDateTime}
+                            </Form.Control.Feedback>
                         </div>
                         <div className='d-flex'>
                             <Form.Check
@@ -200,8 +248,16 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                                 <Form.Control
                                     className='visio-link-value flex-grow-1'
                                     value={onlineMeetingUri}
-                                    onChange={(event) => setOnlineMeetingUri(event.target.value)}
+                                    onChange={(event) => {
+                                            setOnlineMeetingUri(event.target.value);
+                                            removeError('onlineMeetingUri');
+                                        }
+                                    }
+                                    isInvalid={errors.onlineMeetingUri? true : false}
                                 />
+                                <Form.Control.Feedback className='mt-2' type='invalid'>
+                                    {errors.onlineMeetingUri}
+                                </Form.Control.Feedback>
                             </div>
                             :
                             <div className='place line'>
@@ -221,7 +277,19 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                                             </option>
                                         ) : null}
                                     </Form.Select>
-                                    <Form.Control value={room} onChange={(event) => setRoom(event.target.value)} className='room flex-grow-1'></Form.Control>
+                                    <Form.Control
+                                        className='room flex-grow-1'
+                                        value={room}
+                                        onChange={(event) => {
+                                                setRoom(event.target.value);
+                                                removeError('room');
+                                            }
+                                        }
+                                        isInvalid={errors.room? true : false}
+                                    />
+                                    <Form.Control.Feedback className='mt-2' type='invalid'>
+                                        {errors.room}
+                                    </Form.Control.Feedback>
                                 </div>
                             </div>
                         }
@@ -254,7 +322,7 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                     </div>
                 </div>
                 <div className='d-flex justify-content-end'>
-                    <Button type='submit' variant='secondary' onClick={handleSubmit}>
+                    <Button type='submit' variant='secondary' onClick={handleSubmit} disabled={disableSaveButton}>
                         {tutoringSession? t('form.save_button') :t('form.create_button')}
                     </Button>
                 </div>

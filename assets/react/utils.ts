@@ -3,6 +3,8 @@ import TutoringSession from "./interfaces/TutoringSession";
 import { format } from "date-fns";
 import { enUS, fr } from "date-fns/esm/locale";
 import Building from "./interfaces/Building";
+import ModalErrorsInterface from "./interfaces/ModalErrorsInterface";
+import ErrorInterface from "./interfaces/ErrorInterface";
 
 export const formatDefaultDay = (tutoring: Tutoring, t): string[] => {
     return (tutoring.defaultWeekDays.map(function (day, index) {
@@ -58,4 +60,21 @@ export const daysArrayToDaysSelection = (days: string[]): DaysSelection => {
     })
 
     return daysSelection;
+}
+
+export const parseErrors = (errors : ErrorInterface[]): ModalErrorsInterface => {
+    let parsedErrors: ModalErrorsInterface = {
+        generalErrors: []
+    };
+
+    // When propertyPath = 'data', it means the error is at the root of the entity
+    // Else propertyPath = 'data.fieldName' and the error is on a certain field of the entity
+    errors.forEach(error => {
+        if (error.propertyPath === 'data') {
+            parsedErrors = {...parsedErrors, generalErrors: [...parsedErrors.generalErrors, error.message]}
+        } else {
+            parsedErrors = {...parsedErrors, [error.propertyPath.replace('data.', '')]: error.message};
+        }
+    });
+    return parsedErrors;
 }

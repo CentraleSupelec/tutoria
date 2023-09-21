@@ -7,8 +7,11 @@ import TimePicker from 'react-time-picker';
 import Routing from "../../../../Routing";
 import Building from '../../../interfaces/Building';
 import Campus from '../../../interfaces/Campus';
+import ErrorInterface from '../../../interfaces/ErrorInterface';
+import ModalErrorsInterface from '../../../interfaces/ModalErrorsInterface';
 import Tutoring from '../../../interfaces/Tutoring';
-import { daysArrayToDaysSelection } from '../../../utils';
+import { daysArrayToDaysSelection, parseErrors } from '../../../utils';
+import GeneralErrorsRenderer from '../../GeneralErrorsRenderer';
 
 interface BatchTutoringSessionCreationModalContentProps {
     tutoring: Tutoring,
@@ -16,6 +19,13 @@ interface BatchTutoringSessionCreationModalContentProps {
     toggleModal: Function,
     saveTutoring: boolean,
     onUpdate: Function
+}
+
+interface BatchTutoringSessionCreationModalContentErrors extends ModalErrorsInterface {
+    weekDays?: string,
+    room?: string,
+    endDate?: string,
+    endTime?: string,
 }
 
 type ValuePiece = Date | string | null;
@@ -42,6 +52,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
     const { t } = useTranslation();
 
     const [ready, setReady] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
     const [selectedCampus, setSelectedCampus] = useState<Campus>();
     const [selectedBuilding, setSelectedBuilding] = useState<Building>();
     const [defaultWeekDays, setDefaultWeekDays] = useState<DaysSelection>(defaultDaySelection);
@@ -49,8 +60,21 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
     const [endDate, setEndDate] = useState<Value>(new Date());
     const [startTime, setStartTime] = useState<Value>(defaultStartTime);
     const [endTime, setEndTime] = useState<Value>(defaultEndTime);
-
     const [room, setRoom] = useState<string>('');
+    const [errors, setErrors] = useState<BatchTutoringSessionCreationModalContentErrors>({generalErrors: []});
+
+    const removeError = (errorName: string) => {
+        if (errors[errorName]) {
+            let newErrors = {...errors};
+            delete newErrors[errorName];
+            setErrors(newErrors);
+        }
+    }
+
+    const onWeekDaysChange = (event: ChangeEvent<HTMLInputElement>, day: string) => {
+        setDefaultWeekDays({...defaultWeekDays, [day]: event.target.checked})
+        removeError('weekDays');
+    }
 
     const onCampusChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
         const campus = campuses.find(campus => campus.id === event.target.value);
@@ -75,9 +99,21 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
         newTime.setHours(parseInt(time.split(':')[0]))
         newTime.setMinutes(parseInt(time.split(':')[1]))
         setter(newTime);
+        removeError('endTime');
+    }
+
+    const onDateChange = (date: Value, start: boolean) => {
+        let setter = setEndDate;
+        if (start) {
+            setter = setStartDate
+        }
+        setter(date);
+        removeError('endDate');
     }
 
     const handleSubmit = () => {
+        setDisableSaveButton(true);
+
         const params = new FormData();
 
         params.append('batch_tutoring_session_creation[tutoring]', tutoring.id);
@@ -115,14 +151,24 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
         params.append('batch_tutoring_session_creation[saveDefaultValues]', saveTutoring.toString());
 
         fetch(Routing.generate("batch_create_sessions"), {
-            method: 'POST',
-            body: params
-        })
-            .then(() => {
-                onUpdate();
-                toggleModal()
+                method: 'POST',
+                body: params
             })
-            ;
+            .then(response => {
+                setDisableSaveButton(false);
+                if (response.status === 200) {
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.errors) {
+                    setErrors(parseErrors(data.errors));
+                } else {
+                    onUpdate();
+                    toggleModal();
+                }
+            });
     }
 
     useEffect(() => {
@@ -155,6 +201,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
     return <>
         {ready ?
             <>
+                <GeneralErrorsRenderer errors={errors.generalErrors} />
                 <div className='d-flex flex-column flex-lg-row'>
                     <div className='multiple-session-creation-info flex-1'>
                         <div className='days line'>
@@ -169,16 +216,24 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                                         label={t(`utils.days.${day}`)}
                                         type='checkbox'
                                         checked={defaultWeekDays[day]}
-                                        onChange={(event) => setDefaultWeekDays({ ...defaultWeekDays, [day]: event.target.checked })}
+                                        onChange={(event) => onWeekDaysChange(event, day)}
+                                        isInvalid={errors.weekDays ? true : false}
                                     />
                                 )}
                             </div>
+                            <Form.Control
+                                hidden={true}
+                                isInvalid={errors.weekDays? true : false}
+                            />
+                            <Form.Control.Feedback className='mt-2' type='invalid'>
+                                {errors.weekDays}
+                            </Form.Control.Feedback>
                         </div>
                         <div className='hours line'>
                             <div className='label'>
                                 {t('form.default_hours')}
                             </div>
-                            <div className='d-flex justify-content-between'>
+                            <div className={'d-flex justify-content-between' + (errors.endTime? ' invalid': '')}>
                                 <div className='d-flex align-items-center flex-grow-1'>
                                     <span className='pe-2'>{t('form.from')} </span>
                                     <div className='start-time-value pe-2'>
@@ -200,35 +255,51 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                                     </div>
                                 </div>
                             </div>
+                            <Form.Control
+                                hidden={true}
+                                isInvalid={errors.endTime? true : false}
+                            />
+                            <Form.Control.Feedback className='mt-2' type='invalid'>
+                                {errors.endTime}
+                            </Form.Control.Feedback>
                         </div>
                         <hr className='hr'></hr>
-                        <div className='date-range d-flex line'>
-                            <div className='start-date flex-grow-1'>
-                                <div className='start-date-label label'>
-                                    {t('form.start_date')}
+                        <div className='date-range line'>
+                            <div className={'d-flex' + (errors.endTime? ' invalid': '')}>
+                                <div className='start-date flex-grow-1'>
+                                    <div className='start-date-label label'>
+                                        {t('form.start_date')}
+                                    </div>
+                                    <div className='start-date-value'>
+                                        <DatePicker
+                                            value={startDate}
+                                            onChange={(date: Value) => onDateChange(date, true)}
+                                            calendarIcon={<FontAwesomeIcon className='text-secondary' icon="calendar-days" />}
+                                            clearIcon={null}
+                                        />
+                                    </div>
                                 </div>
-                                <div className='start-date-value'>
-                                    <DatePicker
-                                        value={startDate}
-                                        onChange={(date: Value) => setStartDate(date)}
-                                        calendarIcon={<FontAwesomeIcon className='text-secondary' icon="calendar-days" />}
-                                        clearIcon={null}
-                                    />
+                                <div className='end-date flex-grow-1'>
+                                    <div className='end-date-label label'>
+                                        {t('form.end_date')}
+                                    </div>
+                                    <div className='end-date-value'>
+                                        <DatePicker
+                                            value={endDate}
+                                            onChange={(date: Value) => onDateChange(date, false)}
+                                            calendarIcon={<FontAwesomeIcon className='text-secondary' icon="calendar-days" />}
+                                            clearIcon={null}
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                            <div className='end-date flex-grow-1'>
-                                <div className='end-date-label label'>
-                                    {t('form.end_date')}
-                                </div>
-                                <div className='end-date-value'>
-                                    <DatePicker
-                                        value={endDate}
-                                        onChange={(date: Value) => setEndDate(date)}
-                                        calendarIcon={<FontAwesomeIcon className='text-secondary' icon="calendar-days" />}
-                                        clearIcon={null}
-                                    />
-                                </div>
-                            </div>
+                            <Form.Control
+                                    hidden={true}
+                                    isInvalid={errors.endDate? true : false}
+                                />
+                                <Form.Control.Feedback className='mt-2' type='invalid'>
+                                    {errors.endDate}
+                                </Form.Control.Feedback>
                         </div>
 
                         <div className='place line d-flex flex-column flex-lg-row'>
@@ -261,7 +332,18 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                                 <div className='room-label label ps-2'>
                                     {t('form.room')}
                                 </div>
-                                <Form.Control value={room} onChange={e => setRoom(e.target.value)}></Form.Control>
+                                <Form.Control
+                                    value={room}
+                                    onChange={e => {
+                                            setRoom(e.target.value);
+                                            removeError('room')
+                                        }
+                                    }
+                                    isInvalid={errors.room? true : false}
+                                />
+                                <Form.Control.Feedback className='mt-2' type='invalid'>
+                                    {errors.room}
+                                </Form.Control.Feedback>
                             </div>
                         </div>
                     </div>
@@ -293,7 +375,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                     </div>
                 </div>
                 <div className='d-flex justify-content-end'>
-                    <Button type='submit' variant='secondary' onClick={handleSubmit}>
+                    <Button type='submit' variant='secondary' onClick={handleSubmit} disabled={disableSaveButton}>
                         {saveTutoring ? t('form.save_and_batch_create_button') : t('form.create_button')}
                     </Button>
                 </div>

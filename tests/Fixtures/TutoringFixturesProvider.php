@@ -74,6 +74,7 @@ class TutoringFixturesProvider
             ->setDefaultRoom('E110')
             ->addTutor($tutor)
             ->setName(sprintf('%s@%s', $academicLevel->getNameFr(), $building->getCampus()->getName()))
+            ->setDefaultWeekDays(['tuesday', 'friday'])
         ;
 
         if (null !== $entityManager) {

@@ -11,6 +11,7 @@ use App\Form\TutoringType;
 use App\Model\BatchTutoringSessionCreationModel;
 use App\Repository\TutoringRepository;
 use App\Service\BatchTutoringSessionCreationService;
+use App\Utils\ErrorUtils;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,8 +35,12 @@ class TutorController extends AbstractController
     }
 
     #[Route('/batch-create-sessions', methods: ['POST'], name: 'batch_create_sessions', options: ['expose' => true])]
-    public function batchCreateSessions(Request $request, BatchTutoringSessionCreationService $batchTutoringSessionCreationService, EntityManagerInterface $entityManager): Response
-    {
+    public function batchCreateSessions(
+        Request $request,
+        BatchTutoringSessionCreationService $batchTutoringSessionCreationService,
+        EntityManagerInterface $entityManager,
+        ErrorUtils $errorUtils
+    ): Response {
         $batchTutoringSessionCreationModel = new BatchTutoringSessionCreationModel();
         $form = $this->createForm(BatchTutoringSessionCreationType::class, $batchTutoringSessionCreationModel);
         $form->handleRequest($request);
@@ -56,15 +61,27 @@ class TutorController extends AbstractController
             }
             $batchTutoringSessionCreationService->batchCreateSessions($batchTutoringSessionCreationModel);
 
-            return new Response('Sessions created successfully !', Response::HTTP_OK);
+            return $this->json([
+                'status' => 'OK',
+            ], Response::HTTP_OK);
         } else {
-            return new Response('Form is invalid', Response::HTTP_UNPROCESSABLE_ENTITY);
+            $errors = $errorUtils->parseFormErrors($form->getErrors(true));
+
+            return $this->json([
+                'status' => 'KO',
+                'errors' => $errors,
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 
     #[Route('/tutoring/{id}/update', methods: ['POST'], name: 'update_tutoring', options: ['expose' => true])]
-    public function updateTutoring(Tutoring $tutoring, Request $request, EntityManagerInterface $entityManager, TutoringRepository $tutoringRepository): Response
-    {
+    public function updateTutoring(
+        Tutoring $tutoring,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        TutoringRepository $tutoringRepository,
+        ErrorUtils $errorUtils
+    ): Response {
         $form = $this->createForm(TutoringType::class, $tutoring);
         $form->handleRequest($request);
 
@@ -72,15 +89,26 @@ class TutorController extends AbstractController
             $entityManager->persist($tutoring);
             $entityManager->flush();
 
-            return new Response('Tutoring updated successfully !', Response::HTTP_OK);
+            return $this->json([
+                'status' => 'OK',
+            ], Response::HTTP_OK);
         } else {
-            return new Response('Form is invalid', Response::HTTP_UNPROCESSABLE_ENTITY);
+            $errors = $errorUtils->parseFormErrors($form->getErrors(true));
+
+            return $this->json([
+                'status' => 'KO',
+                'errors' => $errors,
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 
     #[Route('/tutoring-session/new', methods: ['POST'], name: 'create_tutoring_session', options: ['expose' => true])]
-    public function createTutoringSession(Request $request, EntityManagerInterface $entityManager, TutoringRepository $tutoringRepository): Response
-    {
+    public function createTutoringSession(
+        Request $request,
+        EntityManagerInterface $entityManager,
+        TutoringRepository $tutoringRepository,
+        ErrorUtils $errorUtils
+    ): Response {
         /** @var Student $user */
         $user = $this->getUser();
 
@@ -97,15 +125,26 @@ class TutorController extends AbstractController
             $entityManager->persist($tutoringSession);
             $entityManager->flush();
 
-            return new Response('Tutoring session created successfully !', Response::HTTP_OK);
+            return $this->json([
+                'status' => 'OK',
+            ], Response::HTTP_OK);
         } else {
-            return new Response('Form is invalid', Response::HTTP_UNPROCESSABLE_ENTITY);
+            $errors = $errorUtils->parseFormErrors($form->getErrors(true));
+
+            return $this->json([
+                'status' => 'KO',
+                'errors' => $errors,
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 
     #[Route('/tutoring-session/{id}/update', methods: ['POST'], name: 'update_tutoring_session', options: ['expose' => true])]
-    public function updateTutoringSession(TutoringSession $tutoringSession, Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function updateTutoringSession(
+        TutoringSession $tutoringSession,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ErrorUtils $errorUtils
+    ): Response {
         $form = $this->createForm(TutoringSessionType::class, $tutoringSession);
         $form->handleRequest($request);
 
@@ -113,9 +152,16 @@ class TutorController extends AbstractController
             $entityManager->persist($tutoringSession);
             $entityManager->flush();
 
-            return new Response('Tutoring session updated successfully !', Response::HTTP_OK);
+            return $this->json([
+                'status' => 'OK',
+            ], Response::HTTP_OK);
         } else {
-            return new Response('Form is invalid', Response::HTTP_UNPROCESSABLE_ENTITY);
+            $errors = $errorUtils->parseFormErrors($form->getErrors(true));
+
+            return $this->json([
+                'status' => 'KO',
+                'errors' => $errors,
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
     }
 
@@ -125,6 +171,8 @@ class TutorController extends AbstractController
         $entityManager->remove($tutoringSession);
         $entityManager->flush();
 
-        return new Response('', Response::HTTP_OK);
+        return $this->json([
+            'status' => 'OK',
+        ], Response::HTTP_OK);
     }
 }

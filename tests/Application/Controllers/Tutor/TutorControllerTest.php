@@ -60,6 +60,14 @@ class TutorControllerTest extends BaseWebTestCase
         $this->assertEquals($tutoring->getDefaultEndTime()->format('H'), '16');
         $this->assertEquals($tutoring->getDefaultEndTime()->format('i'), '15');
         $this->assertEquals($tutoring->getDefaultRoom(), 'E201');
+
+        $tutoringForm['tutoring']['defaultWeekDays'] = [];
+
+        $this->client->xmlHttpRequest('POST', sprintf('/tutor/tutoring/%s/update', $tutoring->getId()), $tutoringForm);
+        $this->assertResponseStatusCodeSame(422);
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertEquals('data.defaultWeekDays', $responseData['errors'][0]['propertyPath']);
+        $this->assertEquals('Veuillez sélectionner au moins un jour de la semaine', $responseData['errors'][0]['message']);
     }
 
     public function testBatchTutoringSessionCreationWithoutSavingDefaultValues(): void
@@ -105,10 +113,22 @@ class TutorControllerTest extends BaseWebTestCase
         $this->assertNotEquals($tutoring->getDefaultWeekDays(), ['monday', 'wednesday']);
         $this->assertNotEquals($tutoring->getDefaultRoom(), 'E1.01');
 
+        $batchTutoringSessionCreationForm['batch_tutoring_session_creation']['weekDays'] = [];
+
+        $this->client->xmlHttpRequest('POST', '/tutor/batch-create-sessions', $batchTutoringSessionCreationForm);
+        $this->assertResponseStatusCodeSame(422);
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertEquals('data.weekDays', $responseData['errors'][0]['propertyPath']);
+        $this->assertEquals('Veuillez sélectionner au moins un jour de la semaine', $responseData['errors'][0]['message']);
+
+        $batchTutoringSessionCreationForm['batch_tutoring_session_creation']['weekDays'] = ['monday', 'wednesday'];
         $batchTutoringSessionCreationForm['batch_tutoring_session_creation']['endTime']['hour'] = 11;
 
         $this->client->xmlHttpRequest('POST', '/tutor/batch-create-sessions', $batchTutoringSessionCreationForm);
         $this->assertResponseStatusCodeSame(422);
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertEquals('data.endTime', $responseData['errors'][0]['propertyPath']);
+        $this->assertEquals("L'horaire de début est après l'horaire de fin", $responseData['errors'][0]['message']);
 
         $batchTutoringSessionCreationForm['batch_tutoring_session_creation']['endTime']['hour'] = 14;
 
@@ -123,6 +143,9 @@ class TutorControllerTest extends BaseWebTestCase
 
         $this->client->xmlHttpRequest('POST', '/tutor/batch-create-sessions', $batchTutoringSessionCreationForm);
         $this->assertResponseStatusCodeSame(422);
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertEquals('data.endDate', $responseData['errors'][0]['propertyPath']);
+        $this->assertEquals('La date de début est après la date de fin', $responseData['errors'][0]['message']);
     }
 
     public function testBatchTutoringSessionCreationAndSavingDefaultValues(): void
@@ -200,9 +223,7 @@ class TutorControllerTest extends BaseWebTestCase
                         'minute' => 0,
                     ],
                 ],
-                'building' => $tutoring->getDefaultBuilding()->getId(),
-                'room' => 'E1.01',
-                'isRemote' => 'false',
+                'isRemote' => 'true',
                 'onlineMeetingUri' => 'https://wwww.google.com',
             ],
         ];
@@ -213,7 +234,7 @@ class TutorControllerTest extends BaseWebTestCase
         /** @var TutoringSession[] $tutoringSessions */
         $tutoringSessions = $this->entityManager->getRepository(TutoringSession::class)->findBy(['tutoring' => $tutoring]);
         $this->assertEquals(count($tutoringSessions), 1);
-        $this->assertFalse($tutoringSessions[0]->getIsRemote());
+        $this->assertTrue($tutoringSessions[0]->getIsRemote());
     }
 
     public function testValidSingleTutoringSessionCreationIsNotRemote(): void
@@ -249,8 +270,7 @@ class TutorControllerTest extends BaseWebTestCase
                 ],
                 'building' => $tutoring->getDefaultBuilding()->getId(),
                 'room' => 'E1.01',
-                'isRemote' => 'true',
-                'onlineMeetingUri' => 'https://wwww.google.com',
+                'isRemote' => 'false',
             ],
         ];
 
@@ -260,10 +280,10 @@ class TutorControllerTest extends BaseWebTestCase
         /** @var TutoringSession[] $tutoringSessions */
         $tutoringSessions = $this->entityManager->getRepository(TutoringSession::class)->findBy(['tutoring' => $tutoring]);
         $this->assertEquals(count($tutoringSessions), 1);
-        $this->assertTrue($tutoringSessions[0]->getIsRemote());
+        $this->assertFalse($tutoringSessions[0]->getIsRemote());
     }
 
-    public function testInvalidSingleTutoringSessionCreation(): void
+    public function testInvalidSingleTutoringSessionCreationStartDateTimeAfterEndDateTime(): void
     {
         $tutoring = TutoringFixturesProvider::getTutoring($this->entityManager);
 
@@ -297,12 +317,100 @@ class TutorControllerTest extends BaseWebTestCase
                 'building' => $tutoring->getDefaultBuilding()->getId(),
                 'room' => 'E1.01',
                 'isRemote' => 'false',
-                'onlineMeetingUri' => 'https://wwww.google.com',
             ],
         ];
 
         $this->client->xmlHttpRequest('POST', 'tutor/tutoring-session/new', $newTutoringSessionForm);
         $this->assertResponseStatusCodeSame(422);
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertEquals('data.endDateTime', $responseData['errors'][0]['propertyPath']);
+        $this->assertEquals("L'horaire de début est après l'horaire de fin", $responseData['errors'][0]['message']);
+    }
+
+    public function testInvalidSingleTutoringSessionCreationStartDateDifferentThanEndDate(): void
+    {
+        $tutoring = TutoringFixturesProvider::getTutoring($this->entityManager);
+
+        $this->client->loginUser($tutoring->getTutors()->get(0));
+
+        $newTutoringSessionForm = [
+            'tutoring_session' => [
+                'tutoring' => $tutoring->getId(),
+                'startDateTime' => [
+                    'date' => [
+                        'year' => 2023,
+                        'month' => 9,
+                        'day' => 20,
+                    ],
+                    'time' => [
+                        'hour' => 15,
+                        'minute' => 0,
+                    ],
+                ],
+                'endDateTime' => [
+                    'date' => [
+                        'year' => 2023,
+                        'month' => 9,
+                        'day' => 21,
+                    ],
+                    'time' => [
+                        'hour' => 14,
+                        'minute' => 30,
+                    ],
+                ],
+                'building' => $tutoring->getDefaultBuilding()->getId(),
+                'room' => 'E1.01',
+                'isRemote' => 'false',
+            ],
+        ];
+
+        $this->client->xmlHttpRequest('POST', 'tutor/tutoring-session/new', $newTutoringSessionForm);
+        $this->assertResponseStatusCodeSame(422);
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertEquals('data.endDateTime', $responseData['errors'][0]['propertyPath']);
+        $this->assertEquals('La date de début est différente de la date de fin', $responseData['errors'][0]['message']);
+    }
+
+    public function testInvalidSingleTutoringSessionCreationNoOnlineMeetingURL(): void
+    {
+        $tutoring = TutoringFixturesProvider::getTutoring($this->entityManager);
+
+        $this->client->loginUser($tutoring->getTutors()->get(0));
+
+        $newTutoringSessionForm = [
+            'tutoring_session' => [
+                'tutoring' => $tutoring->getId(),
+                'startDateTime' => [
+                    'date' => [
+                        'year' => 2023,
+                        'month' => 9,
+                        'day' => 20,
+                    ],
+                    'time' => [
+                        'hour' => 15,
+                        'minute' => 0,
+                    ],
+                ],
+                'endDateTime' => [
+                    'date' => [
+                        'year' => 2023,
+                        'month' => 9,
+                        'day' => 20,
+                    ],
+                    'time' => [
+                        'hour' => 15,
+                        'minute' => 30,
+                    ],
+                ],
+                'isRemote' => 'true',
+            ],
+        ];
+
+        $this->client->xmlHttpRequest('POST', 'tutor/tutoring-session/new', $newTutoringSessionForm);
+        $this->assertResponseStatusCodeSame(422);
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertEquals('data.onlineMeetingUri', $responseData['errors'][0]['propertyPath']);
+        $this->assertEquals("Pas de lien de visio saisi alors que l'option 'Distanciel' est cochée", $responseData['errors'][0]['message']);
     }
 
     public function testUpdateTutoringSession(): void

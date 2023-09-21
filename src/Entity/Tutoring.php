@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[AppAssert\StartTimeEndTimeConstraint]
+#[AppAssert\StartTimeEndTimeConstraint(groups: ['Default'])]
 #[ORM\Entity(repositoryClass: TutoringRepository::class)]
 class Tutoring implements Stringable
 {
@@ -35,13 +35,14 @@ class Tutoring implements Stringable
     private ?string $name = null;
 
     #[Groups(['tutorings'])]
-    #[Assert\NotBlank(allowNull: true)]
+    #[Assert\NotBlank(allowNull: true, groups: ['Default', 'AdminTutoringGroup'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $defaultRoom = null;
 
     #[Groups(['tutorings'])]
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    #[Assert\Choice(callback: [Constants::class, 'getAvailableWeekdays'], multiple: true)]
+    #[Assert\Count(['min' => 1, 'minMessage' => 'validation.batch_tutoring_session_creation_model.weekdays_min_message'], groups: ['Default'])]
+    #[Assert\Choice(callback: [Constants::class, 'getAvailableWeekdays'], multiple: true, groups: ['Default'])]
     private ?array $defaultWeekDays = [];
 
     #[Groups(['tutorings'])]
@@ -102,7 +103,7 @@ class Tutoring implements Stringable
         return $this->defaultRoom;
     }
 
-    public function setDefaultRoom(string $defaultRoom): static
+    public function setDefaultRoom(?string $defaultRoom): static
     {
         $this->defaultRoom = $defaultRoom;
 

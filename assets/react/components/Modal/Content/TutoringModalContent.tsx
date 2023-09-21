@@ -5,14 +5,23 @@ import TimePicker from 'react-time-picker';
 import Routing from "../../../../Routing";
 import Building from '../../../interfaces/Building';
 import Campus from '../../../interfaces/Campus';
+import ErrorInterface from '../../../interfaces/ErrorInterface';
+import ModalErrorsInterface from '../../../interfaces/ModalErrorsInterface';
 import Tutoring from '../../../interfaces/Tutoring';
-import { daysArrayToDaysSelection } from '../../../utils';
+import { daysArrayToDaysSelection, parseErrors } from '../../../utils';
+import GeneralErrorsRenderer from '../../GeneralErrorsRenderer';
 
 interface TutoringModalContentProps {
     tutoring: Tutoring,
     campuses: Campus[],
     toggleModal: Function,
     onUpdate: Function 
+}
+
+interface TutoringModalContentErrors extends ModalErrorsInterface {
+    defaultWeekDays?: string,
+    defaultRoom?: string,
+    defaultEndTime?: string,
 }
 
 type ValuePiece = Date | string | null;
@@ -39,13 +48,27 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
     const { t } = useTranslation();
 
     const [ready, setReady] = useState(false);
+    const [disableSaveButton, setDisableSaveButton] = useState(false);
     const [selectedCampus, setSelectedCampus] = useState<Campus>();
     const [selectedBuilding, setSelectedBuilding] = useState<Building>();
     const [defaultWeekDays, setDefaultWeekDays] = useState<DaysSelection>(defaultDaySelection);
     const [startTime, setStartTime] = useState<Value>(defaultStartTime);
     const [endTime, setEndTime] = useState<Value>(defaultEndTime);
-
     const [room, setRoom] = useState<string>('');
+    const [errors, setErrors] = useState<TutoringModalContentErrors>({generalErrors: []});
+
+    const removeError = (errorName: string) => {
+        if (errors[errorName]) {
+            let newErrors = {...errors};
+            delete newErrors[errorName];
+            setErrors(newErrors);
+        }
+    }
+
+    const onWeekDaysChange = (event: ChangeEvent<HTMLInputElement>, day: string) => {
+        setDefaultWeekDays({...defaultWeekDays, [day]: event.target.checked})
+        removeError('defaultWeekDays');
+    }
 
     const onCampusChange = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
         const campus = campuses.find(campus => campus.id === event.target.value);
@@ -70,9 +93,12 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
         newTime.setHours(parseInt(time.split(':')[0]))
         newTime.setMinutes(parseInt(time.split(':')[1]))
         setter(newTime);
+        removeError('defaultEndTime');
     }
 
     const handleSubmit = () => {
+        setDisableSaveButton(true);
+
         const params = new FormData();
 
         Object.keys(defaultWeekDays).forEach(day => {
@@ -98,9 +124,20 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                 method: 'POST',
                 body: params
             })
-            .then(() => {
-                onUpdate();
-                toggleModal()
+            .then(response => {
+                setDisableSaveButton(false);
+                if (response.status === 200) {
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.errors) {
+                    setErrors(parseErrors(data.errors));
+                } else {
+                    onUpdate();
+                    toggleModal();
+                }
             });
     }
 
@@ -110,16 +147,16 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                 const tutoringDefaultCampus = campuses.find(campus => campus.id === tutoring.defaultBuilding.campus.id);
                 setSelectedCampus(tutoringDefaultCampus);
                 setSelectedBuilding(tutoring.defaultBuilding);
+                setRoom(tutoring.defaultRoom?? '');
             } else {
                 setSelectedCampus(campuses[0]);
-                setSelectedBuilding(campuses[0].buildings[0])
+                setSelectedBuilding(campuses[0].buildings[0]);
             }
             setReady(true);
         }
     }, [tutoring, campuses]);
 
     useEffect(() => {
-        setRoom(tutoring.defaultRoom);
         setDefaultWeekDays(daysArrayToDaysSelection(tutoring.defaultWeekDays));
         setStartTime(new Date(tutoring.defaultStartTime));
         setEndTime(new Date(tutoring.defaultEndTime));
@@ -128,6 +165,7 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
     return <>
         {ready ?
             <>
+                <GeneralErrorsRenderer errors={errors.generalErrors} />
                 <div className='d-flex flex-column flex-lg-row'>
                     <div className='multiple-session-creation-info flex-1'>
                         <div className='days line'>
@@ -142,16 +180,24 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                                         label={t(`utils.days.${day}`)}
                                         type='checkbox'
                                         checked={defaultWeekDays[day]}
-                                        onChange={(event) => setDefaultWeekDays({...defaultWeekDays, [day]: event.target.checked})}
+                                        onChange={(event) => onWeekDaysChange(event, day)}
+                                        isInvalid={errors.defaultWeekDays ? true : false}
                                     />
                                 )}
                             </div>
+                            <Form.Control
+                                hidden={true}
+                                isInvalid={errors.defaultWeekDays? true : false}
+                            />
+                            <Form.Control.Feedback className='mt-2' type='invalid'>
+                                {errors.defaultWeekDays}
+                            </Form.Control.Feedback>
                         </div>
                         <div className='hours line'>
                             <div className='label'>
                                 {t('form.default_hours')}
                             </div>
-                            <div className='d-flex justify-content-between'>
+                            <div className={'d-flex justify-content-between' + (errors.defaultEndTime? ' invalid': '')}>
                                 <div className='d-flex align-items-center flex-grow-1'>
                                     <span className='pe-2'>{t('form.from')} </span>
                                     <div className='start-time-value pe-2'>
@@ -175,6 +221,13 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                                     </div>
                                 </div>
                             </div>
+                            <Form.Control
+                                hidden={true}
+                                isInvalid={errors.defaultEndTime? true : false}
+                            />
+                            <Form.Control.Feedback className='mt-2' type='invalid'>
+                                {errors.defaultEndTime}
+                            </Form.Control.Feedback>
                         </div>
                         <hr className='hr'></hr>
                         
@@ -208,7 +261,18 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                                 <div className='room-label label ps-2'>
                                     {t('form.room')}
                                 </div>
-                                <Form.Control value={room} onChange={e => setRoom(e.target.value)}></Form.Control>
+                                <Form.Control
+                                    value={room}
+                                    onChange={e => {
+                                            setRoom(e.target.value);
+                                            removeError('defaultRoom')
+                                        }
+                                    }
+                                    isInvalid={errors.defaultRoom? true : false}
+                                />
+                                <Form.Control.Feedback className='mt-2' type='invalid'>
+                                    {errors.defaultRoom}
+                                </Form.Control.Feedback>
                             </div>
                         </div>
                     </div>
@@ -240,7 +304,7 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                     </div>
                 </div>
                 <div className='d-flex justify-content-end'>
-                    <Button type='submit' variant='secondary' onClick={handleSubmit}>
+                    <Button type='submit' variant='secondary' onClick={handleSubmit} disabled={disableSaveButton}>
                         {t('form.save_button')}
                     </Button>
                 </div>

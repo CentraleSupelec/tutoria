@@ -37,7 +37,7 @@ class BatchTutoringSessionCreationModel
     #[Assert\NotNull]
     private ?Building $building = null;
 
-    #[Assert\NotNull]
+    #[Assert\NotBlank(allowNull: true)]
     private ?string $room = null;
 
     #[Assert\NotNull]

@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Building;
 use App\Entity\Tutoring;
-use App\Model\BatchSessionCreation;
+use App\Model\BatchTutoringSessionCreationModel;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -61,7 +61,7 @@ class BatchSessionCreationFormType extends AbstractType
     public function configureOptions(OptionsResolver $optionsResolver): void
     {
         $optionsResolver->setDefaults([
-            'data_class' => BatchSessionCreation::class,
+            'data_class' => BatchTutoringSessionCreationModel::class,
             'csrf_protection' => false,
         ]);
     }

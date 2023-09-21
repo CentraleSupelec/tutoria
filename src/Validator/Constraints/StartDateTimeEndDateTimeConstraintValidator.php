@@ -25,8 +25,18 @@ class StartDateTimeEndDateTimeConstraintValidator extends ConstraintValidator
             return;
         }
 
+        if ($value->getStartDateTime()->format('d/m/Y') !== $value->getEndDateTime()->format('d/m/Y')) {
+            $this->context->buildViolation($constraint->notSameDay)
+                ->atPath('endDateTime')
+                ->addViolation();
+
+            return;
+        }
+
         if ($value->getStartDateTime() > $value->getEndDateTime()) {
-            $this->context->buildViolation($constraint->startDateTimeAfterEndDateTime)->addViolation();
+            $this->context->buildViolation($constraint->startDateTimeAfterEndDateTime)
+                ->atPath('endDateTime')
+                ->addViolation();
         }
     }
 }

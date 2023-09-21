@@ -87,8 +87,8 @@ form:
 
 confirmation_modal:
   title: Confirmer la suppression
-  body: Êtes vous sûr de vouloir supprimer ce crénau ?
-  cancel: Annnuler
+  body: Êtes vous sûr de vouloir supprimer ce créneau ?
+  cancel: Annuler
   delete: Supprimer
 
 error:

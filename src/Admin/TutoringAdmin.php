@@ -69,4 +69,11 @@ final class TutoringAdmin extends AbstractAdmin
             ->add('name')
         ;
     }
+
+    protected function configureFormOptions(array &$formOptions): void
+    {
+        parent::configureFormOptions($formOptions);
+
+        $formOptions['validation_groups'] = ['AdminTutoringGroup'];
+    }
 }

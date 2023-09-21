@@ -45,6 +45,7 @@ class TutoringSession
 
     #[Groups(['tutoringSessions', 'tutorings'])]
     #[ORM\Column(length: 255, nullable: true)]
+    #[AppAssert\OnlineMeetingUriConstraint]
     private ?string $onlineMeetingUri = null;
 
     #[Groups(['tutoringSessions', 'tutorings'])]

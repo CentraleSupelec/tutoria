@@ -167,7 +167,7 @@ body {
 }
 
 .session-creation-modal .hr {
-  margin: 2rem 0;
+  margin-bottom: 2rem;
 }
 
 .react-time-picker__wrapper {
@@ -198,4 +198,28 @@ body {
 .react-datetime-picker__wrapper {
   border-radius: 4px;
   padding: 0.25rem;
+}
+
+.multiple-session-creation-info .line .invalid {
+  color: var(--bs-form-invalid, #dc3545);
+
+  .react-time-picker__wrapper {
+    border-color: var(--bs-form-invalid, #dc3545) !important;
+
+    .react-time-picker__clear-button__icon {
+      stroke: var(--bs-form-invalid, #dc3545);
+    }
+  }
+
+  .react-date-picker__calendar-button path {
+    fill: var(--bs-form-invalid, #dc3545);
+  }
+
+  .react-datetime-picker__calendar-button path{
+    fill: var(--bs-form-invalid, #dc3545);
+  }
+}
+
+.form-general-errors {
+  color: var(--bs-form-invalid, #dc3545);
 }

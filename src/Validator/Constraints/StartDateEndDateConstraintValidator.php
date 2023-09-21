@@ -26,7 +26,9 @@ class StartDateEndDateConstraintValidator extends ConstraintValidator
         }
 
         if ($value->getStartDate() > $value->getEndDate()) {
-            $this->context->buildViolation($constraint->startDateAfterEndDate)->addViolation();
+            $this->context->buildViolation($constraint->startDateAfterEndDate)
+                ->atPath('endDate')
+                ->addViolation();
         }
     }
 }

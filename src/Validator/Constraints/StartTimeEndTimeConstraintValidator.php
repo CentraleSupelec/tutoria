@@ -21,9 +21,11 @@ class StartTimeEndTimeConstraintValidator extends ConstraintValidator
         if ($value instanceof BatchTutoringSessionCreationModel) {
             $startTime = $value->getStartTime();
             $endTime = $value->getEndTime();
+            $errorPropertyPath = 'endTime';
         } elseif ($value instanceof Tutoring) {
             $startTime = $value->getDefaultStartTime();
             $endTime = $value->getDefaultEndTime();
+            $errorPropertyPath = 'defaultEndTime';
         } else {
             throw new UnexpectedValueException($value, sprintf('%s or %s', BatchTutoringSessionCreationModel::class, Tutoring::class));
         }
@@ -33,7 +35,9 @@ class StartTimeEndTimeConstraintValidator extends ConstraintValidator
         }
 
         if ($startTime > $endTime) {
-            $this->context->buildViolation($constraint->startTimeAfterEndTime)->addViolation();
+            $this->context->buildViolation($constraint->startTimeAfterEndTime)
+                ->atPath($errorPropertyPath)
+                ->addViolation();
         }
     }
 }
