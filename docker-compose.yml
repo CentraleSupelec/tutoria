@@ -100,6 +100,7 @@ services:
       - 'mariadb_data:/bitnami/mariadb'
     ports:
     - "3306:3306"
+
   moodle:
     image: docker.io/bitnami/moodle:4.0.6
     ports:

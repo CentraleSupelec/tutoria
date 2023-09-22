@@ -34,7 +34,7 @@ class TutorController extends AbstractController
         ]);
     }
 
-    #[Route('/batch-create-sessions', methods: ['POST'], name: 'batch_create_sessions', options: ['expose' => true])]
+    #[Route('/batch-create-sessions', name: 'batch_create_sessions', options: ['expose' => true], methods: ['POST'])]
     public function batchCreateSessions(
         Request $request,
         BatchTutoringSessionCreationService $batchTutoringSessionCreationService,
@@ -74,7 +74,7 @@ class TutorController extends AbstractController
         }
     }
 
-    #[Route('/tutoring/{id}/update', methods: ['POST'], name: 'update_tutoring', options: ['expose' => true])]
+    #[Route('/tutoring/{id}/update', name: 'update_tutoring', options: ['expose' => true], methods: ['POST'])]
     public function updateTutoring(
         Tutoring $tutoring,
         Request $request,
@@ -102,7 +102,7 @@ class TutorController extends AbstractController
         }
     }
 
-    #[Route('/tutoring-session/new', methods: ['POST'], name: 'create_tutoring_session', options: ['expose' => true])]
+    #[Route('/tutoring-session/new', name: 'create_tutoring_session', options: ['expose' => true], methods: ['POST'])]
     public function createTutoringSession(
         Request $request,
         EntityManagerInterface $entityManager,
@@ -138,7 +138,7 @@ class TutorController extends AbstractController
         }
     }
 
-    #[Route('/tutoring-session/{id}/update', methods: ['POST'], name: 'update_tutoring_session', options: ['expose' => true])]
+    #[Route('/tutoring-session/{id}/update', name: 'update_tutoring_session', options: ['expose' => true], methods: ['POST'])]
     public function updateTutoringSession(
         TutoringSession $tutoringSession,
         Request $request,

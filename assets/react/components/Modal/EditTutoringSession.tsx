@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import Campus from '../../interfaces/Campus';
 import Tutoring from '../../interfaces/Tutoring';
 import { useTranslation } from 'react-i18next';
@@ -11,10 +11,11 @@ interface EditTutoringProps {
     tutoring: Tutoring,
     tutoringSession: TutoringSession
     campuses: Campus[],
-    updateTutoringSession: Function
+    updateTutoringSession: Function,
+    isTutoringSessionsEnded: boolean,
 }
 
-export default function ({tutoring, tutoringSession, campuses, updateTutoringSession} : EditTutoringProps) {
+export default function ({tutoring, tutoringSession, campuses, updateTutoringSession, isTutoringSessionsEnded} : EditTutoringProps) {
     const { t } = useTranslation();
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -24,9 +25,9 @@ export default function ({tutoring, tutoringSession, campuses, updateTutoringSes
     };
 
     return <>
-        <div className='interactive-button-container' onClick={toggleModal} style={{cursor: 'pointer'}}>
-            <i className="fa-lg fa-solid fa-pen-to-square p-2" style={{color: '#00807a'}} />
-        </div>
+        <Button variant={isTutoringSessionsEnded?'outline-secondary':'secondary'} onClick={toggleModal} disabled={isTutoringSessionsEnded}>
+            <i className="fa fa-solid fa-pen-to-square" />
+        </Button>
 
         <Modal className='session-creation-modal' show={isModalOpen} onHide={toggleModal} size='lg'>
             <Modal.Header closeButton closeLabel='Enregistrer'>

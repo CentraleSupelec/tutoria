@@ -24,6 +24,9 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
     const { t } = useTranslation();
 
     const [tutoringSession, setTutoringSession] = useState<TutoringSession>();
+    const now = new Date();
+
+    const isTutoringSessionsEnded = (tutoringSession: TutoringSession) => now > new Date(tutoringSession.endDateTime);
 
     const formatTutors = (tutoringSession: TutoringSession): string[] => {
         return tutoringSession.tutors.map(function (tutor, index) {
@@ -97,7 +100,7 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
                                                 </span>
                                             </a>
                                         </div> :
-                                        <div>
+                                        <div className="d-flex align-items-center">
                                             <FontAwesomeIcon className="text-primary px-2" icon="location-dot" />
                                             <span className="tutoring-session-description bold">
                                                 {t('tutor.default_room')} : {tutoringSession.room && tutoringSession.building ? formatRoom(tutoringSession.room, tutoringSession.building) : t('utils.to_complete')}
@@ -137,11 +140,11 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
                                 }
                             </div>
                         </div>
-                        <div className="col-md-2 d-flex align-items-center justify-content-center">
+                        <div className="col-md-2 d-flex align-items-center justify-content-around ps-3">
                             {isUserTutor?
                             <>
-                                <EditTutoringSession tutoring={tutoring} tutoringSession={tutoringSession} campuses={campuses} updateTutoringSession={fetchTutoringSession}/>
-                                <DeleteConfirmation onConfirmDelete={deleteTutoringSession} />
+                                <EditTutoringSession tutoring={tutoring} tutoringSession={tutoringSession} campuses={campuses} updateTutoringSession={fetchTutoringSession} isTutoringSessionsEnded={isTutoringSessionsEnded(tutoringSession)} />
+                                <DeleteConfirmation onConfirmDelete={deleteTutoringSession} isTutoringSessionsEnded={isTutoringSessionsEnded(tutoringSession)} />
                             </>
                                 :
                                 (userInListOfTutoringSessionStudent()?

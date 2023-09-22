@@ -4,10 +4,11 @@ import { Button, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
 interface DeleteConfirmationProps {
-    onConfirmDelete: Function
+    onConfirmDelete: Function,
+    isTutoringSessionsEnded: boolean,
 }
 
-export default function ({onConfirmDelete} : DeleteConfirmationProps) {
+export default function ({onConfirmDelete, isTutoringSessionsEnded} : DeleteConfirmationProps) {
     const { t } = useTranslation();
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -17,9 +18,9 @@ export default function ({onConfirmDelete} : DeleteConfirmationProps) {
     };
 
     return <>
-        <div className='interactive-button-container ms-3' onClick={toggleModal} style={{cursor: 'pointer'}}>
-            <i className="text-secondary fa-lg fa-solid fa-trash-can p-2" />
-        </div>
+        <Button variant='outline-secondary' onClick={toggleModal} disabled={isTutoringSessionsEnded}>
+            <i className="fa fa-solid fa-trash-can" />
+        </Button>
 
         <Modal className='session-creation-modal' show={isModalOpen} onHide={toggleModal} size='lg'>
             <Modal.Header closeButton>
@@ -31,10 +32,10 @@ export default function ({onConfirmDelete} : DeleteConfirmationProps) {
                 {t('confirmation_modal.body')}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant='primary' onClick={toggleModal}>
+                <Button variant='outline-danger' onClick={toggleModal}>
                     {t('confirmation_modal.cancel')}
                 </Button>
-                <Button variant='secondary' onClick={() => onConfirmDelete()}>
+                <Button variant='danger' onClick={() => onConfirmDelete()}>
                     {t('confirmation_modal.delete')}
                 </Button>
             </Modal.Footer>

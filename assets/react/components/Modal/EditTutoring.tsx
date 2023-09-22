@@ -29,9 +29,9 @@ export default function ({ tutoring, campuses, withBatchTutoringSessionCreation,
                 {t('form.batch_create_title')}
             </Button>
             :
-            <div className='interactive-button-container' onClick={toggleModal} style={{ cursor: 'pointer' }}>
-                <i className="fa-xl fa-solid fa-pen-to-square p-2" style={{ color: '#00807a' }} />
-            </div>
+            <Button variant='outline-secondary' onClick={toggleModal}>
+                <i className="fa fa-solid fa-pen-to-square" />
+            </Button>
         }
 
         <Modal className='session-creation-modal' show={isModalOpen} onHide={toggleModal} size='lg'>
@@ -50,7 +50,7 @@ export default function ({ tutoring, campuses, withBatchTutoringSessionCreation,
                         onUpdate={onUpdate}
                     />
                     :
-                    <TutoringModalContent 
+                    <TutoringModalContent
                         tutoring={tutoring}
                         campuses={campuses}
                         toggleModal={toggleModal}

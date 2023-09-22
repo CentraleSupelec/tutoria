@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Modal, Tab, Tabs} from 'react-bootstrap';
+import { Button, Modal, Tab, Tabs } from 'react-bootstrap';
 import Campus from '../../interfaces/Campus';
 import Tutoring from '../../interfaces/Tutoring';
 import { useTranslation } from 'react-i18next';
@@ -23,9 +23,10 @@ export default function ({tutoring, campuses, onUpdate} : TutoringSessionCreatio
     };
 
     return <>
-        <div className='interactive-button-container' onClick={toggleModal} style={{cursor: 'pointer'}}>
-            <i className="fa-xl fa-solid fa-circle-plus p-2" style={{color: '#00807a'}} />
-        </div>
+        <Button variant='secondary' onClick={toggleModal}>
+            <i className="fa fa-solid fa-circle-plus" />
+        </Button>
+
         <Modal className='session-creation-modal' show={isModalOpen} onHide={toggleModal} size='lg'>
             <Modal.Header closeButton closeLabel='Enregistrer'>
                 <Modal.Title className='label'>
@@ -39,9 +40,9 @@ export default function ({tutoring, campuses, onUpdate} : TutoringSessionCreatio
                             <TutoringSessionModalContent tutoring={tutoring} campuses={campuses} toggleModal={toggleModal} updateTutoring={onUpdate}/>
                         </Tab>
                         <Tab eventKey='batch' title={t('form.batch_create_sessions')}>
-                            <BatchTutoringSessionCreationModalContent 
+                            <BatchTutoringSessionCreationModalContent
                                 tutoring={tutoring}
-                                campuses={campuses} 
+                                campuses={campuses}
                                 toggleModal={toggleModal}
                                 saveTutoring={false}
                                 onUpdate={onUpdate}
