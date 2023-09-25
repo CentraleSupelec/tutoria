@@ -7,8 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2023-09-25
+
 ## Added
-- Sending errors from controllers to the front-end and showing them to the user when submitting a form
+- Sending errors from controllers to the front-end and showing them to the user when submitting a form !22
 
 ## [1.1.0] - 2023-09-19
 
