@@ -7,7 +7,6 @@ import TimePicker from 'react-time-picker';
 import Routing from "../../../../Routing";
 import Building from '../../../interfaces/Building';
 import Campus from '../../../interfaces/Campus';
-import ErrorInterface from '../../../interfaces/ErrorInterface';
 import ModalErrorsInterface from '../../../interfaces/ModalErrorsInterface';
 import Tutoring from '../../../interfaces/Tutoring';
 import { daysArrayToDaysSelection, parseErrors } from '../../../utils';
@@ -24,6 +23,7 @@ interface BatchTutoringSessionCreationModalContentProps {
 interface BatchTutoringSessionCreationModalContentErrors extends ModalErrorsInterface {
     weekDays?: string,
     room?: string,
+    startDate?: string,
     endDate?: string,
     endTime?: string,
 }
@@ -109,6 +109,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
         }
         setter(date);
         removeError('endDate');
+        removeError('startDate');
     }
 
     const handleSubmit = () => {
@@ -217,13 +218,13 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                                         type='checkbox'
                                         checked={defaultWeekDays[day]}
                                         onChange={(event) => onWeekDaysChange(event, day)}
-                                        isInvalid={errors.weekDays ? true : false}
+                                        isInvalid={!!errors.weekDays}
                                     />
                                 )}
                             </div>
                             <Form.Control
                                 hidden={true}
-                                isInvalid={errors.weekDays? true : false}
+                                isInvalid={!!errors.weekDays}
                             />
                             <Form.Control.Feedback className='mt-2' type='invalid'>
                                 {errors.weekDays}
@@ -257,7 +258,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                             </div>
                             <Form.Control
                                 hidden={true}
-                                isInvalid={errors.endTime? true : false}
+                                isInvalid={!!errors.endTime}
                             />
                             <Form.Control.Feedback className='mt-2' type='invalid'>
                                 {errors.endTime}
@@ -265,7 +266,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                         </div>
                         <hr className='hr'></hr>
                         <div className='date-range line'>
-                            <div className={'d-flex' + (errors.endTime? ' invalid': '')}>
+                            <div className={'d-flex' + (errors.endDate || errors.startDate? ' invalid': '')}>
                                 <div className='start-date flex-grow-1'>
                                     <div className='start-date-label label'>
                                         {t('form.start_date')}
@@ -293,13 +294,14 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                                     </div>
                                 </div>
                             </div>
-                            <Form.Control
-                                    hidden={true}
-                                    isInvalid={errors.endDate? true : false}
-                                />
-                                <Form.Control.Feedback className='mt-2' type='invalid'>
-                                    {errors.endDate}
-                                </Form.Control.Feedback>
+                            <Form.Control hidden={true} isInvalid={!!errors.endDate} />
+                            <Form.Control.Feedback className='mt-2' type='invalid'>
+                                {errors.endDate}
+                            </Form.Control.Feedback>
+                            <Form.Control hidden={true} isInvalid={!!errors.startDate} />
+                            <Form.Control.Feedback className='mt-2' type='invalid'>
+                                {errors.startDate}
+                            </Form.Control.Feedback>
                         </div>
 
                         <div className='place line d-flex flex-column flex-lg-row'>
@@ -339,7 +341,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                                             removeError('room')
                                         }
                                     }
-                                    isInvalid={errors.room? true : false}
+                                    isInvalid={!!errors.room}
                                 />
                                 <Form.Control.Feedback className='mt-2' type='invalid'>
                                     {errors.room}

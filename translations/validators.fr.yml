@@ -1,15 +1,16 @@
 validation:
   start_date_end_date_constraint:
-    start_date_after_end_date: La date de début est après la date de fin
+    start_date_after_end_date: La date de début ne peut pas être postérieure à la date de fin
   start_time_end_time_constraint:
-    start_time_after_end_time: L'horaire de début est après l'horaire de fin
+    start_time_after_end_time: L'horaire de début ne peut pas être postérieur à l'horaire de fin
   start_date_time_end_date_time_constraint:
-    start_date_time_after_end_date_time: L'horaire de début est après l'horaire de fin
-    not_same_day: La date de début est différente de la date de fin
+    start_date_time_after_end_date_time: L'heure de début ne peut pas être postérieure à l'heure de fin
+    not_same_day: La date de début doit être la même que la date de fin
   academic_year_constraint:
     format: Année scolaire invalide (format 20XX-20XY attendu)
     consecutive_years: "Une année scolaire doit être formée de deux années consécutives (ex: 2022-2023)"
   batch_tutoring_session_creation_model:
     weekdays_min_message: Veuillez sélectionner au moins un jour de la semaine
+    dates_outside_default_weekdays: Les dates entrées ne sont pas compatibles avec les jours de la semaine indiqués
   online_meeting_uri_constraint:
-    empty: Pas de lien de visio saisi alors que l'option 'Distanciel' est cochée
+    empty: Merci d'entrer un lien lorsque l'option "Distanciel" est sélectionnée

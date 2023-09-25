@@ -5,7 +5,6 @@ import TimePicker from 'react-time-picker';
 import Routing from "../../../../Routing";
 import Building from '../../../interfaces/Building';
 import Campus from '../../../interfaces/Campus';
-import ErrorInterface from '../../../interfaces/ErrorInterface';
 import ModalErrorsInterface from '../../../interfaces/ModalErrorsInterface';
 import Tutoring from '../../../interfaces/Tutoring';
 import { daysArrayToDaysSelection, parseErrors } from '../../../utils';
@@ -15,7 +14,7 @@ interface TutoringModalContentProps {
     tutoring: Tutoring,
     campuses: Campus[],
     toggleModal: Function,
-    onUpdate: Function 
+    onUpdate: Function
 }
 
 interface TutoringModalContentErrors extends ModalErrorsInterface {
@@ -181,13 +180,13 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                                         type='checkbox'
                                         checked={defaultWeekDays[day]}
                                         onChange={(event) => onWeekDaysChange(event, day)}
-                                        isInvalid={errors.defaultWeekDays ? true : false}
+                                        isInvalid={!!errors.defaultWeekDays}
                                     />
                                 )}
                             </div>
                             <Form.Control
                                 hidden={true}
-                                isInvalid={errors.defaultWeekDays? true : false}
+                                isInvalid={!!errors.defaultWeekDays}
                             />
                             <Form.Control.Feedback className='mt-2' type='invalid'>
                                 {errors.defaultWeekDays}
@@ -223,14 +222,14 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                             </div>
                             <Form.Control
                                 hidden={true}
-                                isInvalid={errors.defaultEndTime? true : false}
+                                isInvalid={!!errors.defaultEndTime}
                             />
                             <Form.Control.Feedback className='mt-2' type='invalid'>
                                 {errors.defaultEndTime}
                             </Form.Control.Feedback>
                         </div>
                         <hr className='hr'></hr>
-                        
+
                         <div className='place line d-flex flex-column flex-lg-row'>
                             <div className='campus d-flex flex-column flex-grow-1 me-2 pb-2'>
                                 <div className='campus-label label ps-2'>
@@ -268,7 +267,7 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                                             removeError('defaultRoom')
                                         }
                                     }
-                                    isInvalid={errors.defaultRoom? true : false}
+                                    isInvalid={!!errors.defaultRoom}
                                 />
                                 <Form.Control.Feedback className='mt-2' type='invalid'>
                                     {errors.defaultRoom}

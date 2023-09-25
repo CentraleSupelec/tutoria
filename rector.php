@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Core\ValueObject\PhpVersion;
+use Rector\Naming\Rector\Assign\RenameVariableToMatchMethodCallReturnTypeRector;
 use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
 use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\Set\ValueObject\LevelSetList;
@@ -44,6 +45,9 @@ return static function (RectorConfig $rectorConfig): void {
         ],
         ActionSuffixRemoverRector::class => [
             __DIR__.'/src/Controller/Admin/StudentAdminController.php',
+        ],
+        RenameVariableToMatchMethodCallReturnTypeRector::class => [
+            __DIR__.'/src/Validator/Constraints/*',
         ],
     ]);
 };

@@ -79,6 +79,6 @@ class OnlineMeetingUriConstraintValidatorTest extends KernelTestCase
         $errors = $this->validator->validate($tutoringSession);
 
         $this->assertCount(1, $errors);
-        $this->assertEquals("Pas de lien de visio saisi alors que l'option 'Distanciel' est cochée", $errors[0]->getMessage());
+        $this->assertEquals("Merci d'entrer un lien lorsque l'option \"Distanciel\" est sélectionnée", $errors[0]->getMessage());
     }
 }

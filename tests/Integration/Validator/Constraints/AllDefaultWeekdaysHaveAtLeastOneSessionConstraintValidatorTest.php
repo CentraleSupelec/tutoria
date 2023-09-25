@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class StartDateEndDateConstraintValidatorTest extends KernelTestCase
+class AllDefaultWeekdaysHaveAtLeastOneSessionConstraintValidatorTest extends KernelTestCase
 {
     protected EntityManagerInterface $entityManager;
 
@@ -26,7 +26,7 @@ class StartDateEndDateConstraintValidatorTest extends KernelTestCase
         $this->validator = static::getContainer()->get(ValidatorInterface::class);
     }
 
-    public function testCreateValidBatchTutoringSessionCreationStartTimeEndTime(): void
+    public function testCreateValidBatchTutoringSessionCreationAllDefaultWeekdaysHaveAtLeastOneSession(): void
     {
         $tutoring = TutoringFixturesProvider::getTutoring($this->entityManager);
 
@@ -45,24 +45,24 @@ class StartDateEndDateConstraintValidatorTest extends KernelTestCase
         $this->assertCount(0, $errors);
     }
 
-    public function testCreateInvalidBatchTutoringSessionCreationStartTimeAfterEndTime(): void
+    public function testCreateInvalidBatchTutoringSessionCreationAllDefaultWeekdaysHaveAtLeastOneSession(): void
     {
         $tutoring = TutoringFixturesProvider::getTutoring($this->entityManager);
 
         $batchTutoringSessionCreation = (new BatchTutoringSessionCreationModel())
             ->setTutoring($tutoring)
             ->setStartTime(new DateTime('2022-02-16 14:00'))
-            ->setEndTime(new DateTime('2022-02-16 10:00'))
+            ->setEndTime(new DateTime('2022-02-16 16:00'))
             ->setStartDate(new DateTime('2022-02-13'))
-            ->setEndDate(new DateTime('2022-02-20'))
+            ->setEndDate(new DateTime('2022-02-15'))
             ->setBuilding($tutoring->getDefaultBuilding())
             ->setRoom($tutoring->getDefaultRoom())
-            ->setWeekDays(['monday', 'tuesday'])
+            ->setWeekDays(['monday', 'tuesday', 'friday'])
         ;
 
         $errors = $this->validator->validate($batchTutoringSessionCreation);
 
         $this->assertCount(1, $errors);
-        $this->assertEquals("L'horaire de début ne peut pas être postérieur à l'horaire de fin", $errors[0]->getMessage());
+        $this->assertEquals('Les dates entrées ne sont pas compatibles avec les jours de la semaine indiqués', $errors[0]->getMessage());
     }
 }

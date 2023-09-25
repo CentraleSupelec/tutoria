@@ -1,15 +1,16 @@
 validation:
   start_date_end_date_constraint:
-    start_date_after_end_date: Start date is after end date
+    start_date_after_end_date: The start date cannot be later than the end date
   start_time_end_time_constraint:
-    start_time_after_end_time: Start time is after end time
+    start_time_after_end_time: The start time cannot be later than the end time
   start_date_time_end_date_time_constraint:
-    start_date_time_after_end_date_time: Start time is after end time
-    not_same_day: Start date is different than end date
+    start_date_time_after_end_date_time: The start time cannot be later than the end time
+    not_same_day: The start date must be the same as the end date
   academic_year_constraint:
     format: Invalid academic year format (20XX-20XY expected)
     consecutive_years: "An academic year must be composed of two consecutive years (e.g.: 2022-2023)"
   batch_tutoring_session_creation_model:
     weekdays_min_message: Please choose at least one day
+    dates_outside_default_weekdays: The dates entered are not compatible with the days of the week indicated
   online_meeting_uri_constraint:
-    empty: No online meeting URL has been given while "Remote" option is selected
+    empty: Please enter a link when "Remote" option is selected

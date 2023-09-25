@@ -62,7 +62,7 @@ class StartTimeEndTimeConstraintValidatorTest extends KernelTestCase
 
         $errors = $this->validator->validate($batchTutoringSessionCreation);
 
-        $this->assertCount(1, $errors);
-        $this->assertEquals('La date de début est après la date de fin', $errors[0]->getMessage());
+        $this->assertCount(2, $errors);
+        $this->assertEquals('La date de début ne peut pas être postérieure à la date de fin', $errors[0]->getMessage());
     }
 }

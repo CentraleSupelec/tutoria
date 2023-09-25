@@ -128,7 +128,7 @@ class TutorControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCodeSame(422);
         $responseData = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertEquals('data.endTime', $responseData['errors'][0]['propertyPath']);
-        $this->assertEquals("L'horaire de début est après l'horaire de fin", $responseData['errors'][0]['message']);
+        $this->assertEquals("L'horaire de début ne peut pas être postérieur à l'horaire de fin", $responseData['errors'][0]['message']);
 
         $batchTutoringSessionCreationForm['batch_tutoring_session_creation']['endTime']['hour'] = 14;
 
@@ -144,8 +144,20 @@ class TutorControllerTest extends BaseWebTestCase
         $this->client->xmlHttpRequest('POST', '/tutor/batch-create-sessions', $batchTutoringSessionCreationForm);
         $this->assertResponseStatusCodeSame(422);
         $responseData = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertEquals('data.endDate', $responseData['errors'][0]['propertyPath']);
-        $this->assertEquals('La date de début est après la date de fin', $responseData['errors'][0]['message']);
+        $this->assertEquals('data.endDate', $responseData['errors'][1]['propertyPath']);
+        $this->assertEquals('La date de début ne peut pas être postérieure à la date de fin', $responseData['errors'][1]['message']);
+
+        $batchTutoringSessionCreationForm['batch_tutoring_session_creation']['endDate'] = [
+            'year' => 2023,
+            'month' => 9,
+            'day' => 16,
+        ];
+
+        $this->client->xmlHttpRequest('POST', '/tutor/batch-create-sessions', $batchTutoringSessionCreationForm);
+        $this->assertResponseStatusCodeSame(422);
+        $responseData = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertEquals('data.startDate', $responseData['errors'][0]['propertyPath']);
+        $this->assertEquals('Les dates entrées ne sont pas compatibles avec les jours de la semaine indiqués', $responseData['errors'][0]['message']);
     }
 
     public function testBatchTutoringSessionCreationAndSavingDefaultValues(): void
@@ -324,7 +336,7 @@ class TutorControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCodeSame(422);
         $responseData = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertEquals('data.endDateTime', $responseData['errors'][0]['propertyPath']);
-        $this->assertEquals("L'horaire de début est après l'horaire de fin", $responseData['errors'][0]['message']);
+        $this->assertEquals("L'heure de début ne peut pas être postérieure à l'heure de fin", $responseData['errors'][0]['message']);
     }
 
     public function testInvalidSingleTutoringSessionCreationStartDateDifferentThanEndDate(): void
@@ -368,7 +380,7 @@ class TutorControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCodeSame(422);
         $responseData = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertEquals('data.endDateTime', $responseData['errors'][0]['propertyPath']);
-        $this->assertEquals('La date de début est différente de la date de fin', $responseData['errors'][0]['message']);
+        $this->assertEquals('La date de début doit être la même que la date de fin', $responseData['errors'][0]['message']);
     }
 
     public function testInvalidSingleTutoringSessionCreationNoOnlineMeetingURL(): void
@@ -410,7 +422,7 @@ class TutorControllerTest extends BaseWebTestCase
         $this->assertResponseStatusCodeSame(422);
         $responseData = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertEquals('data.onlineMeetingUri', $responseData['errors'][0]['propertyPath']);
-        $this->assertEquals("Pas de lien de visio saisi alors que l'option 'Distanciel' est cochée", $responseData['errors'][0]['message']);
+        $this->assertEquals("Merci d'entrer un lien lorsque l'option \"Distanciel\" est sélectionnée", $responseData['errors'][0]['message']);
     }
 
     public function testUpdateTutoringSession(): void

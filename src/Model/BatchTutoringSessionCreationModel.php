@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[AppAssert\StartTimeEndTimeConstraint]
 #[AppAssert\StartDateEndDateConstraint]
+#[AppAssert\AllDefaultWeekdaysHaveAtLeastOneSessionConstraint]
 class BatchTutoringSessionCreationModel
 {
     #[Assert\Valid]

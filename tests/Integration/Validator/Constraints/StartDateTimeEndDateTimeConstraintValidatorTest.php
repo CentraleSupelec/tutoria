@@ -57,7 +57,7 @@ class StartDateTimeEndDateTimeConstraintValidatorTest extends KernelTestCase
         $errors = $this->validator->validate($tutoringSession);
 
         $this->assertCount(1, $errors);
-        $this->assertEquals('La date de début est différente de la date de fin', $errors[0]->getMessage());
+        $this->assertEquals('La date de début doit être la même que la date de fin', $errors[0]->getMessage());
     }
 
     public function testCreateInvalidTutoringSessionStartTimeAfterEndTime(): void
@@ -75,6 +75,6 @@ class StartDateTimeEndDateTimeConstraintValidatorTest extends KernelTestCase
         $errors = $this->validator->validate($tutoringSession);
 
         $this->assertCount(1, $errors);
-        $this->assertEquals("L'horaire de début est après l'horaire de fin", $errors[0]->getMessage());
+        $this->assertEquals("L'heure de début ne peut pas être postérieure à l'heure de fin", $errors[0]->getMessage());
     }
 }

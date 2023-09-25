@@ -9,7 +9,6 @@ import TutoringSession from '../../../interfaces/TutoringSession';
 import DateTimePicker from 'react-datetime-picker';
 import { Value } from 'react-datetime-picker/dist/cjs/shared/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import ErrorInterface from '../../../interfaces/ErrorInterface';
 import ModalErrorsInterface from '../../../interfaces/ModalErrorsInterface';
 import { parseErrors } from '../../../utils';
 import GeneralErrorsRenderer from '../../GeneralErrorsRenderer';
@@ -52,7 +51,7 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                 const tutoringSessionCampus = campuses.find(campus => campus.id === tutoringSession.building.campus.id);
                 setSelectedCampus(tutoringSessionCampus);
                 setSelectedBuilding(tutoringSession.building);
-                setRoom(tutoringSession.room);
+                setRoom(tutoringSession.room?? '');
             } else if (tutoring?.defaultBuilding && tutoring.defaultBuilding.campus) {
                 const tutoringDefaultCampus = campuses.find(campus => campus.id === tutoring.defaultBuilding.campus.id);
                 setSelectedCampus(tutoringDefaultCampus);
@@ -137,7 +136,7 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
             params.append('tutoring_session[endDateTime][time][hour]', endDateTime.getHours().toString());
             params.append('tutoring_session[endDateTime][time][minute]', endDateTime.getMinutes().toString());
         }
-        
+
         if (isRemote) {
             params.append('tutoring_session[onlineMeetingUri]', onlineMeetingUri);
         } else {
@@ -214,7 +213,7 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
 
                             <Form.Control
                                 hidden={true}
-                                isInvalid={errors.endDateTime? true : false}
+                                isInvalid={!!errors.endDateTime}
                             />
                             <Form.Control.Feedback className='mt-2' type='invalid'>
                                 {errors.endDateTime}
@@ -253,7 +252,7 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                                             removeError('onlineMeetingUri');
                                         }
                                     }
-                                    isInvalid={errors.onlineMeetingUri? true : false}
+                                    isInvalid={!!errors.onlineMeetingUri}
                                 />
                                 <Form.Control.Feedback className='mt-2' type='invalid'>
                                     {errors.onlineMeetingUri}
@@ -285,7 +284,7 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                                                 removeError('room');
                                             }
                                         }
-                                        isInvalid={errors.room? true : false}
+                                        isInvalid={!!errors.room}
                                     />
                                     <Form.Control.Feedback className='mt-2' type='invalid'>
                                         {errors.room}
