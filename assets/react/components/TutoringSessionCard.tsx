@@ -90,9 +90,11 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
                                     </h6>
                                     {tutoringSession.isRemote ?
                                         <div>
-                                            <FontAwesomeIcon className="text-secondary px-2" icon="video" />
-                                            <a className="tutoring-session-description bold text-secondary">
-                                                {t('tutee.access_tutoring_session')}
+                                            <a className="text-secondary d-flex align-items-center" href={tutoringSession.onlineMeetingUri} target="_blank">
+                                                <FontAwesomeIcon className="text-secondary px-2" icon="video" />
+                                                <span className="tutoring-session-description bold">
+                                                    {t('tutee.access_tutoring_session')}
+                                                </span>
                                             </a>
                                         </div> :
                                         <div>
