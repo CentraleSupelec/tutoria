@@ -21,21 +21,28 @@ export default function ({tutorings, onFilterChange}: TutoringFilterProps) {
     }
 
     return <>
-        <Select
-            className='mb-3'
-            components={animatedComponents}
-            isMulti
-            options={tutorings}
-            defaultValue={defaultValues}
-            getOptionLabel={(tutoring: Tutoring) => {
-                return tutoring.name;
-            }}
-            getOptionValue={(tutoring: Tutoring) => {
-                return tutoring.id;
-            }}
-            placeholder={t('tutee.choose_tutoring_filter')}
-            noOptionsMessage={() => { return t('tutee.no_tutorings'); }}
-            onChange={onFilterChange}
-        />
+        <div className="card mb-3 bg-secondary">
+            <div className="card-body">
+                <h6 className="tutoring-title bold text-white">
+                    {t('tutee.tutoring_filter')}
+                </h6>
+                <Select
+                    className='mb-3'
+                    components={animatedComponents}
+                    isMulti
+                    options={tutorings}
+                    defaultValue={defaultValues}
+                    getOptionLabel={(tutoring: Tutoring) => {
+                        return tutoring.name;
+                    }}
+                    getOptionValue={(tutoring: Tutoring) => {
+                        return tutoring.id;
+                    }}
+                    placeholder={t('tutee.choose_tutoring_filter')}
+                    noOptionsMessage={() => { return t('tutee.no_tutorings'); }}
+                    onChange={onFilterChange}
+                />
+            </div>
+        </div>
     </>;
 }

@@ -44,6 +44,7 @@ tutee:
   unregister: "Se désinscrire"
   incoming: "À venir"
   past: "Passées"
+  tutoring_filter: Filtrer les tutorats
 
 utils:
   tutor: Tuteur
@@ -95,7 +96,7 @@ error:
   title: "Erreur"
   access_denied:
     title: "Vous n'avez pas accès à cette page"
-    connected_as: 
+    connected_as:
       admin: Connecté en tant qu'administrateur
       tutor: Connecté en tant que tuteur
       tutee: Connecté en tant que tutoré
