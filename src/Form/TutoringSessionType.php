@@ -22,11 +22,11 @@ class TutoringSessionType extends AbstractType
             ])
             ->add('startDateTime', DateTimeType::class, [
                 'input' => 'datetime',
-                'widget' => 'single_text',
+                'widget' => 'choice',
             ])
             ->add('endDateTime', DateTimeType::class, [
                 'input' => 'datetime',
-                'widget' => 'single_text',
+                'widget' => 'choice',
                 'input_format' => 'H:i',
             ])
             ->add('building', EntityType::class, [

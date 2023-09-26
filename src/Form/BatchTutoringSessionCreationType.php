@@ -28,10 +28,10 @@ class BatchTutoringSessionCreationType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
             ])
-            ->add('startTime', TimeType::class, ['widget' => 'single_text'])
-            ->add('endTime', TimeType::class, ['widget' => 'single_text'])
-            ->add('startDate', DateType::class, ['widget' => 'single_text'])
-            ->add('endDate', DateType::class, ['widget' => 'single_text'])
+            ->add('startTime', TimeType::class, ['widget' => 'choice'])
+            ->add('endTime', TimeType::class, ['widget' => 'choice'])
+            ->add('startDate', DateType::class, ['widget' => 'choice'])
+            ->add('endDate', DateType::class, ['widget' => 'choice'])
             ->add('building', EntityType::class, [
                 'class' => Building::class,
             ])

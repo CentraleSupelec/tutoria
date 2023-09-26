@@ -24,11 +24,11 @@ class TutoringType extends AbstractType
             ])
             ->add('defaultStartTime', TimeType::class, [
                 'input' => 'datetime',
-                'widget' => 'single_text',
+                'widget' => 'choice',
             ])
             ->add('defaultEndTime', TimeType::class, [
                 'input' => 'datetime',
-                'widget' => 'single_text',
+                'widget' => 'choice',
             ])
             ->add('defaultBuilding', EntityType::class, [
                 'class' => Building::class,

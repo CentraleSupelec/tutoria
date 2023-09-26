@@ -50,8 +50,8 @@ class BatchSessionCreationFormType extends AbstractType
                 'widget' => 'choice',
                 'input_format' => 'H:i',
             ])
-            ->add('startDate', DateType::class, ['widget' => 'single_text'])
-            ->add('endDate', DateType::class, ['widget' => 'single_text'])
+            ->add('startDate', DateType::class, ['widget' => 'choice'])
+            ->add('endDate', DateType::class, ['widget' => 'choice'])
             ->add('building', EntityType::class, [
                 'class' => Building::class,
             ])
