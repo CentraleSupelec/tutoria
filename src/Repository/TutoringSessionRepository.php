@@ -24,33 +24,40 @@ class TutoringSessionRepository extends ServiceEntityRepository
         parent::__construct($managerRegistry, TutoringSession::class);
     }
 
-    public function findByTutorings(Collection $tutorings): array
+    public function findByTutorings(Collection $tutorings, ?Student $student): array
     {
         $queryBuilder = $this->createQueryBuilder('ts')
             ->andWhere('ts.tutoring IN (:tutorings)')
             ->andWhere('ts.startDateTime >= :now')
+            ->andWhere(':tutee NOT MEMBER OF ts.students')
+            ->orderBy('ts.startDateTime', 'ASC')
             ->setParameter('tutorings', $tutorings)
             ->setParameter('now', new DateTime())
+            ->setParameter('tutee', $student)
         ;
 
         return $queryBuilder->getQuery()->getResult();
     }
 
-    public function fetchAllTutoringSessionsWithFutureEndDate(): array
+    public function fetchAllTutoringSessionsWithFutureEndDate(?Student $student): array
     {
         $queryBuilder = $this->createQueryBuilder('ts')
             ->andWhere('ts.endDateTime >= :now')
+            ->andWhere(':tutee NOT MEMBER OF ts.students')
+            ->orderBy('ts.startDateTime', 'ASC')
             ->setParameter('now', new DateTime())
+            ->setParameter('tutee', $student)
         ;
 
         return $queryBuilder->getQuery()->getResult();
     }
 
-    public function findIncomingSessionsByTutee(Student $student): array
+    public function findIncomingSessionsByTutee(?Student $student): array
     {
         $queryBuilder = $this->createQueryBuilder('ts')
             ->andWhere(':tutee MEMBER OF ts.students')
             ->andWhere('ts.startDateTime >= :now')
+            ->orderBy('ts.startDateTime', 'ASC')
             ->setParameter('tutee', $student)
             ->setParameter('now', new DateTime())
         ;
@@ -58,11 +65,12 @@ class TutoringSessionRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-    public function findPastSessionsByTutee(Student $student): array
+    public function findPastSessionsByTutee(?Student $student): array
     {
         $queryBuilder = $this->createQueryBuilder('ts')
             ->andWhere(':tutee MEMBER OF ts.students')
             ->andWhere('ts.startDateTime <= :now')
+            ->orderBy('ts.startDateTime', 'ASC')
             ->setParameter('tutee', $student)
             ->setParameter('now', new DateTime())
         ;

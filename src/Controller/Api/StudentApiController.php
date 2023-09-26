@@ -73,6 +73,7 @@ class StudentApiController extends AbstractController
     public function getTutoringSessions(
         Request $request,
         SerializerInterface $serializer,
+        #[CurrentUser] Student $student,
         TutoringSessionRepository $tutoringSessionRepository,
     ): Response {
         $tutoringSessionSearch = new TutoringSessionSearch();
@@ -80,9 +81,9 @@ class StudentApiController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tutoringSessions = $tutoringSessionRepository->findByTutorings($tutoringSessionSearch->getTutorings());
+            $tutoringSessions = $tutoringSessionRepository->findByTutorings($tutoringSessionSearch->getTutorings(), $student);
         } else {
-            $tutoringSessions = $tutoringSessionRepository->fetchAllTutoringSessionsWithFutureEndDate();
+            $tutoringSessions = $tutoringSessionRepository->fetchAllTutoringSessionsWithFutureEndDate($student);
         }
         $tutoringSessionsJSON = $serializer->serialize($tutoringSessions, 'json', ['groups' => 'tutoringSessions']);
 

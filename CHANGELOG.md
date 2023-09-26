@@ -8,7 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ## Added
-- Upgrade to symfony v6.3 !29
+- Upgrade to symfony v6.3 !30
+
+## Fixes
+- Working online meeting link !25
+- Refactor UI tutoring filter !26
+- App logo no redirect !27
+- Sort tutoring sessions by start date !29
 
 ## Fixes
 - Add `AllDefaultWeekdaysHaveAtLeastOneSession` constraint + fix all validation wording !28

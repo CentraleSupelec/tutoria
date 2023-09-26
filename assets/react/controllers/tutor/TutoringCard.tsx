@@ -88,15 +88,16 @@ export default function ({ tutoring }) {
 
             {parsedTutoring.tutoringSessions ?
                 <div className='d-flex flex-column ps-5'>
-                    {parsedTutoring.tutoringSessions.map((tutoringSession) =>
-                        <TutoringSessionCard 
-                            key={`tutoring-session-${tutoringSession.id}`}
-                            tutoring={parsedTutoring}
-                            initialTutoringSession={tutoringSession}
-                            campuses={campuses}
-                            isUserTutor={true}
-                            onDelete={fetchTutoring}
-                        />
+                    {parsedTutoring.tutoringSessions
+                        .map(tutoringSession =>
+                            <TutoringSessionCard
+                                key={`tutoring-session-${tutoringSession.id}`}
+                                tutoring={parsedTutoring}
+                                initialTutoringSession={tutoringSession}
+                                campuses={campuses}
+                                isUserTutor={true}
+                                onDelete={fetchTutoring}
+                            />
                     )}
                 </div>
                 : null

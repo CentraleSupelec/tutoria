@@ -22,7 +22,7 @@ class TuteeController extends AbstractController
         /** @var Student $user */
         $user = $this->getUser();
         $allTutorings = $tutoringRepository->fetchAllTutoringWithSessionsWithFutureEndDate();
-        $allTutoringSessions = $tutoringSessionRepository->fetchAllTutoringSessionsWithFutureEndDate();
+        $allTutoringSessions = $tutoringSessionRepository->fetchAllTutoringSessionsWithFutureEndDate($user);
         $incomingTutoringSessions = $tutoringSessionRepository->findIncomingSessionsByTutee($user);
         $pastTutoringSessions = $tutoringSessionRepository->findPastSessionsByTutee($user);
 

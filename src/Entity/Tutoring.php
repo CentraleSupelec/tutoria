@@ -60,6 +60,7 @@ class Tutoring implements Stringable
 
     #[Groups(['tutorings'])]
     #[ORM\OneToMany(mappedBy: 'tutoring', targetEntity: TutoringSession::class, orphanRemoval: true)]
+    #[ORM\OrderBy(['startDateTime' => 'ASC'])]
     private Collection $tutoringSessions;
 
     #[Groups(['tutorings'])]

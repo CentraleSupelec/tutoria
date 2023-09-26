@@ -15,8 +15,8 @@ export default function ({incomingTutoringSessions, pastTutoringSessions, userId
             >
                 <Tab eventKey="incoming" title={t("tutee.incoming")}>
                     <ul className="list-unstyled">
-                        {incomingTutoringSessions? incomingTutoringSessions.map(
-                            incomingTutoringSession => {
+                        {incomingTutoringSessions? incomingTutoringSessions
+                            .map(incomingTutoringSession => {
                                 return (
                                     <li key={`incoming-tutoring-${incomingTutoringSession.id}`}>
                                         <TutoringSessionCard
@@ -29,15 +29,14 @@ export default function ({incomingTutoringSessions, pastTutoringSessions, userId
                                         />
                                     </li>
                                 )
-                            }
-                        ) : null
+                            }) : null
                         }
                     </ul>
                 </Tab>
                 <Tab eventKey="past" title={t("tutee.past")}>
                     <ul className="list-unstyled">
-                        {pastTutoringSessions? pastTutoringSessions.map(
-                            pastTutoringSession => {
+                        {pastTutoringSessions? pastTutoringSessions
+                            .map(pastTutoringSession => {
                                 return (
                                     <li key={`past-tutoring-${pastTutoringSession.id}`}>
                                         <TutoringSessionCard
@@ -50,8 +49,7 @@ export default function ({incomingTutoringSessions, pastTutoringSessions, userId
                                         />
                                     </li>
                                 )
-                            }
-                        ) : null
+                            }) : null
                         }
                     </ul>
                 </Tab>

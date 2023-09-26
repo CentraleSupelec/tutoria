@@ -7,8 +7,8 @@ export default function ({tutoringSessions, tutorings, userId, updateRegistratio
         <div>
             <TutoringFilter tutorings={tutorings} onFilterChange={onFilterChange}></TutoringFilter>
             <ul className="list-unstyled">
-                {tutoringSessions? tutoringSessions.map(
-                    tutoringSession => {
+                {tutoringSessions? tutoringSessions
+                    .map(tutoringSession => {
                         return (
                             <li key={`tutoring-${tutoringSession.id}`}>
                                 <TutoringSessionCard
@@ -21,8 +21,7 @@ export default function ({tutoringSessions, tutorings, userId, updateRegistratio
                                 />
                             </li>
                         )
-                    }
-                ) : null
+                    }) : null
                 }
             </ul>
         </div>
