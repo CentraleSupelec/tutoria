@@ -14,9 +14,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TutoringType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $formBuilder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $formBuilder
+        $builder
             ->add('defaultWeekDays', CollectionType::class, [
                 'entry_type' => TextType::class,
                 'allow_add' => true,
@@ -24,9 +24,11 @@ class TutoringType extends AbstractType
             ])
             ->add('defaultStartTime', TimeType::class, [
                 'input' => 'datetime',
+                'widget' => 'single_text',
             ])
             ->add('defaultEndTime', TimeType::class, [
                 'input' => 'datetime',
+                'widget' => 'single_text',
             ])
             ->add('defaultBuilding', EntityType::class, [
                 'class' => Building::class,
@@ -35,9 +37,9 @@ class TutoringType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $optionsResolver): void
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $optionsResolver->setDefaults([
+        $resolver->setDefaults([
             'data_class' => Tutoring::class,
             'csrf_protection' => false,
         ]);

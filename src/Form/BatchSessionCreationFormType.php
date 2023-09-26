@@ -15,9 +15,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BatchSessionCreationFormType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $formBuilder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $formBuilder
+        $builder
             ->add('tutoring', EntityType::class, [
                 'class' => Tutoring::class,
             ])
@@ -43,14 +43,15 @@ class BatchSessionCreationFormType extends AbstractType
             ])
             ->add('startTime', TimeType::class, [
                 'input' => 'datetime',
+                'widget' => 'choice',
             ])
             ->add('endTime', TimeType::class, [
                 'input' => 'datetime',
                 'widget' => 'choice',
                 'input_format' => 'H:i',
             ])
-            ->add('startDate', DateType::class)
-            ->add('endDate', DateType::class)
+            ->add('startDate', DateType::class, ['widget' => 'single_text'])
+            ->add('endDate', DateType::class, ['widget' => 'single_text'])
             ->add('building', EntityType::class, [
                 'class' => Building::class,
             ])
@@ -58,9 +59,9 @@ class BatchSessionCreationFormType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $optionsResolver): void
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $optionsResolver->setDefaults([
+        $resolver->setDefaults([
             'data_class' => BatchTutoringSessionCreationModel::class,
             'csrf_protection' => false,
         ]);

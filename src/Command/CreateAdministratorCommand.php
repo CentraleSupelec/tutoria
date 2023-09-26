@@ -70,7 +70,7 @@ class CreateAdministratorCommand extends Command
                 $constraintViolationList = $this->validator->validate($email, [
                     new NotBlank(),
                     new NotNull(),
-                    new Email(),
+                    new Email(null, null, Email::VALIDATION_MODE_HTML5),
                 ]);
                 if (0 !== count($constraintViolationList)) {
                     throw new Exception('Email must be valid (ex: john.doe@gmail.com)');

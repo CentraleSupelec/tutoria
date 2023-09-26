@@ -166,9 +166,8 @@ class Student implements Stringable, TutoringUserInterface
         return $this->email;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
-        // $this->setPlainPassword(null);
     }
 
     /**

@@ -17,9 +17,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BatchTutoringSessionCreationType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $formBuilder, array $options): void
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $formBuilder
+        $builder
             ->add('tutoring', EntityType::class, [
                 'class' => Tutoring::class,
             ])
@@ -28,10 +28,10 @@ class BatchTutoringSessionCreationType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
             ])
-            ->add('startTime', TimeType::class)
-            ->add('endTime', TimeType::class)
-            ->add('startDate', DateType::class)
-            ->add('endDate', DateType::class)
+            ->add('startTime', TimeType::class, ['widget' => 'single_text'])
+            ->add('endTime', TimeType::class, ['widget' => 'single_text'])
+            ->add('startDate', DateType::class, ['widget' => 'single_text'])
+            ->add('endDate', DateType::class, ['widget' => 'single_text'])
             ->add('building', EntityType::class, [
                 'class' => Building::class,
             ])
@@ -42,9 +42,9 @@ class BatchTutoringSessionCreationType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $optionsResolver): void
+    public function configureOptions(OptionsResolver $resolver): void
     {
-        $optionsResolver->setDefaults([
+        $resolver->setDefaults([
             'data_class' => BatchTutoringSessionCreationModel::class,
             'csrf_protection' => false,
         ]);

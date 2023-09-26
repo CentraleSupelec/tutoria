@@ -15,26 +15,26 @@
         "gedmo/doctrine-extensions": "^3.11",
         "nyholm/psr7": "^1.8",
         "oat-sa/lib-lti1p3-core": "^6.9",
-        "snc/redis-bundle": "^3.4",
+        "snc/redis-bundle": "^3.6",
         "sonata-project/admin-bundle": "^4.22",
         "sonata-project/doctrine-orm-admin-bundle": "^4.9",
         "sonata-project/intl-bundle": "^3.0",
         "stof/doctrine-extensions-bundle": "^1.7",
-        "symfony/console": "6.2.*",
-        "symfony/dotenv": "6.2.*",
+        "symfony/console": "^6.3",
+        "symfony/dotenv": "^6.3",
         "symfony/flex": "^2",
-        "symfony/framework-bundle": "6.2.*",
-        "symfony/http-client": "6.2.*",
-        "symfony/lock": "6.2.*",
-        "symfony/proxy-manager-bridge": "6.2.*",
+        "symfony/framework-bundle": "^6.3",
+        "symfony/http-client": "^6.3",
+        "symfony/lock": "^6.3",
+        "symfony/proxy-manager-bridge": "^6.3",
         "symfony/psr-http-message-bridge": "^2.3",
-        "symfony/runtime": "6.2.*",
-        "symfony/security-bundle": "6.2.*",
+        "symfony/runtime": "^6.3",
+        "symfony/security-bundle": "^6.3",
         "symfony/stimulus-bundle": "^2.10",
-        "symfony/uid": "6.2.*",
+        "symfony/uid": "^6.3",
         "symfony/ux-react": "^2.11",
         "symfony/webpack-encore-bundle": "^2.0",
-        "symfony/yaml": "6.2.*"
+        "symfony/yaml": "^6.3"
     },
     "require-dev": {
         "dama/doctrine-test-bundle": "^7.2",
@@ -42,14 +42,14 @@
         "phpunit/php-code-coverage": "^10.0",
         "phpunit/phpunit": "^10.0",
         "rector/rector": "^0.15.16",
-        "symfony/browser-kit": "6.2.*",
-        "symfony/css-selector": "6.2.*",
-        "symfony/debug-bundle": "6.2.*",
+        "symfony/browser-kit": "^6.3",
+        "symfony/css-selector": "^6.3",
+        "symfony/debug-bundle": "^6.3",
         "symfony/maker-bundle": "^1.48",
-        "symfony/phpunit-bridge": "^6.2",
-        "symfony/stopwatch": "6.2.*",
-        "symfony/var-dumper": "6.2.*",
-        "symfony/web-profiler-bundle": "6.2.*"
+        "symfony/phpunit-bridge": "^6.3",
+        "symfony/stopwatch": "^6.3",
+        "symfony/var-dumper": "^6.3",
+        "symfony/web-profiler-bundle": "^6.3"
     },
     "config": {
         "allow-plugins": {
@@ -96,7 +96,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.2.*"
+            "require": "^6.3"
         }
     }
 }
