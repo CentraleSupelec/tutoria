@@ -30,13 +30,13 @@ class StudentProvider implements CasUserProviderInterface
 
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
-        $user = $this->studentRepository->findOneBy(['email' => $identifier]);
+        $student = $this->studentRepository->findOneBy(['email' => $identifier]);
 
-        if (!$user instanceof Student) {
+        if (!$student instanceof Student) {
             throw new UserNotFoundException(sprintf('Username "%s" does not exist.', $identifier));
         }
 
-        return $user;
+        return $student;
     }
 
     public function refreshUser(UserInterface $user): UserInterface

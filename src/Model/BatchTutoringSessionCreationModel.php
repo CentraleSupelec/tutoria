@@ -67,17 +67,11 @@ class BatchTutoringSessionCreationModel
         return $this;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getStartTime(): ?DateTimeInterface
     {
         return $this->startTime;
     }
 
-    /**
-     * @param DateTimeInterface $startTime
-     */
     public function setStartTime(?DateTimeInterface $startTime): self
     {
         $this->startTime = $startTime;
@@ -85,17 +79,11 @@ class BatchTutoringSessionCreationModel
         return $this;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getEndTime(): ?DateTimeInterface
     {
         return $this->endTime;
     }
 
-    /**
-     * @param DateTimeInterface $endTime
-     */
     public function setEndTime(?DateTimeInterface $endTime): self
     {
         $this->endTime = $endTime;
@@ -103,17 +91,11 @@ class BatchTutoringSessionCreationModel
         return $this;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getStartDate(): ?DateTimeInterface
     {
         return $this->startDate;
     }
 
-    /**
-     * @param DateTimeInterface $startDate
-     */
     public function setStartDate(?DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
@@ -121,17 +103,11 @@ class BatchTutoringSessionCreationModel
         return $this;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
     public function getEndDate(): ?DateTimeInterface
     {
         return $this->endDate;
     }
 
-    /**
-     * @param DateTimeInterface $endDate
-     */
     public function setEndDate(?DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
@@ -139,17 +115,11 @@ class BatchTutoringSessionCreationModel
         return $this;
     }
 
-    /**
-     * @return Building
-     */
     public function getBuilding(): ?Building
     {
         return $this->building;
     }
 
-    /**
-     * @param Building $building
-     */
     public function setBuilding(?Building $building): self
     {
         $this->building = $building;
@@ -157,17 +127,11 @@ class BatchTutoringSessionCreationModel
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getRoom(): ?string
     {
         return $this->room;
     }
 
-    /**
-     * @param string $room
-     */
     public function setRoom(?string $room): self
     {
         $this->room = $room;
@@ -175,17 +139,11 @@ class BatchTutoringSessionCreationModel
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function getSaveDefaultValues(): ?bool
     {
         return $this->saveDefaultValues;
     }
 
-    /**
-     * @param bool $saveDefaultValues
-     */
     public function setSaveDefaultValues(?bool $saveDefaultValues): self
     {
         $this->saveDefaultValues = $saveDefaultValues;

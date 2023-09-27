@@ -8,6 +8,7 @@ use Rector\Naming\Rector\Class_\RenamePropertyToMatchTypeRector;
 use Rector\Naming\Rector\ClassMethod\RenameParamToMatchTypeRector;
 use Rector\Set\ValueObject\LevelSetList;
 use Rector\Set\ValueObject\SetList;
+use Rector\Symfony\CodeQuality\Rector\ClassMethod\ActionSuffixRemoverRector;
 use Rector\Symfony\Set\SymfonySetList;
 
 return static function (RectorConfig $rectorConfig): void {
@@ -29,7 +30,7 @@ return static function (RectorConfig $rectorConfig): void {
         LevelSetList::UP_TO_PHP_82,
         SetList::CODE_QUALITY,
         SetList::NAMING,
-        SymfonySetList::SYMFONY_62,
+        SymfonySetList::SYMFONY_63,
         SymfonySetList::SYMFONY_CODE_QUALITY,
     ]);
 
@@ -39,6 +40,10 @@ return static function (RectorConfig $rectorConfig): void {
         ],
         RenameParamToMatchTypeRector::class => [
             __DIR__.'/src/Admin/*',
+            __DIR__.'/src/Form/*',
+        ],
+        ActionSuffixRemoverRector::class => [
+            __DIR__.'/src/Controller/Admin/StudentAdminController.php',
         ],
     ]);
 };
