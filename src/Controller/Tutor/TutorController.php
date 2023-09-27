@@ -10,6 +10,7 @@ use App\Form\TutoringSessionType;
 use App\Form\TutoringType;
 use App\Model\BatchTutoringSessionCreationModel;
 use App\Repository\TutoringRepository;
+use App\Security\Voters\TutoringSessionVoter;
 use App\Service\BatchTutoringSessionCreationService;
 use App\Utils\ErrorUtils;
 use Doctrine\ORM\EntityManagerInterface;
@@ -17,6 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/tutor')]
 class TutorController extends AbstractController
@@ -139,6 +141,7 @@ class TutorController extends AbstractController
     }
 
     #[Route('/tutoring-session/{id}/update', name: 'update_tutoring_session', options: ['expose' => true], methods: ['POST'])]
+    #[IsGranted(TutoringSessionVoter::TUTOR_EDIT_TUTORING_SESSION, subject: 'tutoringSession')]
     public function updateTutoringSession(
         TutoringSession $tutoringSession,
         Request $request,
@@ -166,6 +169,7 @@ class TutorController extends AbstractController
     }
 
     #[Route('/tutoring-session/{id}/delete', name: 'delete_tutoring_session', options: ['expose' => true])]
+    #[IsGranted(TutoringSessionVoter::TUTOR_DELETE_TUTORING_SESSION, subject: 'tutoringSession')]
     public function deleteTutoringSession(TutoringSession $tutoringSession, EntityManagerInterface $entityManager): Response
     {
         $entityManager->remove($tutoringSession);
