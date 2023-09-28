@@ -63,7 +63,9 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
     }
 
     const deleteTutoringSession = () => {
-        fetch(Routing.generate('delete_tutoring_session', { id: tutoringSession?.id }))
+        fetch(Routing.generate('delete_tutoring_session', { id: tutoringSession?.id }), {
+            method: 'POST'
+        })
             .then(() => {
                 onDelete();
             })

@@ -168,7 +168,7 @@ class TutorController extends AbstractController
         }
     }
 
-    #[Route('/tutoring-session/{id}/delete', name: 'delete_tutoring_session', options: ['expose' => true])]
+    #[Route('/tutoring-session/{id}/delete', name: 'delete_tutoring_session', options: ['expose' => true], methods: ['POST'])]
     #[IsGranted(TutoringSessionVoter::TUTOR_DELETE_TUTORING_SESSION, subject: 'tutoringSession')]
     public function deleteTutoringSession(TutoringSession $tutoringSession, EntityManagerInterface $entityManager): Response
     {
