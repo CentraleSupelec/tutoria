@@ -109,7 +109,7 @@ export default function ({tutoringSessions, tutorings, incomingTutoringSessions,
             pauseOnFocusLoss
             draggable
             pauseOnHover
-            theme="colored"
+            theme="light"
         />
     </>
 }

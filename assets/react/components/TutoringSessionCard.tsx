@@ -52,7 +52,7 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
                 onUpdate();
             })
             .then(() => {
-                toast.info(t('tutee.register_succeeded'));
+                toast.success(t('tutee.register_succeeded'));
             });
     }
 
@@ -65,7 +65,7 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
                 onUpdate()
             })
             .then(() => {
-                toast.info(t('tutee.unregister_succeeded'));
+                toast.success(t('tutee.unregister_succeeded'));
             });
     }
 
