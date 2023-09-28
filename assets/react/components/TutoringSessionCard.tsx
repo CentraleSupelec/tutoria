@@ -9,6 +9,7 @@ import Routing from "../../Routing";
 import EditTutoringSession from "./Modal/EditTutoringSession";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DeleteConfirmation from "./Modal/DeleteConfirmation";
+import { toast } from "react-toastify";
 
 interface TutoringSessionCardProps {
     tutoring: Tutoring,
@@ -49,6 +50,9 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
             })
             .then(() => {
                 onUpdate();
+            })
+            .then(() => {
+                toast.info(t('tutee.register_succeeded'));
             });
     }
 
@@ -59,6 +63,9 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
             })
             .then(() => {
                 onUpdate()
+            })
+            .then(() => {
+                toast.info(t('tutee.unregister_succeeded'));
             });
     }
 

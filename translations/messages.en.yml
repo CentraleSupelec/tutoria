@@ -42,6 +42,8 @@ tutee:
   no_tutorings: No courses
   register: Sign up
   unregister: "Sign out"
+  register_succeeded: Your registration has been processed
+  unregister_succeeded: Your registration has been cancel
   incoming: "Incoming"
   past: "Past"
   tutoring_filter: Filter tutorings

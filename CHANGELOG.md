@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Added
 - Upgrade to symfony v6.3 !30
+- Toast message when register/unregister !31
 
 ## Fixes
 - Working online meeting link !25
