@@ -485,7 +485,7 @@ class TutorControllerTest extends BaseWebTestCase
 
         $this->client->loginUser($tutoring->getTutors()[0]);
 
-        $this->client->request('GET', sprintf('/tutor/tutoring-session/%s/delete', $tutoringSession->getId()));
+        $this->client->request('POST', sprintf('/tutor/tutoring-session/%s/delete', $tutoringSession->getId()));
         $this->assertResponseIsSuccessful();
 
         $tutoringSession = $this->entityManager->getRepository(TutoringSession::class)->findOneBy(['id' => $tutoringSession->getId()]);
