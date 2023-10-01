@@ -219,7 +219,7 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                                 {errors.endDateTime}
                             </Form.Control.Feedback>
                         </div>
-                        <div className='d-flex'>
+                        <div className='d-flex mb-3'>
                             <Form.Check
                                 inline
                                 label={t('form.on_site')}
@@ -259,31 +259,42 @@ export default function ({ tutoring, tutoringSession, campuses, toggleModal, upd
                                 </Form.Control.Feedback>
                             </div>
                             :
-                            <div className='place line'>
-                                <div className='place-value d-flex'>
-                                    <Form.Select className='campus flex-grow-1 me-2' value={selectedCampus? selectedCampus.id: ''} onChange={onCampusChange}>
+                            <div className='place line d-flex flex-column flex-lg-row'>
+                                <div className='campus d-flex flex-column flex-grow-1 me-2 pb-2'>
+                                    <div className='campus-label label'>
+                                        {t('form.campus')}
+                                    </div>
+                                    <Form.Select value={selectedCampus?.id} onChange={onCampusChange}>
                                         {campuses ? campuses.map((campus, index) =>
                                             <option key={`campus-${index}`} value={campus.id}>
                                                 {campus.name}
                                             </option>
                                         ) : null}
                                     </Form.Select>
-
-                                    <Form.Select className='building flex-grow-1 me-2' value={selectedBuilding? selectedBuilding.id: ''} onChange={onBuildingChange}>
+                                </div>
+                                <div className='building d-flex flex-column flex-grow-1 me-2 pb-2'>
+                                    <div className='building-label label'>
+                                        {t('form.building')}
+                                    </div>
+                                    <Form.Select value={selectedBuilding?.id} onChange={onBuildingChange}>
                                         {selectedCampus ? selectedCampus.buildings.map((building, index) =>
                                             <option key={`building-${index}`} value={building.id}>
                                                 {building.name}
                                             </option>
                                         ) : null}
                                     </Form.Select>
+                                </div>
+
+                                <div className='room d-flex flex-column flex-grow-1 pb-2'>
+                                    <div className='room-label label'>
+                                        {t('form.room')}
+                                    </div>
                                     <Form.Control
-                                        className='room flex-grow-1'
                                         value={room}
-                                        onChange={(event) => {
-                                                setRoom(event.target.value);
-                                                removeError('room');
-                                            }
-                                        }
+                                        onChange={e => {
+                                            setRoom(e.target.value);
+                                            removeError('room')
+                                        }}
                                         isInvalid={!!errors.room}
                                     />
                                     <Form.Control.Feedback className='mt-2' type='invalid'>

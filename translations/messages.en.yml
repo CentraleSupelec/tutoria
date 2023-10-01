@@ -21,8 +21,8 @@ menu:
     en: English
 
 no_student:
-  title: Missing right to acces Tutorat
-  text: You do not have the rights to acces Tutorat. Please retry with another account
+  title: Missing right to access Tutorat
+  text: You do not have the rights to access Tutorat. Please retry with another account
   connect_as_tutor: Log in as tutor
   connect_as_tutee: Log in as tutee
 
@@ -71,16 +71,18 @@ form:
   tutors: 'Tutors :'
   default_hours: 'Default hours :'
   default_days: 'Default days :'
-  create_single_or_batch_sessions: Create one a multiple sessions
+  create_single_or_batch_sessions: Create one or multiple sessions
   edit: Edit
   edit_tutoring_session: Edit session
   create_single_session: Create a session
-  batch_create_sessions: Create sessions
+  batch_create_sessions: Create multiple sessions
   create_button: Create
   save_and_batch_create_button: Save and create sessions
   save_button: Save
-  batch_create_title: Complete the tutroing
-  update_tutoring_title: Edit tutoring
+  batch_create_title: Complete the tutoring
+  update_tutoring_title: Modify default tutoring information
+  note_edit_tutors: "Note: Only the administrator can determine the default tutors for a tutorial."
+  note_edit_tutoring: "Note: Modifying default information does not automatically update all sessions already created. Only the next sessions created will use the new settings."
   session: 'Session :'
   online_meeting_uri: 'Please enter the link to the virtual meeting'
   remote: Remote
@@ -88,7 +90,7 @@ form:
 
 confirmation_modal:
   title: Confirm deletion
-  body: Are you sure to delete this tutoring session ?
+  body: Can you confirm that you want to cancel this session?
   cancel: Cancel
   delete: Delete
 
@@ -102,6 +104,6 @@ error:
       tutee: Connected as tutee
     disconnected: "You are disconnected."
   header: "Something wrong happened"
-  message: "Please let us know what you were doing when this error occured, we will fix it as soon as possible."
+  message: "Please let us know what you were doing when this error occurred, we will fix it as soon as possible."
   apologize: "We apologize for the inconvenience caused."
   back_to_home: "Back to home"

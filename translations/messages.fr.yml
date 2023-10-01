@@ -73,14 +73,16 @@ form:
   default_days: 'Jours par défaut :'
   create_single_or_batch_sessions: Créer une ou des séances
   edit: Modifier
-  edit_tutoring_session: Editer une séance
+  edit_tutoring_session: Éditer une séance
   create_single_session: Créer une séance
   batch_create_sessions: Créer plusieurs séances
   create_button: Créer
   save_and_batch_create_button: Enregistrer et créer les séances
   save_button: Enregistrer
   batch_create_title: Compléter le tutorat
-  update_tutoring_title: Modifier le tutorat
+  update_tutoring_title: Modifier les informations par défaut du tutorat
+  note_edit_tutors: "Note : Seul l’administrateur peut déterminer les tuteurs par défaut d’un tutorat."
+  note_edit_tutoring: "Note : Modifier les informations par défaut ne met pas à jour automatiquement toutes les séances déjà créées. Seules les prochaines séances créées utiliseront le nouveau paramétrage."
   session: 'Créneau :'
   online_meeting_uri: 'Entrer le lien de la visio :'
   remote: Distanciel
@@ -88,7 +90,7 @@ form:
 
 confirmation_modal:
   title: Confirmer la suppression
-  body: Êtes vous sûr de vouloir supprimer ce créneau ?
+  body: Confirmez-vous vouloir supprimer ce créneau ?
   cancel: Annuler
   delete: Supprimer
 

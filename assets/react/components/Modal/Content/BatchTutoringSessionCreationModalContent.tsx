@@ -306,7 +306,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
 
                         <div className='place line d-flex flex-column flex-lg-row'>
                             <div className='campus d-flex flex-column flex-grow-1 me-2 pb-2'>
-                                <div className='campus-label label ps-2'>
+                                <div className='campus-label label'>
                                     {t('form.campus')}
                                 </div>
                                 <Form.Select value={selectedCampus?.id} onChange={onCampusChange}>
@@ -318,7 +318,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                                 </Form.Select>
                             </div>
                             <div className='building d-flex flex-column flex-grow-1 me-2 pb-2'>
-                                <div className='building-label label ps-2'>
+                                <div className='building-label label'>
                                     {t('form.building')}
                                 </div>
                                 <Form.Select value={selectedBuilding?.id} onChange={onBuildingChange}>
@@ -331,7 +331,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                             </div>
 
                             <div className='room d-flex flex-column flex-grow-1 pb-2'>
-                                <div className='room-label label ps-2'>
+                                <div className='room-label label'>
                                     {t('form.room')}
                                 </div>
                                 <Form.Control
@@ -372,6 +372,11 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                                         {tutor.lastName} {tutor.firstName}
                                     </Badge>
                                 )}
+                            </div>
+                        </div>
+                        <div className="card border-info bg-info bg-opacity-25">
+                            <div className="card-body">
+                                <small>{t('form.note_edit_tutors')}</small>
                             </div>
                         </div>
                     </div>
