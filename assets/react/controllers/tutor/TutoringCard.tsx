@@ -28,12 +28,14 @@ export default function ({ tutoring }) {
             })
     }
 
-    const fetchTutoring = () => {
-        fetch(Routing.generate('get_tutoring', { id: parsedTutoring.id }))
-            .then((resp) => resp.json())
-            .then((data: Tutoring) => {
-                setParsedTutoring(data);
-            })
+    const fetchTutoring = async () => {
+        const res = await fetch(Routing.generate('get_tutoring', {id: parsedTutoring?.id}));
+        if (res.ok) {
+            const data = await res.json();
+            setParsedTutoring(data);
+        }
+
+        return res;
     }
 
     if (!parsedTutoring) {

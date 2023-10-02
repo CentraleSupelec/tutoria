@@ -35,38 +35,34 @@ export default function ({ initialTutoringSession, tutoring, campuses, isUserTut
         })
     }
 
-    const fetchTutoringSession = () => {
-        fetch(Routing.generate('get_tutoring_session', { id: tutoringSession?.id }))
-            .then((resp) => resp.json())
-            .then((data: TutoringSession) => {
-                setTutoringSession(data);
-            })
+    const fetchTutoringSession = async () => {
+        const res = await fetch(Routing.generate('get_tutoring_session', {id: tutoringSession?.id}));
+        if (res.ok) {
+            const data = await res.json();
+            setTutoringSession(data);
+        }
+
+        return res;
     }
 
-    const subscribe = () => {
-        fetch(Routing.generate('subscribe_to_tutoring_session', { id: tutoringSession?.id }))
-            .then(() => {
-                fetchTutoringSession();
-            })
-            .then(() => {
-                onUpdate();
-            })
-            .then(() => {
-                toast.success(t('tutee.register_succeeded'));
-            });
+    const subscribe = async () => {
+        const res = await fetch(Routing.generate('subscribe_to_tutoring_session', { id: tutoringSession?.id }));
+        if (!res.ok) {
+            return toast.error(t('tutee.register_failed'));
+        }
+        await onUpdate();
+        await fetchTutoringSession();
+        toast.success(t('tutee.register_succeeded'));
     }
 
-    const unsubscribe = () => {
-        fetch(Routing.generate('unsubscribe_to_tutoring_session', { id: tutoringSession?.id }))
-            .then(() => {
-                fetchTutoringSession();
-            })
-            .then(() => {
-                onUpdate()
-            })
-            .then(() => {
-                toast.success(t('tutee.unregister_succeeded'));
-            });
+    const unsubscribe = async () => {
+        const res = await fetch(Routing.generate('unsubscribe_to_tutoring_session', { id: tutoringSession?.id }));
+        if (!res.ok) {
+            return toast.error(t('tutee.unregister_failed'));
+        }
+        await onUpdate();
+        await fetchTutoringSession();
+        toast.success(t('tutee.unregister_succeeded'));
     }
 
     const deleteTutoringSession = () => {
