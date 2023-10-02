@@ -165,11 +165,6 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
         {ready ?
             <>
                 <GeneralErrorsRenderer errors={errors.generalErrors} />
-                <div className="card border-info bg-info bg-opacity-25 mb-2">
-                    <div className="card-body">
-                        <small>{t('form.note_edit_tutoring')}</small>
-                    </div>
-                </div>
                 <div className='d-flex flex-column flex-lg-row'>
                     <div className='multiple-session-creation-info flex-1'>
                         <div className='days line'>
@@ -237,7 +232,7 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
 
                         <div className='place line d-flex flex-column flex-lg-row'>
                             <div className='campus d-flex flex-column flex-grow-1 me-2 pb-2'>
-                                <div className='campus-label label'>
+                                <div className='campus-label label ps-2'>
                                     {t('form.campus')}
                                 </div>
                                 <Form.Select value={selectedCampus?.id} onChange={onCampusChange}>
@@ -249,7 +244,7 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                                 </Form.Select>
                             </div>
                             <div className='building d-flex flex-column flex-grow-1 me-2 pb-2'>
-                                <div className='building-label label'>
+                                <div className='building-label label ps-2'>
                                     {t('form.building')}
                                 </div>
                                 <Form.Select value={selectedBuilding?.id} onChange={onBuildingChange}>
@@ -262,7 +257,7 @@ export default function ({ tutoring, campuses, toggleModal, onUpdate }: Tutoring
                             </div>
 
                             <div className='room d-flex flex-column flex-grow-1 pb-2'>
-                                <div className='room-label label'>
+                                <div className='room-label label ps-2'>
                                     {t('form.room')}
                                 </div>
                                 <Form.Control

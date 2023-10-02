@@ -14,9 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Working online meeting link !25
 - Refactor UI tutoring filter !26
 - App logo no redirect !27
-- Add `AllDefaultWeekdaysHaveAtLeastOneSession` constraint + fix all validation wording !28
 - Sort tutoring sessions by start date !29
-- Changed multiple wording and added some notes !32
+
+## Fixes
+- Add `AllDefaultWeekdaysHaveAtLeastOneSession` constraint + fix all validation wording !28
 
 ## [1.2.0] - 2023-09-25
 
