@@ -44,8 +44,9 @@ tutee:
   unregister: "Sign out"
   register_succeeded: Your registration has been processed
   unregister_succeeded: Your registration has been cancel
-  register_failed: Une erreur est survenue pendant votre inscription
-  unregister_failed: Une erreur est survenue pendant votre désinscription
+  register_failed: An error occurred during registration
+  unregister_failed: An error occurred while unsubscribing
+  update_failed: An error has occurred, please refresh the page
   incoming: "Incoming"
   past: "Past"
   tutoring_filter: Filter tutorings

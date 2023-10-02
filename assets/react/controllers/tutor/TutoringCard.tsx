@@ -28,14 +28,15 @@ export default function ({ tutoring }) {
             })
     }
 
-    const fetchTutoring = async () => {
+    const fetchTutoring = async (): Promise<Tutoring> => {
         const res = await fetch(Routing.generate('get_tutoring', {id: parsedTutoring?.id}));
-        if (res.ok) {
-            const data = await res.json();
-            setParsedTutoring(data);
+        if (!res.ok) {
+            const error = `Failed to fetch tutoring with status: ${res.status} - ${res.statusText}`;
+            throw new Error(error);
         }
-
-        return res;
+        const data = await res.json();
+        setParsedTutoring(data);
+        return data;
     }
 
     if (!parsedTutoring) {
