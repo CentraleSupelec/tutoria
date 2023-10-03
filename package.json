@@ -46,6 +46,7 @@
         "react-dom": "^18.2.0",
         "react-i18next": "^13.1.1",
         "react-select": "^5.7.4",
-        "react-time-picker": "^6.5.0"
+        "react-time-picker": "^6.5.0",
+        "react-toastify": "^9.1.3"
     }
 }

@@ -42,6 +42,11 @@ tutee:
   no_tutorings: Aucune formation
   register: "S'inscrire"
   unregister: "Se désinscrire"
+  register_succeeded: Votre inscription a bien été prise en compte
+  unregister_succeeded: Votre désinscription a bien été prise en compte
+  register_failed: Une erreur est survenue pendant votre inscription
+  unregister_failed: Une erreur est survenue pendant votre désinscription
+  update_failed: Une erreur est survenue, veuillez rafraichir la page
   incoming: "À venir"
   past: "Passées"
   tutoring_filter: Filtrer les tutorats
