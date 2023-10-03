@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🚸 Sort tutoring sessions by start date !29
 - ♻️ Refactor subscribe js fetch flow with await !31
 - 💬 Changed multiple wording and added some notes !32
+- 🐛 Remove trailing slash on CAS logout redirect url !35
 
 ## [1.2.0] - 2023-09-25
 
