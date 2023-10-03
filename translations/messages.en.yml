@@ -38,7 +38,7 @@ tutee:
   my_registrations: My registrations
   access_tutoring_session: Access the conference
   info_remote: For this session, we are exceptionally offering a video session. Join us via the link provided above
-  choose_tutoring_filter: Choose one or more courses
+  choose_tutoring_filter: Select my course
   no_tutorings: No courses
   register: Sign up
   unregister: "Sign out"
@@ -95,7 +95,7 @@ form:
 
 confirmation_modal:
   title: Confirm deletion
-  body: Can you confirm that you want to cancel this session?
+  body: Can you confirm that you want to delete this session?
   cancel: Cancel
   delete: Delete
 

@@ -67,6 +67,9 @@ final class TutoringAdmin extends AbstractAdmin
         $show
             ->add('id')
             ->add('name')
+            ->add('academicLevel')
+            ->add('defaultBuilding')
+            ->add('tutors')
         ;
     }
 

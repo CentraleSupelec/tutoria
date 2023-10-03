@@ -19,8 +19,8 @@ class TuteeControllerTest extends BaseWebTestCase
         $crawler = $this->client->request('GET', '/tutee/');
         $this->assertResponseIsSuccessful();
 
-        $myTutoringCrawler = $crawler->filterXPath('//*[@id="main"]/div[2]/div[1]/span');
-        $this->assertStringContainsString('Qu’est-ce que le tutorat, comment ça marche ?', $myTutoringCrawler->getNode(0)->textContent);
+        $myTutoringCrawler = $crawler->filterXPath('//*[@id="main"]/div[1]/div/h4');
+        $this->assertStringContainsString('Tutorat', $myTutoringCrawler->getNode(0)->textContent);
     }
 
     public function testTutoringSessionFilter(): void

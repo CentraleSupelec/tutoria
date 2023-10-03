@@ -141,12 +141,14 @@ body {
 }
 
 .session-creation-modal .multiple-session-creation-info {
+  flex: 2;
   padding: 1rem;
   border-radius: 5px;
   background: var(--gray-light-saclay, rgba(214, 219, 223, 0.25));
 }
 
 .session-creation-modal .multiple-session-static-info {
+  flex: 1;
   padding: 1rem;
 }
 

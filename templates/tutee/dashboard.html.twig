@@ -2,10 +2,6 @@
 
 {% block body %}
     <div class="container">
-        <div class="card mb-3 border-0 bg-tertiary bg-opacity-25 p-2">
-            <span>{{ 'tutee.info_tutoring' | trans }}</span>
-            <small class="text-muted">Texte à réaliser</small>
-        </div>
         <div {{react_component('tutee/TuteeDashboard', {
             tutoringSessions : tutoringSessions|serialize('json', {groups: 'tutoringSessions'}),
             tutorings : tutorings|serialize('json', {groups: 'tutorings'}),

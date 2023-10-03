@@ -204,7 +204,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
             <>
                 <GeneralErrorsRenderer errors={errors.generalErrors} />
                 <div className='d-flex flex-column flex-lg-row'>
-                    <div className='multiple-session-creation-info flex-1'>
+                    <div className='multiple-session-creation-info'>
                         <div className='days line'>
                             <div className='label'>
                                 {t('form.default_days')}
@@ -349,7 +349,7 @@ export default function ({ tutoring, campuses, toggleModal, saveTutoring, onUpda
                             </div>
                         </div>
                     </div>
-                    <div className='multiple-session-static-info flex-grow-1'>
+                    <div className='multiple-session-static-info'>
                         <div className='tutoring line'>
                             <div className='tutoring-label label'>
                                 {t('form.tutoring')}
