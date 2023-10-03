@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import Routing from "../../../Routing";
 import Tutoring from "../../interfaces/Tutoring";
 import RegisteredTutoringSessions from "../../components/RegisteredTutoringSessions";
-import { ToastContainer } from "react-toastify";
 
 export default function ({tutoringSessions, tutorings, incomingTutoringSessions, pastTutoringSessions, userId}) {
     const { t } = useTranslation();
@@ -99,17 +98,5 @@ export default function ({tutoringSessions, tutorings, incomingTutoringSessions,
                 />
             </div>
         </div>
-        <ToastContainer
-            position="bottom-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={true}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-        />
     </>
 }

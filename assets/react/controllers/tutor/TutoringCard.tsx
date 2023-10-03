@@ -28,15 +28,12 @@ export default function ({ tutoring }) {
             })
     }
 
-    const fetchTutoring = async (): Promise<Tutoring> => {
-        const res = await fetch(Routing.generate('get_tutoring', {id: parsedTutoring?.id}));
-        if (!res.ok) {
-            const error = `Failed to fetch tutoring with status: ${res.status} - ${res.statusText}`;
-            throw new Error(error);
-        }
-        const data = await res.json();
-        setParsedTutoring(data);
-        return data;
+    const fetchTutoring = () => {
+        fetch(Routing.generate('get_tutoring', { id: parsedTutoring.id }))
+            .then((resp) => resp.json())
+            .then((data: Tutoring) => {
+                setParsedTutoring(data);
+            })
     }
 
     if (!parsedTutoring) {
