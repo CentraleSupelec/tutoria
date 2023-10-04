@@ -7,22 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [1.3.2] - 2023-10-06
-
-## Fixes
-- 🚑️ Hotfix remove tutoring entity constraints on first completion !42
-
-## [1.3.1] - 2023-10-05
-
-## Fixes
-- ✏️ Rename Academic Level to Formation in Sonata !40
-
-## [1.3.0] - 2023-10-05
-
 ## Added
 - ⬆️ Upgrade to symfony v6.3 !30
 - ✨ Toast message when register/unregister !31
-- 📄 Add LICENSE !33
 
 ## Fixes
 - 🩹 Working online meeting link !25
@@ -32,7 +19,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🚸 Sort tutoring sessions by start date !29
 - ♻️ Refactor subscribe js fetch flow with await !31
 - 💬 Changed multiple wording and added some notes !32
-- ♻️ Refactor academic year in tutoring instead of academic level !34
 - 🐛 Remove trailing slash on CAS logout redirect url !35
 - ✏️ Changed multiple wording + ui session flex + admin tutoring show !36
 

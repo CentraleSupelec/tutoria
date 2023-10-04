@@ -51,7 +51,8 @@ class TutoringFixturesProvider
     {
         $academicLevel = (new AcademicLevel())
             ->setNameFr('M1 en Mathématique')
-            ->setNameEn('M1 in Mathematics');
+            ->setNameEn('M1 in Mathematics')
+            ->setAcademicYear('2023-2024');
 
         if (null !== $entityManager) {
             $entityManager->persist($academicLevel);
@@ -74,7 +75,6 @@ class TutoringFixturesProvider
             ->addTutor($tutor)
             ->setName(sprintf('%s@%s', $academicLevel->getNameFr(), $building->getCampus()->getName()))
             ->setDefaultWeekDays(['tuesday', 'friday'])
-            ->setAcademicYear('2023-2024')
         ;
 
         if (null !== $entityManager) {
@@ -155,7 +155,6 @@ class TutoringFixturesProvider
             ->setDefaultBuilding($secondBuilding)
             ->setDefaultRoom('D210')
             ->addTutor($firstTutoring->getTutors()[0])
-            ->setAcademicYear('2023-2024')
             ->setName(sprintf('%s@%s', $firstTutoring->getAcademicLevel()->getNameFr(), $secondCampus->getName()));
 
         if (null !== $entityManager) {

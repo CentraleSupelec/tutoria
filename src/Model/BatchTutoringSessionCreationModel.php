@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[AppAssert\AllDefaultWeekdaysHaveAtLeastOneSessionConstraint]
 class BatchTutoringSessionCreationModel
 {
+    #[Assert\Valid]
     #[Assert\NotNull]
     private ?Tutoring $tutoring = null;
 

@@ -17,6 +17,7 @@ final class AcademicLevelAdmin extends AbstractAdmin
         $filter
             ->add('nameFr')
             ->add('nameEn')
+            ->add('academicYear')
         ;
     }
 
@@ -25,6 +26,7 @@ final class AcademicLevelAdmin extends AbstractAdmin
         $list
             ->add('nameFr')
             ->add('nameEn')
+            ->add('academicYear')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -39,6 +41,7 @@ final class AcademicLevelAdmin extends AbstractAdmin
         $form
             ->add('nameFr')
             ->add('nameEn')
+            ->add('academicYear')
         ;
     }
 
@@ -47,11 +50,7 @@ final class AcademicLevelAdmin extends AbstractAdmin
         $show
             ->add('nameFr')
             ->add('nameEn')
+            ->add('academicYear')
         ;
-    }
-
-    protected function configure(): void
-    {
-        $this->classnameLabel = 'Formation';
     }
 }
