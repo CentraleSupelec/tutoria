@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "php.fullname" . }}
+  labels:
+    {{- include "php.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "php.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "php.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      automountServiceAccountToken: false
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - image: bash:5
+          command: [ 'sh', '-c', 'until timeout 1 bash -c "cat < /dev/null > /dev/tcp/${REDIS_HOST:-{{ include "php.fullname" . }}-redis-master}/${REDIS_PORT:-6379}" > /dev/null 2>&1; do  >&2 echo "Wait for it - redis"; sleep 1; done' ]
+          name: wait-for-redis
+          {{- with .Values.waitFor.redisEnv }}
+          env:
+            {{- range $key, $val := . }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end }}
+          {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: php-fpm
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: php-fpm
+          readinessProbe:
+            initialDelaySeconds: 5
+            tcpSocket:
+              port: php-fpm
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /app/.env.local
+              name: env
+              subPath: .env
+              readOnly: true
+            - mountPath: /app/config/secrets/prod/private.key
+              name: lti-keys-volume
+              subPath: ltiToolPrivateKey
+              readOnly: true
+            - mountPath: /app/config/secrets/prod/public.key
+              name: lti-keys-volume
+              subPath: ltiToolPublicKey
+              readOnly: true
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      volumes:
+        - name: env
+          secret:
+            secretName: php-env
+        - name: lti-keys-volume
+          secret:
+            secretName: lti-keys

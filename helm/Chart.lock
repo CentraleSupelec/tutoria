@@ -1,0 +1,12 @@
+dependencies:
+- name: nginx
+  repository: file://charts/nginx
+  version: 0.1.0
+- name: php
+  repository: file://charts/php
+  version: 0.1.0
+- name: redis
+  repository: https://charts.bitnami.com/bitnami
+  version: 18.0.2
+digest: sha256:31163866e8be58ba197efee6d95e4a13327c8cf3556b6503b15acfa24c14246a
+generated: "2023-09-06T20:04:30.415913+02:00"
