@@ -49,4 +49,9 @@ final class AcademicLevelAdmin extends AbstractAdmin
             ->add('nameEn')
         ;
     }
+
+    protected function configure(): void
+    {
+        $this->classnameLabel = 'Formation';
+    }
 }

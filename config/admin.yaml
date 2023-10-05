@@ -10,7 +10,7 @@ services:
     calls:
       - [setUserManager, ['@App\Service\UserManager']]
     public: true
-  
+
   admin.student:
       class: App\Admin\StudentAdmin
       tags:
@@ -46,7 +46,7 @@ services:
             model_class: App\Entity\AcademicLevel
             manager_type: orm
             group: Gestion des tutorats
-            label: Niveaux scolaires
+            label: Formations
 
   admin.tutoring:
       class: App\Admin\TutoringAdmin
@@ -56,7 +56,7 @@ services:
             manager_type: orm
             group: Gestion des tutorats
             label: Tutorats
-  
+
   admin.platform:
       class: App\Admin\Lti\PlatformAdmin
       tags:
@@ -65,7 +65,7 @@ services:
             manager_type: orm
             group: Intégration Moodle LTI
             label: Plateformes
-  
+
   admin.registration:
       class: App\Admin\Lti\RegistrationAdmin
       tags:

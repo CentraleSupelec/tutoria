@@ -50,6 +50,7 @@ final class TutoringAdmin extends AbstractAdmin
                 'class' => AcademicLevel::class,
                 'required' => true,
                 'multiple' => false,
+                'label' => 'Formation',
             ])
             ->add('defaultBuilding', EntityType::class, [
                 'class' => Building::class,
@@ -71,7 +72,7 @@ final class TutoringAdmin extends AbstractAdmin
             ->add('id')
             ->add('name')
             ->add('academicYear')
-            ->add('academicLevel')
+            ->add('academicLevel', null, ['label' => 'Formation'])
             ->add('defaultBuilding')
             ->add('tutors')
         ;
