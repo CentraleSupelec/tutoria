@@ -7,9 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2023-10-05
+
 ## Added
 - ⬆️ Upgrade to symfony v6.3 !30
 - ✨ Toast message when register/unregister !31
+- 📄 Add LICENSE !33
 
 ## Fixes
 - 🩹 Working online meeting link !25
