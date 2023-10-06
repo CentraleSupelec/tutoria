@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Fixes
+- 🚑️ Hotfix remove tutoring entity constraints on first completion !42
+
 ## [1.3.1] - 2023-10-05
 
 ## Fixes
