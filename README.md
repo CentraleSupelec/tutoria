@@ -1,14 +1,4 @@
-# Tutorat
-
-Tutorat is an open-source project that lets you create and manage tutoring slots, and allows students to sign up for them.
-
-<p align="center">
-
-[![Go to the french presentation](https://img.shields.io/badge/Go%20to%20the%20french%20presentation-961a3d?logo=readthedocs&link=https%3A%2F%2Fcentralesupelec.github.io%2Ftutorat%2F)](https://centralesupelec.github.io/tutorat/)
-
-[![Picture](docs/assets/etudiants.png)](https://centralesupelec.github.io/tutorat/)
-
-</p>
+# UPS Tutorat
 
 ## Requirements
 
@@ -42,10 +32,10 @@ DATABASE_URL="postgresql://<POSTGRES_USER>:<POSTGRES_PASSWORD>@postgres-test:<PO
 cp -f .php-cs-fixer.dist.php .php-cs-fixer.php
 ```
 
-### Map localhost to a hostname accepted by your CAS (optional)
+### Map localhost to a hostname accepted by CS
 
 ```
-echo "127.0.0.1 localhost.example.com" | sudo tee -a /etc/hosts
+echo "127.0.0.1 tutorat-local.paris-saclay.fr" | sudo tee -a /etc/hosts
 ```
 
 ### Add a pre-commit logic (optional)
@@ -78,9 +68,9 @@ docker-compose exec -it php sh tests/init-test-database.sh
 
 ### Local
 
-* Web server : https://localhost.example.com/
-* Admin dashboard : https://localhost.example.com/admin/dashboard
-* Profiler : https://localhost.example.com/_profiler/
+* Web server : https://tutorat-local.paris-saclay.fr/
+* Admin dashboard : https://tutorat-local.paris-saclay.fr/admin/dashboard
+* Profiler : https://tutorat-local.paris-saclay.fr/_profiler/
 
 ## Testing
 
@@ -130,7 +120,7 @@ http://localhost:9180/mod/lti/toolconfigure.php
 
     * Tool Name : Choose your tool name
 
-    * Tool URL : https://localhost.example.com/lti/launch
+    * Tool URL : https://tutorat-local.centralesupelec.fr/lti/launch
 
     * LTI version : 1.3
 
@@ -138,9 +128,9 @@ http://localhost:9180/mod/lti/toolconfigure.php
 
     * Public keyset : https://localhost.centralesupelec.fr/jwks/tutorIaKeySet.json
 
-    * Initiate login URL : https://localhost.example.com/lti/oidc/initiation
+    * Initiate login URL : https://tutorat-local.centralesupelec.fr/lti/oidc/initiation
 
-    * Redirection URLs : https://localhost.example.com/lti/launch
+    * Redirection URLs : https://tutorat-local.centralesupelec.fr/lti/launch
 
     * Default launch container : New Window
 
@@ -187,11 +177,3 @@ docker-compose exec -it php bin/console app:sync-migrate
 ```
 docker-compose exec php symfony console app:create-admin
 ```
-
-## Documentation
-
-The documentation is available on our [Github project's page](https://centralesupelec.github.io/tutorat).
-
-To edit the documentation, you can serve it localy : `docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material`
-
-The Github's CI will deploy it once merged.

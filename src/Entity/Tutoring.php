@@ -53,6 +53,11 @@ class Tutoring implements Stringable
     #[ORM\Column(type: 'time', nullable: true)]
     private ?DateTimeInterface $defaultEndTime = null;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(allowNull: false)]
+    #[AppAssert\AcademicYearConstraint(groups: ['Default', 'AdminTutoringGroup'])]
+    private ?string $academicYear = null;
+
     #[Groups(['tutorings'])]
     #[ORM\ManyToOne(targetEntity: Building::class, inversedBy: 'tutorings')]
     #[ORM\JoinColumn(nullable: false)]
@@ -131,6 +136,18 @@ class Tutoring implements Stringable
     public function setDefaultEndTime(DateTimeInterface $defaultEndTime): static
     {
         $this->defaultEndTime = $defaultEndTime;
+
+        return $this;
+    }
+
+    public function getAcademicYear(): ?string
+    {
+        return $this->academicYear;
+    }
+
+    public function setAcademicYear(?string $academicYear): static
+    {
+        $this->academicYear = $academicYear;
 
         return $this;
     }

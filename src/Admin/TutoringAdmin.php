@@ -22,6 +22,7 @@ final class TutoringAdmin extends AbstractAdmin
         $filter
             ->add('id')
             ->add('name')
+            ->add('academicYear')
         ;
     }
 
@@ -30,6 +31,7 @@ final class TutoringAdmin extends AbstractAdmin
         $list
             ->add('id')
             ->add('name')
+            ->add('academicYear')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'show' => [],
@@ -43,10 +45,12 @@ final class TutoringAdmin extends AbstractAdmin
     {
         $form
             ->add('name')
+            ->add('academicYear')
             ->add('academicLevel', EntityType::class, [
                 'class' => AcademicLevel::class,
                 'required' => true,
                 'multiple' => false,
+                'label' => 'Formation',
             ])
             ->add('defaultBuilding', EntityType::class, [
                 'class' => Building::class,
@@ -67,7 +71,8 @@ final class TutoringAdmin extends AbstractAdmin
         $show
             ->add('id')
             ->add('name')
-            ->add('academicLevel')
+            ->add('academicYear')
+            ->add('academicLevel', null, ['label' => 'Formation'])
             ->add('defaultBuilding')
             ->add('tutors')
         ;

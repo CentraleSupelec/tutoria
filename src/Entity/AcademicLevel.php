@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\AcademicLevelRepository;
-use App\Validator\Constraints as AppAssert;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Stringable;
@@ -29,11 +28,6 @@ class AcademicLevel implements Stringable
     #[Assert\NotBlank(message: 'Veuillez saisir le nom du niveau scolaire en anglais.', allowNull: false)]
     #[ORM\Column(length: 255)]
     private ?string $nameEn = null;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank(allowNull: false)]
-    #[AppAssert\AcademicYearConstraint]
-    private ?string $academicYear = null;
 
     public function __toString(): string
     {
@@ -65,18 +59,6 @@ class AcademicLevel implements Stringable
     public function setNameEn(string $nameEn): static
     {
         $this->nameEn = $nameEn;
-
-        return $this;
-    }
-
-    public function getAcademicYear(): ?string
-    {
-        return $this->academicYear;
-    }
-
-    public function setAcademicYear(?string $academicYear): static
-    {
-        $this->academicYear = $academicYear;
 
         return $this;
     }
