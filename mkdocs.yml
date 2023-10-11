@@ -1,0 +1,24 @@
+site_name: Tutorat
+site_url: https://centralesupelec.github.io/tutorat/
+site_description: Tutorat est un projet open-source permettant d'une part de créer et gérer des créneaux de tutorats, et d'autre part côté étudiant de pouvoir s'y inscrire.
+site_author: CentraleSupélec
+
+repo_name: centralesupelec/tutorat
+repo_url: https://github.com/centralesupelec/tutorat
+
+theme:
+    name: material
+    palette:
+        primary: custom
+        accent: custom
+    logo: assets/logo.svg
+    favicon: assets/favicon.ico
+extra_css:
+    - stylesheets/extra.css
+
+markdown_extensions:
+    - attr_list
+    - md_in_html
+
+nav:
+    - "Tutorat": "index.md"
