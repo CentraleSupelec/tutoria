@@ -1,86 +1,86 @@
 # This file is the entry point to configure your own services.
 # Files in the packages/ subdirectory configure your dependencies.
 imports:
-- resource: admin.yaml
+  - resource: admin.yaml
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    router.request_context.host: '%env(SERVER_HOST)%'
-    router.request_context.scheme: '%env(SERVER_SCHEME)%'
-    router.request_context.base_url: '%env(SERVER_BASE_URL)%'
-    asset.request_context.base_path: '%router.request_context.base_url%'
-    asset.request_context.secure: true
-    lti_keys_folder_path: '%env(LTI_KEYS_BASE_FOLDER_PATH)%'
-    lti_public_key_path: file://%lti_keys_folder_path%/config/secrets/%env(APP_ENV)%/public.key
-    lti_private_key_path: file://%lti_keys_folder_path%/config/secrets/%env(APP_ENV)%/private.key
-    host_url: '%env(SERVER_SCHEME)%://%env(SERVER_HOST)%'
+  router.request_context.host: '%env(SERVER_HOST)%'
+  router.request_context.scheme: '%env(SERVER_SCHEME)%'
+  router.request_context.base_url: '%env(SERVER_BASE_URL)%'
+  asset.request_context.base_path: '%router.request_context.base_url%'
+  asset.request_context.secure: true
+  lti_keys_folder_path: '%env(LTI_KEYS_BASE_FOLDER_PATH)%'
+  lti_public_key_path: file://%lti_keys_folder_path%/config/secrets/%env(APP_ENV)%/public.key
+  lti_private_key_path: file://%lti_keys_folder_path%/config/secrets/%env(APP_ENV)%/private.key
+  host_url: '%env(SERVER_SCHEME)%://%env(SERVER_HOST)%'
 
 services:
-    # default configuration for services in *this* file
-    _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+  # default configuration for services in *this* file
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/'
-        exclude:
-            - '../src/DependencyInjection/'
-            - '../src/Entity/'
-            - '../src/Kernel.php'
+  # makes classes in src/ available to be used as services
+  # this creates a service per class whose id is the fully-qualified class name
+  App\:
+    resource: '../src/'
+    exclude:
+      - '../src/DependencyInjection/'
+      - '../src/Entity/'
+      - '../src/Kernel.php'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+  # add more service definitions when explicit configuration is needed
+  # please note that last definitions always *replace* previous ones
 
-    Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
-      arguments:
-        - "@snc_redis.session"
+  Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+    arguments:
+      - "@snc_redis.session"
 
-    App\Utils\LtiToolUtils:
-      arguments:
-          $publicKeyPath: '%lti_public_key_path%'
-          $privateKeyPath: '%lti_private_key_path%'
-          $hostUrl: '%host_url%'
+  App\Utils\LtiToolUtils:
+    arguments:
+      $publicKeyPath: '%lti_public_key_path%'
+      $privateKeyPath: '%lti_private_key_path%'
+      $hostUrl: '%host_url%'
 
-    App\EventListener\CasLogoutListener:
-      arguments:
-          $logoutUrl: '%env(CAS_BASE_URL)%/logout?service=https%%3A%%2F%%2F%env(SERVER_HOST)%%env(SERVER_BASE_URL)'
-      tags:
-          - { name: 'kernel.event_listener', event: 'Symfony\Component\Security\Http\Event\LogoutEvent', dispatcher: security.event_dispatcher.student_secured_cas }
+  App\EventListener\CasLogoutListener:
+    arguments:
+      $logoutUrl: '%env(CAS_BASE_URL)%/logout?service=https%%3A%%2F%%2F%env(SERVER_HOST)%%env(SERVER_BASE_URL)'
+    tags:
+      - { name: 'kernel.event_listener', event: 'Symfony\Component\Security\Http\Event\LogoutEvent', dispatcher: security.event_dispatcher.student_secured_cas }
 
-    app.student_secured_cas_authenticator:
-        class: App\Security\Student\StudentSecuredCasAuthenticator
+  app.student_secured_cas_authenticator:
+    class: App\Security\Student\StudentSecuredCasAuthenticator
 
-    App\EventListener\RequestLocaleListener:
-      arguments:
-        $localeCookieName: _locale
-        $localeQueryName: _locale
-        $allowedLocales: ['fr', 'en']
-      tags:
-        - name: kernel.event_listener
-          event: kernel.request
-          priority: 64
+  App\EventListener\RequestLocaleListener:
+    arguments:
+      $localeCookieName: _locale
+      $localeQueryName: _locale
+      $allowedLocales: [ 'fr', 'en' ]
+    tags:
+      - name: kernel.event_listener
+        event: kernel.request
+        priority: 64
 
-    App\EventListener\ResponseLocaleListener:
-      arguments:
-        $localeCookieName: _locale
-      tags:
-        - name: kernel.event_listener
-          event: kernel.response
+  App\EventListener\ResponseLocaleListener:
+    arguments:
+      $localeCookieName: _locale
+    tags:
+      - name: kernel.event_listener
+        event: kernel.response
 
-    OAT\Library\Lti1p3Core\Security\Key\KeyChainRepositoryInterface:
-      class: App\Service\KeyChainManager
+  OAT\Library\Lti1p3Core\Security\Key\KeyChainRepositoryInterface:
+    class: App\Service\KeyChainManager
 
-    OAT\Library\Lti1p3Core\Security\Jwks\Exporter\JwksExporter: ~
+  OAT\Library\Lti1p3Core\Security\Jwks\Exporter\JwksExporter: ~
 
-    OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface:
-      class: App\Service\RegistrationManager
+  OAT\Library\Lti1p3Core\Registration\RegistrationRepositoryInterface:
+    class: App\Service\RegistrationManager
 
-    OAT\Library\Lti1p3Core\Security\Oidc\OidcInitiator: ~
+  OAT\Library\Lti1p3Core\Security\Oidc\OidcInitiator: ~
 
-    OAT\Library\Lti1p3Core\Security\Nonce\NonceRepositoryInterface:
-      class: OAT\Library\Lti1p3Core\Security\Nonce\NonceRepository
+  OAT\Library\Lti1p3Core\Security\Nonce\NonceRepositoryInterface:
+    class: OAT\Library\Lti1p3Core\Security\Nonce\NonceRepository
 
-    OAT\Library\Lti1p3Core\Message\Launch\Validator\Tool\ToolLaunchValidator: ~
+  OAT\Library\Lti1p3Core\Message\Launch\Validator\Tool\ToolLaunchValidator: ~
