@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.1] - 2023-10-06
+
+## Fixes
+- 📈 Analytics tracking with matomo (do not use constant variable in javascript snippet) !49
+
 ## [1.4.0] - 2023-10-06
 
 ## Added
