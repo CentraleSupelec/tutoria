@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Fixes
+- 🔧 Register server host and scheme in router parameters !50
+
 ## [1.4.1] - 2023-10-06
 
 ## Fixes
