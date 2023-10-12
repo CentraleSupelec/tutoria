@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+- 📈 Analytics tracking with matomo !48
+
 ## [1.3.2] - 2023-10-06
 
 ## Fixes

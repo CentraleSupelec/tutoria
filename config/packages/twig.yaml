@@ -7,6 +7,8 @@ twig:
     locales:
       - fr
       - en
+    matomo_url: '%env(MATOMO_URL)%'
+    matomo_site_ids: '%env(csv:MATOMO_SITE_IDS)%'
 
 when@test:
   twig:
