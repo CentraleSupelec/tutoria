@@ -58,7 +58,7 @@ Les tutorés (étudiants) peuvent :
   <figcaption>Vue de l'interface des étudiants. On y retrouve les créneaux où l'étudiant est inscrit, et la liste des créneaux disponibles filtrables par formation.</figcaption>
 </figure>
 
-Ce code a été utilisé par l'[Université Paris-Saclay](https://www.universite-paris-saclay.fr/) pour mettre en œuvre le [projet TutorIA](https://tutoria.universite-paris-saclay.fr/accueil)
+Ce code est utilisé par l'[Université Paris-Saclay](https://www.universite-paris-saclay.fr/) pour organiser le tutorat étudiant, et a été réalisé et financé dans le cadre du projet CMA [SaclAI School](https://dataia.eu/saclai-school)
 
 <figure markdown>
   [![Carte Github](https://github-readme-stats.vercel.app/api/pin/?username=centralesupelec&repo=tutorat)](https://github.com/CentraleSupelec/tutorat)
