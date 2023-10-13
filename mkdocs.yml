@@ -1,10 +1,10 @@
-site_name: Tutorat
-site_url: https://centralesupelec.github.io/tutorat/
-site_description: Tutorat est un projet open-source permettant d'une part de créer et gérer des créneaux de tutorats, et d'autre part côté étudiant de pouvoir s'y inscrire.
+site_name: TutorIA
+site_url: https://centralesupelec.github.io/tutoria/
+site_description: TutorIA est un projet open-source permettant d'une part de créer et gérer des créneaux de tutorias, et d'autre part côté étudiant de pouvoir s'y inscrire.
 site_author: CentraleSupélec
 
-repo_name: centralesupelec/tutorat
-repo_url: https://github.com/centralesupelec/tutorat
+repo_name: centralesupelec/tutoria
+repo_url: https://github.com/centralesupelec/tutoria
 
 theme:
     name: material
@@ -21,4 +21,4 @@ markdown_extensions:
     - md_in_html
 
 nav:
-    - "Tutorat": "index.md"
+    - "TutorIA": "index.md"

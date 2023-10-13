@@ -1,12 +1,12 @@
-# Tutorat
+# TutorIA
 
-Tutorat is an open-source project that lets you create and manage tutoring slots, and allows students to sign up for them.
+TutorIA is an open-source project that lets you create and manage tutoring slots, and allows students to sign up for them.
 
 <p align="center">
 
-[![Go to the french presentation](https://img.shields.io/badge/Go%20to%20the%20french%20presentation-961a3d?logo=readthedocs&link=https%3A%2F%2Fcentralesupelec.github.io%2Ftutorat%2F)](https://centralesupelec.github.io/tutorat/)
+[![Go to the french presentation](https://img.shields.io/badge/Go%20to%20the%20french%20presentation-961a3d?logo=readthedocs&link=https%3A%2F%2Fcentralesupelec.github.io%2Ftutoria%2F)](https://centralesupelec.github.io/tutoria/)
 
-[![Picture](docs/assets/etudiants.png)](https://centralesupelec.github.io/tutorat/)
+[![Picture](docs/assets/etudiants.png)](https://centralesupelec.github.io/tutoria/)
 
 </p>
 
@@ -190,7 +190,7 @@ docker-compose exec php symfony console app:create-admin
 
 ## Documentation
 
-The documentation is available on our [Github project's page](https://centralesupelec.github.io/tutorat).
+The documentation is available on our [Github project's page](https://centralesupelec.github.io/tutoria).
 
 To edit the documentation, you can serve it localy : `docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material`
 

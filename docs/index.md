@@ -5,7 +5,7 @@ hide:
 
 ## Présentation
 
-> Tutorat est un projet open-source permettant d'une part de créer et gérer des créneaux de tutorats, et d'autre part côté étudiant de pouvoir s'y inscrire.
+> TutorIA est un projet open-source permettant d'une part de créer et gérer des créneaux de tutorats, et d'autre part côté étudiant de pouvoir s'y inscrire.
 
 ## Administrateurs
 
@@ -61,10 +61,10 @@ Les tutorés (étudiants) peuvent :
 Ce code est utilisé par l'[Université Paris-Saclay](https://www.universite-paris-saclay.fr/) pour organiser le tutorat étudiant, et a été réalisé et financé dans le cadre du projet CMA [SaclAI School](https://dataia.eu/saclai-school)
 
 <figure markdown>
-  [![Carte Github](https://github-readme-stats.vercel.app/api/pin/?username=centralesupelec&repo=tutorat)](https://github.com/CentraleSupelec/tutorat)
+  [![Carte Github](https://github-readme-stats.vercel.app/api/pin/?username=centralesupelec&repo=tutoria)](https://github.com/CentraleSupelec/tutoria)
 </figure>
 
 <figure markdown>
   [Contactez nous](mailto:contact.opensource@centralesupelec.fr){ .md-button }
-  [Slides de présentation](assets/Tutorat-présentation.pdf){ .md-button }
+  [Slides de présentation](assets/TutorIA-présentation.pdf){ .md-button }
 </figure>
